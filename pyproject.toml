@@ -31,9 +31,9 @@ exclude = '''
 '''
 
 [tool.poetry]
-name = "xshop-core"
+name = "xshop-web"
 version = "0.1.0"
-description = "XShop's back end, dashboard, inventory, API and core business logic"
+description = "XShop's web-related functionality (Dashboard, API, etc...)"
 authors = ["Ahmed Shahwan <ahmed@shahwan.me>"]
 
 [tool.poetry.dependencies]
