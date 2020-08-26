@@ -36,9 +36,9 @@ class User(AbstractUser, TimeStampedModel):
         return ""
 
     def __str__(self) -> str:
-        return self.mobile.as_national
+        return self.mobile.as_national.replace(" ", "")
 
     def __repr__(self) -> str:
         if self.name:
-            return f"<User {self.id}: {self.mobile.as_national} - {self.name}>"
-        return f"<User {self.id}: {self.mobile.as_national}"
+            return f"<User {self.id}: {str(self)} - {self.name}>"
+        return f"<User {self.id}: {str(self)}>"
