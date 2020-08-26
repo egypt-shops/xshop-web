@@ -38,7 +38,11 @@ authors = ["Ahmed Shahwan <ahmed@shahwan.me>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-django = "^3.1rc1"
+django = "^3.1"
+django-phonenumber-field = {extras = ["phonenumbers"], version = "^4.0.0"}
+model_bakery = "^1.1.1"
+django-model-utils = "^4.0.0"
+django-extensions = "^3.0.5"
 
 [tool.poetry.dev-dependencies]
 flake8-black = "^0.2.0"

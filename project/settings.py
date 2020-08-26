@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Third party
+    "django_extensions",
+    "phonenumber_field",
+    # Local
+    "xshop.users.apps.UsersConfig",
 ]
 
 MIDDLEWARE = [
@@ -112,3 +117,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = "/static/"
+
+# PhoneNumber settings
+PHONENUMBER_DB_FORMAT = "E164"
+PHONENUMBER_DEFAULT_REGION = "EG"
+
+# user model
+AUTH_USER_MODEL = "users.User"
