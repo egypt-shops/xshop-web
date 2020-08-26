@@ -9,9 +9,13 @@ class UserAdmin(OriginalUserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
     model = User
+
     list_display = ("id", "mobile", "email", "name", "is_staff", "is_active")
     list_display_links = ("mobile",)
     list_filter = ("is_staff", "is_active")
+    search_fields = ("mobile", "email", "name")
+    ordering = ("-id",)
+
     fieldsets = (
         (None, {"fields": ("mobile", "email", "name", "password")}),
         ("Permissions", {"fields": ("is_staff", "is_active")}),
@@ -33,8 +37,6 @@ class UserAdmin(OriginalUserAdmin):
             },
         ),
     )
-    search_fields = ("mobile", "email", "name")
-    ordering = ("-pk", "mobile", "email", "name")
 
 
 admin.site.register(User, UserAdmin)
