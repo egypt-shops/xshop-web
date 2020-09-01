@@ -24,6 +24,9 @@ env = environ.Env(
 # reading .env file ()
 environ.Env.read_env(str(BASE_DIR / ".env"))
 
+# Deploy
+DEPLOY = env("DEPLOY", str, "PRODUCTION")
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
@@ -90,8 +93,15 @@ WSGI_APPLICATION = "project.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env("POSTGRES_DB"),
+        "USER": env("POSTGRES_USER"),
+        "PASSWORD": env("POSTGRES_PASSWORD"),
+        "HOST": env("POSTGRES_HOST"),
+        "PORT": env("POSTGRES_PORT"),
+        "TEST": {"NAME": "xshop_test_db"},
+        "CONN_MAX_AGE": 60 if DEPLOY != "LOCAL" else 0,
+        "ATOMIC_REQUESTS": True,
     }
 }
 
