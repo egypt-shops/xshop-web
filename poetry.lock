@@ -125,6 +125,14 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 category = "main"
+description = "Django-environ allows you to utilize 12factor inspired environment variables to configure your Django application."
+name = "django-environ"
+optional = false
+python-versions = "*"
+version = "0.4.5"
+
+[[package]]
+category = "main"
 description = "Extensions for Django"
 name = "django-extensions"
 optional = false
@@ -450,7 +458,7 @@ python-versions = "*"
 version = "0.2.5"
 
 [metadata]
-content-hash = "70d224d24130c4f516a3784f908b482b3974cc9905f7039ebf162c18b208e4e4"
+content-hash = "b08cfdd6058dfd6fc941b2780835f1cba9926981f62e464574665982f53c8926"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -497,6 +505,10 @@ decorator = [
 django = [
     {file = "Django-3.1-py3-none-any.whl", hash = "sha256:1a63f5bb6ff4d7c42f62a519edc2adbb37f9b78068a5a862beff858b68e3dc8b"},
     {file = "Django-3.1.tar.gz", hash = "sha256:2d390268a13c655c97e0e2ede9d117007996db692c1bb93eabebd4fb7ea7012b"},
+]
+django-environ = [
+    {file = "django-environ-0.4.5.tar.gz", hash = "sha256:6c9d87660142608f63ec7d5ce5564c49b603ea8ff25da595fd6098f6dc82afde"},
+    {file = "django_environ-0.4.5-py2.py3-none-any.whl", hash = "sha256:c57b3c11ec1f319d9474e3e5a79134f40174b17c7cc024bbb2fad84646b120c4"},
 ]
 django-extensions = [
     {file = "django-extensions-3.0.5.tar.gz", hash = "sha256:6306175ae8c78c18ea7aff794f5fa3a47de7d128666e6668bd40596895da7f84"},
