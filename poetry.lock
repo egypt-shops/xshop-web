@@ -478,8 +478,19 @@ optional = false
 python-versions = "*"
 version = "0.2.5"
 
+[[package]]
+category = "main"
+description = "Radically simplified static file serving for WSGI applications"
+name = "whitenoise"
+optional = false
+python-versions = ">=3.5, <4"
+version = "5.2.0"
+
+[package.extras]
+brotli = ["brotli"]
+
 [metadata]
-content-hash = "d997c19d594e85f4104f6c30a50654a4a7fb9a989de89cdea6bf7f8e8ce50cb2"
+content-hash = "f5fea3075652b1ee0ff5157bee07fa0603002b3c68b6e6462fd1c89dfafc86d9"
 python-versions = "3.8.2"
 
 [metadata.files]
@@ -729,4 +740,8 @@ typed-ast = [
 wcwidth = [
     {file = "wcwidth-0.2.5-py2.py3-none-any.whl", hash = "sha256:beb4802a9cebb9144e99086eff703a642a13d6a0052920003a230f3294bbe784"},
     {file = "wcwidth-0.2.5.tar.gz", hash = "sha256:c4d647b99872929fdb7bdcaa4fbe7f01413ed3d98077df798530e5b04f116c83"},
+]
+whitenoise = [
+    {file = "whitenoise-5.2.0-py2.py3-none-any.whl", hash = "sha256:05d00198c777028d72d8b0bbd234db605ef6d60e9410125124002518a48e515d"},
+    {file = "whitenoise-5.2.0.tar.gz", hash = "sha256:05ce0be39ad85740a78750c86a93485c40f08ad8c62a6006de0233765996e5c7"},
 ]
