@@ -25,20 +25,20 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Poetry
       uses: Gr1N/setup-poetry@v3
-    - uses: actions/cache@v1
-      with:
-        path: ~/.cache/pypoetry/virtualenvs
-        key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-poetry-
+    # - uses: actions/cache@v1
+    #   with:
+    #     path: ~/.cache/pypoetry/virtualenvs
+    #     key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-poetry-
     - name: Get poetry version
       run: poetry --version
     - name: Install dependencies
       run: poetry install
-    - name: Install pipenv 
-      run: pipenv install -r requirements.txt
-    - name: run pipenv
-      run: pipenv shell
+    # - name: Install pipenv 
+    #   run: pipenv install -r requirements.txt
+    # - name: run pipenv
+    #   run: pipenv shell
     - name: Run Tests
       run: |
         python manage.py test
