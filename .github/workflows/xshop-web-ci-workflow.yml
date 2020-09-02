@@ -30,4 +30,4 @@ jobs:
         # - name: Run Tests
         #   run: |
         #     python manage.py test
-          run: echo 'Hello, World!'
+        - run: echo 'Hello, World!'
