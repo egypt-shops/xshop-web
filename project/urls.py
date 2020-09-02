@@ -30,9 +30,12 @@ urlpatterns = [
     # for testing error alerts
     # path("sentry-debug/", trigger_error),
 ]
+
+# media & static urls
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-
+# Admin Site texts
 admin.site.site_header = "Egypt Shops administration"
 admin.site.site_title = "Egypt Shops Admin Portal"
 admin.site.index_title = "XShop administration"
