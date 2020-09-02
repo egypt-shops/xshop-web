@@ -21,11 +21,13 @@ env = environ.Env(
     # # set casting, default value
     # DEBUG=(bool, False)
 )
-# reading .env file ()
-environ.Env.read_env(str(BASE_DIR / ".env"))
 
 # Deploy
-DEPLOY = env("DEPLOY", str, "PRODUCTION")
+DEPLOY = env("DEPLOY", str)
+
+# reading .env file ()
+if not DEPLOY or DEPLOY == "LOCAL":
+    environ.Env.read_env(str(BASE_DIR / ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
