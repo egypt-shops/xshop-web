@@ -27,7 +27,7 @@ jobs:
       uses: Gr1N/setup-poetry@v3
       run: poetry --version
         env:
-          POETRY_VIRTUALENVS_PATH: /path/to/virtualenvs/directory
+          POETRY_VIRTUALENVS_PATH: ~/.cache/pypoetry
           POETRY_HTTP_BASIC_MY_REPOSITORY_PASSWORD: secret
     - name: Run Tests
       run: |
