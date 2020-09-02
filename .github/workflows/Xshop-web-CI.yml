@@ -24,8 +24,9 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
-    - uses: Gr1N/setup-poetry@v3
-    - run: poetry --version
-    - name: Run Tests
-      run: |
-        python manage.py test
+      uses: Gr1N/setup-poetry@v3
+    - name: Get poetry version
+      run: poetry --version
+    # - name: Run Tests
+    #   run: |
+    #     python manage.py test
