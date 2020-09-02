@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     # Local
     "xshop.users.apps.UsersConfig",
     "xshop.pages.apps.PagesConfig",
+    "xshop.core.apps.CoreConfig",
 ]
 
 MIDDLEWARE = [
