@@ -35,6 +35,6 @@ jobs:
       run: poetry --version
     - name: Install dependencies
       run: poetry install
-    # - name: Run Tests
-    #   run: |
-    #     python manage.py test
+    - name: Run Tests
+      run: |
+        python manage.py test
