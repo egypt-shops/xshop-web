@@ -34,11 +34,11 @@ jobs:
     - name: Get poetry version
       run: poetry --version
     - name: Install dependencies
-      run: poetry install && poetry shell
+      run: poetry install
     # - name: Install pipenv 
     #   run: pipenv install -r requirements.txt
     # - name: run pipenv
     #   run: pipenv shell
     - name: Run Tests
       run: |
-        python manage.py test
+        poetry run python manage.py test
