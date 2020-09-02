@@ -34,7 +34,7 @@ jobs:
     - name: Get poetry version
       run: poetry --version
     - name: Install dependencies
-      run: poetry install
+      run: poetry install && poerty shell
     # - name: Install pipenv 
     #   run: pipenv install -r requirements.txt
     # - name: run pipenv
