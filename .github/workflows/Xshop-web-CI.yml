@@ -1,7 +1,7 @@
 name: Xshop_web_CI
 
 on:
-  push:
+  push: 
     branches: [ develop ]
   pull_request:
     branches: [ develop ]
