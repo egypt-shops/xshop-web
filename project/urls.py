@@ -17,6 +17,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
+from xshop.pages.views import Home
 
 
 def trigger_error(request):
@@ -25,6 +26,7 @@ def trigger_error(request):
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", Home.as_view(), name="home"),
     # for testing error alerts
     # path("sentry-debug/", trigger_error),
 ]
