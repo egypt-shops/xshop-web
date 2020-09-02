@@ -25,8 +25,8 @@ def trigger_error(request):
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # for testing errors
-    path("sentry-debug/", trigger_error),
+    # for testing error alerts
+    # path("sentry-debug/", trigger_error),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
