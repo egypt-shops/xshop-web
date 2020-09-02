@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
+import environ
+import sentry_sdk
 
 from pathlib import Path
-import environ
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -22,7 +24,7 @@ env = environ.Env(
     # DEBUG=(bool, False)
 )
 
-# Deploy
+# Deploy NOTE defined first to decide when to read the .env file
 DEPLOY = env("DEPLOY", str)
 
 # reading .env file ()
@@ -155,3 +157,13 @@ AUTH_USER_MODEL = "users.User"
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# sentry
+sentry_sdk.init(
+    dsn=env("SENTRY_DSN", str),
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True,
+)
