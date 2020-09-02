@@ -37,7 +37,7 @@ description = "XShop's web-related functionality (Dashboard, API, etc...)"
 authors = ["Ahmed Shahwan <ahmed@shahwan.me>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "3.8.2"
 django = "^3.1"
 django-phonenumber-field = {extras = ["phonenumbers"], version = "^4.0.0"}
 model_bakery = "^1.1.1"
