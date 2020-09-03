@@ -15,7 +15,7 @@ jobs:
         python-version: [3.8.2]
     services:
       postgres:
-        image: postgres:12
+        image: postgres:11
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -39,15 +39,12 @@ jobs:
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-poetry-
-      - name: Get poetry version
-        run: poetry --version
+          restore-keys: ${{ runner.os }}-poetry-
       - name: Install dependencies
         run: poetry install
       - uses: harmon758/postgresql-action@v1
         with:
-          postgresql version: "12"
+          postgresql version: "11"
       - name: Run Migrations
         run: poetry run python manage.py migrate
       - name: Run Tests
@@ -55,4 +52,4 @@ jobs:
         env:
           DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
       - name: Run flake8 linter based on black
-        run: poetry run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        run: poetry run flake8
