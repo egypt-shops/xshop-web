@@ -9,9 +9,13 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
+
 import os
-from pathlib import Path
 import environ
+import sentry_sdk
+
+from pathlib import Path
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -21,11 +25,13 @@ env = environ.Env(
     # # set casting, default value
     # DEBUG=(bool, False)
 )
-# reading .env file ()
-environ.Env.read_env(str(BASE_DIR / ".env"))
 
-# Deploy
-DEPLOY = env("DEPLOY", str, "PRODUCTION")
+# Deploy NOTE defined first to decide when to read the .env file
+DEPLOY = env("DEPLOY", str)
+
+# reading .env file ()
+if not DEPLOY or DEPLOY == "LOCAL":
+    environ.Env.read_env(str(BASE_DIR / ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
@@ -55,9 +61,14 @@ INSTALLED_APPS = [
     "phonenumber_field",
     # Local
     "xshop.users.apps.UsersConfig",
+    "xshop.pages.apps.PagesConfig",
+    "xshop.core.apps.CoreConfig",
 ]
 
 MIDDLEWARE = [
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -72,7 +83,7 @@ ROOT_URLCONF = "project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -149,6 +160,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = (BASE_DIR / "static",)
+
+# Media files
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # PhoneNumber settings
 PHONENUMBER_DB_FORMAT = "E164"
@@ -156,3 +173,18 @@ PHONENUMBER_DEFAULT_REGION = "EG"
 
 # user model
 AUTH_USER_MODEL = "users.User"
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# sentry
+if DEPLOY != "LOCAL":
+    sentry_sdk.init(
+        dsn=env("SENTRY_DSN", str),
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True,
+    )
