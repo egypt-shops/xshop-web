@@ -7,7 +7,7 @@ on:
     branches: [develop, master]
 
 jobs:
-  runner-job:
+  build:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -20,6 +20,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: github_actions
+          POSTGRES_HOST: localhost
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
@@ -35,25 +36,15 @@ jobs:
         run: sudo apt-get install python-dev libpq-dev
       - name: Install Poetry
         uses: Gr1N/setup-poetry@v3
-      - uses: actions/cache@v1
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
-          restore-keys: ${{ runner.os }}-poetry-
       - name: Install dependencies
         run: poetry install
-      - uses: harmon758/postgresql-action@v1
-        with:
-          postgresql version: "11"
-      - name: Connect to POSTGRES_DB
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-      - name: Run Migrations
-        run: poetry run python manage.py migrate
       - name: Run Tests
         run: poetry run python manage.py test
         env:
-          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: github_actions
+          POSTGRES_HOST: localhost
       - name: Run flake8 linter based on black
         run: poetry run flake8
