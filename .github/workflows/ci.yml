@@ -46,6 +46,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: github_actions
           POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
           DEPLOY: LOCAL
       - name: Run flake8 linter based on black
         run: poetry run flake8
