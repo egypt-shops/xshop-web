@@ -13,9 +13,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
+from xshop.pages.views import Home
+
+
+def trigger_error(request):
+    1 / 0
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", Home.as_view(), name="home"),
+    # for testing error alerts
+    # path("sentry-debug/", trigger_error),
 ]
+
+# media & static urls
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Admin Site texts
+admin.site.site_header = "Egypt Shops administration"
+admin.site.site_title = "Egypt Shops Admin Portal"
+admin.site.index_title = "XShop administration"

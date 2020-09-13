@@ -1,6 +1,6 @@
 # XShop
 
-The core project of the XShop system. This project shall contain almost all of the business logic of our integrated systems.
+The core of XShop's system.
 
 ## Environment Preparation
 
