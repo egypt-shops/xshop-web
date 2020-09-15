@@ -26,7 +26,7 @@ env = environ.Env(
 )
 
 # Deploy NOTE defined first to decide when to read the .env file
-DEPLOY = env("DEPLOY", str)
+DEPLOY = env("DEPLOY", str, None)
 
 # reading .env file ()
 if not DEPLOY or DEPLOY == "LOCAL":
