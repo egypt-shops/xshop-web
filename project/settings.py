@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     # Third party
     "django_extensions",
     "phonenumber_field",
+    "rest_framework",
     # Local
     "xshop.users.apps.UsersConfig",
     "xshop.pages.apps.PagesConfig",
