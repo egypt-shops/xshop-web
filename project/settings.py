@@ -59,11 +59,19 @@ INSTALLED_APPS = [
     "django_extensions",
     "phonenumber_field",
     "rest_framework",
+    "rest_framework.authtoken",
     # Local
     "xshop.users.apps.UsersConfig",
     "xshop.pages.apps.PagesConfig",
     "xshop.core.apps.CoreConfig",
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 
 MIDDLEWARE = [
     # Simplified static file serving.
