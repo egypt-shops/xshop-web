@@ -159,6 +159,17 @@ Django = ">=2.0.1"
 
 [[package]]
 category = "main"
+description = "Django multiple select field"
+name = "django-multiselectfield"
+optional = false
+python-versions = "*"
+version = "0.1.12"
+
+[package.dependencies]
+django = ">=1.4"
+
+[[package]]
+category = "main"
 description = "An international phone number field for django models."
 name = "django-phonenumber-field"
 optional = false
@@ -538,7 +549,8 @@ version = "5.2.0"
 brotli = ["brotli"]
 
 [metadata]
-content-hash = "a93c7d2b6fe63860fabb6bd765b522eed5f006a048f212c516f40eb8213b592d"
+content-hash = "655b131b4263fdade11e92e1f32d7257d9a39a59cceda3cb17b786f5cfe7d375"
+lock-version = "1.0"
 python-versions = "3.8.2"
 
 [metadata.files]
@@ -601,6 +613,10 @@ django-extensions = [
 django-model-utils = [
     {file = "django-model-utils-4.0.0.tar.gz", hash = "sha256:adf09e5be15122a7f4e372cb5a6dd512bbf8d78a23a90770ad0983ee9d909061"},
     {file = "django_model_utils-4.0.0-py2.py3-none-any.whl", hash = "sha256:9cf882e5b604421b62dbe57ad2b18464dc9c8f963fc3f9831badccae66c1139c"},
+]
+django-multiselectfield = [
+    {file = "django-multiselectfield-0.1.12.tar.gz", hash = "sha256:d0a4c71568fb2332c71478ffac9f8708e01314a35cf923dfd7a191343452f9f9"},
+    {file = "django_multiselectfield-0.1.12-py3-none-any.whl", hash = "sha256:c270faa7f80588214c55f2d68cbddb2add525c2aa830c216b8a198de914eb470"},
 ]
 django-phonenumber-field = [
     {file = "django-phonenumber-field-4.0.0.tar.gz", hash = "sha256:d4580cc3352f4433962825f9927e6669852c1b40ec484fcb5a74064dabc1201a"},

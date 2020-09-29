@@ -4,10 +4,21 @@ from django.utils.translation import ugettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 from model_utils.models import TimeStampedModel
 
+from multiselectfield import MultiSelectField
+
 from .managers import UserManager
 
 
 class User(AbstractUser, TimeStampedModel):
+    class Types(models.TextChoices):
+        """User types in our system"""
+
+        CUSTOMER = "CUSTOMER", "Customer"
+        CASHIER = "CASHIER", "Cashier"
+        DATA_ENTRY_CLERK = "DATA_ENTRY_CLERK", "Data Entry Clerk"
+        MANAGER = "MANAGER", "Manager"
+        SUBMANAGER = "SUBMANAGER", "Sub Manager"
+
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
@@ -20,6 +31,9 @@ class User(AbstractUser, TimeStampedModel):
     # required
     name = models.CharField(max_length=255, blank=True)
     mobile = PhoneNumberField(unique=True)
+
+    # optional
+    type = MultiSelectField(choices=Types.choices, null=True, blank=True)
 
     USERNAME_FIELD = "mobile"
     REQUIRED_FIELDS = []
