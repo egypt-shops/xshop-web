@@ -37,5 +37,4 @@ class UserTests(TestCase):
 
     def test_token_created_on_user_creation(self):
         user = User.objects.create(mobile="01010092183")
-        token = Token.objects.get(user=user)
-        self.assertIsNotNone(token)
+        self.assertIsNotNone(user.auth_token)
