@@ -1,12 +1,17 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as OriginalUserAdmin
 from django.contrib.auth.models import Group
+from rest_framework.authtoken.models import Token
 
 from .forms import UserCreationForm, UserChangeForm
 from .models import User
 
 
-class UserAdmin(OriginalUserAdmin):
+class TokenInline(admin.StackedInline):
+    model = Token
+
+
+class UserAdmin(OriginalUserAdmin, admin.ModelAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
     model = User
@@ -38,6 +43,8 @@ class UserAdmin(OriginalUserAdmin):
             },
         ),
     )
+
+    inlines = [TokenInline]
 
 
 admin.site.register(User, UserAdmin)
