@@ -148,6 +148,17 @@ version = "3.0.7"
 
 [[package]]
 category = "main"
+description = "Drop-in theme for django admin, that utilises AdminLTE 3 & Bootstrap 4 to make yo' admin look jazzy"
+name = "django-jazzmin"
+optional = false
+python-versions = ">=3.5"
+version = "2.2.9"
+
+[package.dependencies]
+django = ">=2"
+
+[[package]]
+category = "main"
 description = "Django model mixins and utilities"
 name = "django-model-utils"
 optional = false
@@ -549,7 +560,7 @@ version = "5.2.0"
 brotli = ["brotli"]
 
 [metadata]
-content-hash = "43d0ffdf2b01e3ca14c51d7a3166eca6791182765c1019e2a3b357669130e3e8"
+content-hash = "9f50e8e63d23d9b15d589bc11c1c8c0723b78cfe2622ef1f21a7eaa77822a729"
 lock-version = "1.0"
 python-versions = "3.8.2"
 
@@ -609,6 +620,10 @@ django-environ = [
 django-extensions = [
     {file = "django-extensions-3.0.7.tar.gz", hash = "sha256:b49388a943368417d4c203d51866ca4ffe3011bb240679558521762c4b452b8a"},
     {file = "django_extensions-3.0.7-py2.py3-none-any.whl", hash = "sha256:0ede618f3d933317737406c979753bb91436c3b3e93a452638a1483b624aa89d"},
+]
+django-jazzmin = [
+    {file = "django-jazzmin-2.2.9.tar.gz", hash = "sha256:e3fb3480a07ef45ddf53ac96e20dd7062fde59bbf87bd413f900124921fa9912"},
+    {file = "django_jazzmin-2.2.9-py3-none-any.whl", hash = "sha256:752d105820ef96adea587de2e616adc06f715b7c63a58d6a403b828ab803dcc9"},
 ]
 django-model-utils = [
     {file = "django-model-utils-4.0.0.tar.gz", hash = "sha256:adf09e5be15122a7f4e372cb5a6dd512bbf8d78a23a90770ad0983ee9d909061"},
