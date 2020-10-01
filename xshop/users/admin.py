@@ -11,7 +11,7 @@ class TokenInline(admin.StackedInline):
     model = Token
 
 
-class UserAdmin(OriginalUserAdmin, admin.ModelAdmin):
+class UserAdmin(OriginalUserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
     model = User
