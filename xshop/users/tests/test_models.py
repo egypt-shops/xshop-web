@@ -33,3 +33,6 @@ class UserTests(TestCase):
         self.assertEqual(
             self.user1.__repr__(), f"<User {self.user1.id}: {str(self.user1)}>",
         )
+
+    def test_token_created_on_user_creation(self):
+        self.assertIsNotNone(self.user.auth_token)
