@@ -155,12 +155,18 @@ class Customer(User):
 
     objects = CustomerManager()
 
+    verbose_name = "Customer"
+    verbose_name_plural = "Customers"
+
 
 class Cashier(User):
     class Meta:
         proxy = True
 
     objects = CashierManager()
+
+    verbose_name = "Cashier"
+    verbose_name_plural = "Cashiers"
 
 
 class DataEntryClerk(User):
@@ -169,6 +175,9 @@ class DataEntryClerk(User):
 
     objects = DataEntryClerkManager()
 
+    verbose_name = "Data Entry Clerk"
+    verbose_name_plural = "Data Entry Clerks"
+
 
 class SubManager(User):
     class Meta:
@@ -176,9 +185,15 @@ class SubManager(User):
 
     objects = SubManagerManager()
 
+    verbose_name = "Sub Manger"
+    verbose_name_plural = "Sub Managers"
+
 
 class Manager(User):
     class Meta:
         proxy = True
 
     objects = ManagerManager()
+
+    verbose_name = "Manger"
+    verbose_name_plural = "Managers"
