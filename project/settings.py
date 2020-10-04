@@ -187,6 +187,9 @@ if DEPLOY != "LOCAL":
         send_default_pii=True,
     )
 
+# TODO update later
+DASHBOARD_MODULES = []
+
 # django admin customization with jazzmin
 JAZZMIN_SETTINGS = {
     # title of the window
