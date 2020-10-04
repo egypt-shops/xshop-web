@@ -28,7 +28,7 @@ env = environ.Env(
 # Deploy NOTE defined first to decide when to read the .env file
 DEPLOY = env("DEPLOY", str, None)
 
-# reading .env file ()
+# reading .env file () when testing and in LOCAL env else read from env vars
 if not DEPLOY or DEPLOY == "LOCAL":
     environ.Env.read_env(str(BASE_DIR / ".env"))
 
@@ -176,7 +176,7 @@ AUTH_USER_MODEL = "users.User"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # sentry
-if DEPLOY != "LOCAL":
+if DEPLOY and DEPLOY != "LOCAL":
     sentry_sdk.init(
         dsn=env("SENTRY_DSN", str),
         integrations=[DjangoIntegration()],
