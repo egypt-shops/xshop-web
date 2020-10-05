@@ -4,7 +4,7 @@ The Web part of XShop's system.
 
 ## Environment Preparation
 
-- Install Python 3.8.2 (recommendation: using Pyenv)
+- Install Python 3.8.6 (recommendation: using Pyenv)
 - Install virtualenvwrapper
 - Install docker
 - Install docker-compose
