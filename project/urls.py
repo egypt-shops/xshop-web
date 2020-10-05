@@ -22,12 +22,12 @@ from xshop.pages.views import Home
 
 def trigger_error(request):
     1 / 0
-    
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", Home.as_view(), name="home"),
-    path('login/', include('xshop.users.urls')),
+    path("login/", include("xshop.users.urls")),
     # for testing error alerts
     # path("sentry-debug/", trigger_error),
 ]
