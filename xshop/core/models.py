@@ -52,3 +52,14 @@ class OrderItem(TimeStampedModel):
     @property
     def total_price(self):
         return self.product.price * self.quantity
+
+
+class Invoice(TimeStampedModel):
+    user = models.ForeignKey(
+        "users.User",
+        on_delete=models.SET_NULL,
+        verbose_name="Cashier or Customer",
+        null=True,
+        blank=True,
+    )
+    order = models.ForeignKey(Order, on_delete=models.PROTECT)
