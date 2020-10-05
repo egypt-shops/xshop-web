@@ -3,10 +3,12 @@ from .models import User
 from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('mobile', 'password' )
+        fields = ("mobile", "password")
+
 
 class LoginSerializer(serializers.ModelSerializer):
     mobile = serializers.CharField(max_length=11)
@@ -14,22 +16,22 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['mobile','password']
+        fields = ["mobile", "password"]
 
     def validate(self, attrs):
-        mobile = attrs.get('mobile', '')
-        passward = attrs.get('password', '')
+        mobile = attrs.get("mobile", "")
+        password = attrs.get("password", "")
 
         user = auth.authenticate(mobile=mobile, password=password)
         if not user.is_active:
-            raise AuthenticationFailed('Inactive account')
+            raise AuthenticationFailed("Inactive account")
         if not user.is_verified:
-            raise AuthenticationFailed('unverified account')
+            raise AuthenticationFailed("unverified account")
         if not user:
-            raise AuthenticationFailed('Invaled mobile or password, please try again')
-        
+            raise AuthenticationFailed("Invaled mobile or password, please try again")
+
         return {
-            'name' : user.name,
+            "name": user.name,
         }
 
         return super().validate(attrs)
