@@ -190,6 +190,14 @@ if DEPLOY != "LOCAL":
 # TODO update later
 DASHBOARD_MODULES = []
 
+# django-money
+CURRENCIES = ("EGP",)
+CURRENCY_CHOICES = [
+    ("EGP", "EGP E£"),
+]
+DEFAULT_CURRENCY = "EGP"
+CURRENCY_DECIMAL_PLACES = 2
+
 # django admin customization with jazzmin
 JAZZMIN_SETTINGS = {
     # title of the window
