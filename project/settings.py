@@ -58,9 +58,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Third party
     "django_extensions",
-    "phonenumber_field",
     "rest_framework",
     "rest_framework.authtoken",
+    "phonenumber_field",
+    "multiselectfield",
     # Local
     "xshop.users.apps.UsersConfig",
     "xshop.pages.apps.PagesConfig",
@@ -185,6 +186,17 @@ if DEPLOY and DEPLOY != "LOCAL":
         # django.contrib.auth) you may enable sending PII data.
         send_default_pii=True,
     )
+
+# TODO update later
+DASHBOARD_MODULES = []
+
+# django-money
+CURRENCIES = ("EGP",)
+CURRENCY_CHOICES = [
+    ("EGP", "EGP E£"),
+]
+DEFAULT_CURRENCY = "EGP"
+CURRENCY_DECIMAL_PLACES = 2
 
 # django admin customization with jazzmin
 JAZZMIN_SETTINGS = {
