@@ -14,7 +14,11 @@ The Web part of XShop's system.
 - copy `.env.example` to `.env`, and change values (if needed)
 - create a virtual environment using `mkvirtualenv xshop-web`
 - run `poetry install` to install dependencies
-- run `docker-compose up`
-- run `./manage.py runserver`
-- start coding, write tests
+- run `docker-compose up` to run the db container
+- run `./manage.py runserver` to run the development server
+- see how to contribute [here](https://github.com/egypt-shops/xshop-docs#how-to-contribute)
+- write code for your task 
+- write tests to validate your code
 - run `./manage.py test` to run your tests
+- run `flake8` to make sure your code style is ok
+- push and make a PR
