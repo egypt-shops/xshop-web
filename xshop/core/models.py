@@ -29,3 +29,4 @@ class Product(TimeStampedModel):
     added_by = models.ForeignKey(
         "users.User", on_delete=models.SET_NULL, null=True, blank=True
     )
+    shop = models.ForeignKey(Shop, on_delete=models.SET_NULL, null=True, blank=True)
