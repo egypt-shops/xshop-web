@@ -4,7 +4,6 @@ on:
   push:
     branches: [develop, master]
   pull_request:
-    branches: [develop, master]
 
 jobs:
   build:
@@ -12,7 +11,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.8.2]
+        python-version: [3.8.6]
     services:
       postgres:
         image: postgres:11
