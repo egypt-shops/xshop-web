@@ -1,37 +1,22 @@
 from rest_framework import serializers
 from .models import User
-from django.contrib import auth
-from rest_framework.exceptions import AuthenticationFailed
+from phonenumber_field.serializerfields import PhoneNumberField
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ("mobile", "password")
-
-
-class LoginSerializer(serializers.ModelSerializer):
-    mobile = serializers.CharField(max_length=11)
-    password = serializers.CharField(max_length=25)
-
-    class Meta:
-        model = User
-        fields = ["mobile", "password"]
+class LoginSerializer(serializers.Serializer):
+    mobile = PhoneNumberField()
+    password = serializers.CharField()
 
     def validate(self, attrs):
-        mobile = attrs.get("mobile", "")
-        password = attrs.get("password", "")
+        try:
+            user = User.objects.get(mobile=attrs.get("mobile"))
+        except User.DoesNotExist:
+            raise serializers.ValidationError(
+                {"mobile": "user with this mobile does not exist"}
+            )
 
-        user = auth.authenticate(mobile=mobile, password=password)
-        if not user.is_active:
-            raise AuthenticationFailed("Inactive account")
-        if not user.is_verified:
-            raise AuthenticationFailed("unverified account")
-        if not user:
-            raise AuthenticationFailed("Invaled mobile or password, please try again")
+        if not user.check_password(attrs["password"]):
+            raise serializers.ValidationError({"password": "Invalid"})
 
-        return {
-            "name": user.name,
-        }
-
-        return super().validate(attrs)
+        attrs["token"] = user.auth_token.key
+        return attrs

@@ -27,7 +27,7 @@ def trigger_error(request):
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", Home.as_view(), name="home"),
-    path("login/", include("xshop.users.urls")),
+    path("users/", include("xshop.users.urls", namespace="users")),
     # for testing error alerts
     # path("sentry-debug/", trigger_error),
 ]
