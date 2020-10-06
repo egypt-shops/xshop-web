@@ -21,7 +21,6 @@ class LoginAPITests(APITestCase):
         )
 
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-
         self.assertIsNotNone(resp.json().get("token"))
 
     def test_login_with_nonexistant_mobile(self):
@@ -38,3 +37,4 @@ class LoginAPITests(APITestCase):
         )
 
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(resp.json().get("password")[0], "Invalid")

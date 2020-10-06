@@ -5,7 +5,6 @@ from rest_framework.authtoken.models import Token
 
 from .forms import UserCreationForm, UserChangeForm
 from .models import User
-from rest_framework.authtoken.admin import TokenAdmin
 
 
 class TokenInline(admin.StackedInline):
@@ -47,8 +46,6 @@ class UserAdmin(OriginalUserAdmin):
 
     inlines = [TokenInline]
 
-
-TokenAdmin.raw_id_fields = ["user"]
 
 admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)
