@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from xshop.pages.views import Home
 
 
@@ -27,6 +27,7 @@ def trigger_error(request):
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", Home.as_view(), name="home"),
+    path("users/", include("xshop.users.urls", namespace="users")),
     # for testing error alerts
     # path("sentry-debug/", trigger_error),
 ]
