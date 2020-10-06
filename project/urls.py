@@ -17,6 +17,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.schemas import get_schema_view
 from xshop.pages.views import Home
 
 
@@ -24,10 +25,14 @@ def trigger_error(request):
     1 / 0
 
 
+schema_view = get_schema_view(title="XShop Web API")
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", Home.as_view(), name="home"),
     path("users/", include("xshop.users.urls", namespace="users")),
+    path("schema", schema_view),
     # for testing error alerts
     # path("sentry-debug/", trigger_error),
 ]

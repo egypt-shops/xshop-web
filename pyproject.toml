@@ -53,6 +53,11 @@ django-multiselectfield = "^0.1.12"
 django-jazzmin = "^2.2.9"
 django-money = "^1.1"
 djangorestframework = "^3.12.1"
+PyYAML = "^5.3.1"
+uritemplate = "^3.0.1"
+Markdown = "^3.3"
+Pygments = "^2.7.1"
+django-filter = "^2.4.0"
 
 [tool.poetry.dev-dependencies]
 flake8-black = "^0.2.0"
