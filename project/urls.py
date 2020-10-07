@@ -18,21 +18,28 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.schemas import get_schema_view
-from xshop.pages.views import Home
+from xshop.pages.views import Home, SwaggerApi
 
 
 def trigger_error(request):
     1 / 0
 
 
-schema_view = get_schema_view(title="XShop Web API")
+schema_view = get_schema_view(
+    title="XShop Web API",
+    description="API for XShop web to be integrated with mobile application and website",
+    version="1.0.0",
+)
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", Home.as_view(), name="home"),
     path("users/", include("xshop.users.urls", namespace="users")),
-    path("schema", schema_view),
+    path("schema/", schema_view, name="schema"),
+    path("swagger/", SwaggerApi.as_view(
+        extra_context={"schema_url": "schema"}
+    ), name="swagger"),
     # for testing error alerts
     # path("sentry-debug/", trigger_error),
 ]
