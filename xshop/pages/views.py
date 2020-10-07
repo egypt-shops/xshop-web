@@ -8,4 +8,5 @@ class Home(View):
 
 
 class SwaggerApi(TemplateView):
+    extra_context = {"schema_url": "schema"}
     template_name = "pages/swagger-ui.html"

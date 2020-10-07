@@ -37,9 +37,7 @@ urlpatterns = [
     path("", Home.as_view(), name="home"),
     path("users/", include("xshop.users.urls", namespace="users")),
     path("schema/", schema_view, name="schema"),
-    path("swagger/", SwaggerApi.as_view(
-        extra_context={"schema_url": "schema"}
-    ), name="swagger"),
+    path("swagger/", SwaggerApi.as_view(), name="swagger"),
     # for testing error alerts
     # path("sentry-debug/", trigger_error),
 ]
