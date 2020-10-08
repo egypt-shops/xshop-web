@@ -19,7 +19,7 @@ class TestHome(TestCase):
 class TestSwaggerUi(TestCase):
     def setUp(self) -> None:
         self.client = Client()
-        self.url = reverse("pages:swagger")
+        self.url = reverse("pages_api:swagger")
 
     def test_swagger_uses_desired_template(self):
         resp = self.client.get(self.url)
