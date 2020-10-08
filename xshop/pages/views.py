@@ -7,6 +7,6 @@ class Home(View):
         return render(request, "pages/home.html")
 
 
-class SwaggerApi(TemplateView):
-    extra_context = {"schema_url": "schema"}
-    template_name = "pages/swagger-ui.html"
+class SwaggerUi(TemplateView):
+    extra_context = {"schema_url": "pages:schema"}
+    template_name = "pages/swagger_ui.html"

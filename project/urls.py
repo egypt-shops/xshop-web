@@ -17,27 +17,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.schemas import get_schema_view
-from xshop.pages.views import Home, SwaggerApi
 
 
 def trigger_error(request):
     1 / 0
 
 
-schema_view = get_schema_view(
-    title="XShop Web API",
-    description="API for XShop web to be integrated with mobile application and website",
-    version="1.0.0",
-)
-
-
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", Home.as_view(), name="home"),
     path("users/", include("xshop.users.urls", namespace="users")),
-    path("schema/", schema_view, name="schema"),
-    path("swagger/", SwaggerApi.as_view(), name="swagger"),
+    path("", include("xshop.pages.urls", namespace="pages"))
     # for testing error alerts
     # path("sentry-debug/", trigger_error),
 ]
@@ -49,4 +38,4 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # Admin Site texts
 admin.site.site_header = "Egypt Shops administration"
 admin.site.site_title = "Egypt Shops Admin Portal"
-admin.site.index_title = "XShop administration"
+admin.site.index_title = "Egypt Shops administration"
