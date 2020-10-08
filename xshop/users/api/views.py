@@ -1,10 +1,10 @@
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework.views import APIView
 
 from ..serializers import LoginSerializer
 
 
-class LoginAPIView(generics.GenericAPIView):
+class Login(APIView):
     serializer_class = LoginSerializer
 
     def post(self, request):
