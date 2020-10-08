@@ -1,19 +1,18 @@
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase
-from ..models import User
-from rest_framework.test import APIClient
+from rest_framework.test import APITestCase, APIClient
 from model_bakery import baker
 
+from ..models import User
 
-class LoginAPITests(APITestCase):
+
+class LoginTests(APITestCase):
     def setUp(self):
-
         self.user = baker.make(User, mobile="01010092181", name="Ahmed Loay Shahwan",)
         self.user.set_password("test")
         self.user.save()
         self.client = APIClient()
-        self.url = reverse("users:login")
+        self.url = reverse("users_api:login")
 
     def test_login_returns_token(self):
         resp = self.client.post(
