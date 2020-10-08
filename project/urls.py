@@ -23,10 +23,15 @@ def trigger_error(request):
     1 / 0
 
 
+api_urlpatterns = [
+    path("users/", include("xshop.users.api.urls", namespace="users_api")),
+]
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("users/", include("xshop.users.urls", namespace="users")),
-    path("", include("xshop.pages.urls", namespace="pages"))
+    path("api/", include(api_urlpatterns)),
+    path("", include("xshop.pages.urls", namespace="pages")),
     # for testing error alerts
     # path("sentry-debug/", trigger_error),
 ]
