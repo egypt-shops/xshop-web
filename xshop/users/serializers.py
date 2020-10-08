@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 from phonenumber_field.serializerfields import PhoneNumberField
 
 from .models import User
@@ -19,5 +20,7 @@ class LoginSerializer(serializers.Serializer):
         if not user.check_password(attrs["password"]):
             raise serializers.ValidationError({"password": "Invalid"})
 
-        attrs["token"] = user.auth_token.key
+        token_obj, _ = Token.objects.get_or_create(user=user)
+        attrs["token"] = token_obj.key
+
         return attrs
