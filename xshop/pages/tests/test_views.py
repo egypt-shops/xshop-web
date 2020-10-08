@@ -3,7 +3,7 @@ from django.urls import reverse
 
 
 @tag("homeview")
-class TestHome(TestCase):
+class HomeTests(TestCase):
     def setUp(self) -> None:
         self.client = Client()
         self.url = reverse("pages:home")

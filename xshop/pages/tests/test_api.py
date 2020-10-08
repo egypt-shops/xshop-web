@@ -3,7 +3,7 @@ from django.urls import reverse
 
 
 @tag("swaggerview")
-class TestSwaggerUi(TestCase):
+class SwaggerUiTests(TestCase):
     def setUp(self) -> None:
         self.client = Client()
         self.url = reverse("pages_api:swagger")
