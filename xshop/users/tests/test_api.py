@@ -14,20 +14,13 @@ class LoginTests(APITestCase):
         self.client = APIClient()
         self.url = reverse("users_api:login")
 
-    def test_login_returns_token(self):
+    def test_login_desired_scenario(self):
         resp = self.client.post(
             self.url, {"mobile": self.user.mobile, "password": "test"}
         )
 
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertIsNotNone(resp.json().get("token"))
-
-    def test_login_returns_user_data(self):
-        resp = self.client.post(
-            self.url, {"mobile": self.user.mobile, "password": "test"}
-        )
-
-        self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertIsNotNone(resp.json().get("user"))
 
     def test_login_with_nonexistant_mobile(self):
