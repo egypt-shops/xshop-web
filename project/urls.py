@@ -33,6 +33,7 @@ urlpatterns = [
     path("users/", include("xshop.users.urls", namespace="users")),
     path("api/", include(api_urlpatterns)),  # API urls from above
     path("", include("xshop.pages.urls", namespace="pages")),
+    path("accounts/", include("django.contrib.auth.urls")),
     # for testing error alerts
     # path("sentry-debug/", trigger_error),
 ]
