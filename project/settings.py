@@ -181,7 +181,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # Login Redirection
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "pages:home"
 
 # sentry
 if DEPLOY and DEPLOY != "LOCAL":
