@@ -12,7 +12,7 @@ env:
   POSTGRES_DB: github_actions
   POSTGRES_HOST: localhost
   POSTGRES_PORT: 5432
-  DEPLOY: TEST
+  DEPLOY: TESTING
 
 jobs:
   build:
