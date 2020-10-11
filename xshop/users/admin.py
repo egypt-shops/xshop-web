@@ -4,7 +4,14 @@ from django.contrib.auth.models import Group
 from rest_framework.authtoken.models import Token
 
 from .forms import UserCreationForm, UserChangeForm
-from .models import (User, Customer, Cashier, DataEntryClerk, Manager, SubManager, )
+from .models import (
+    User,
+    Customer,
+    Cashier,
+    DataEntryClerk,
+    Manager,
+    SubManager,
+)
 
 
 class TokenInline(admin.StackedInline):
@@ -49,6 +56,7 @@ class UserAdmin(OriginalUserAdmin):
 
 class SubManagerAdmin(admin.ModelAdmin):
     model = SubManager
+
 
 class CustomerAdmin(admin.ModelAdmin):
     model = Customer
