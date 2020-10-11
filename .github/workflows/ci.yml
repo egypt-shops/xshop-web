@@ -37,6 +37,8 @@ jobs:
         uses: Gr1N/setup-poetry@v3
       - name: Install dependencies
         run: poetry install
+      - name: collect static files
+        run: poetry run python manage.py collectstatic --no-input
       - name: Run Tests
         run: poetry run python manage.py test
         env:
