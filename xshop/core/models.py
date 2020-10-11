@@ -13,11 +13,15 @@ class Shop(TimeStampedModel):
     name = models.CharField(max_length=255)
     dashboard_modules = MultiSelectField(choices=settings.DASHBOARD_MODULES, blank=True)
 
+    def __str__(self):
+        return self.name
 
 class PricingPlan(TimeStampedModel):
     name = models.CharField(max_length=255)
     price = MoneyField(max_digits=14, decimal_places=2, default=Money(0, "EGP"))
     shop = models.OneToOneField(Shop, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
 
 
 class Product(TimeStampedModel):
@@ -31,6 +35,8 @@ class Product(TimeStampedModel):
         "users.User", on_delete=models.SET_NULL, null=True, blank=True
     )
     shop = models.ForeignKey(Shop, on_delete=models.SET_NULL, null=True, blank=True)
+    def __str__(self):
+        return self.name
 
 
 class Order(TimeStampedModel):
