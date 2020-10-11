@@ -1,87 +1,76 @@
 <!doctype html>
 {% load static %}
 <html lang="en">
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no">
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/\bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81i\uXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
-	<link href="{% static 'css/home.css' %}"rel="stylesheet">
-	<title>Egypt Shops Landing Page</title>
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81i\uXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href="{% static 'css/home.css' %}" rel="stylesheet">
+	<title>Egypt Shops | Home</title>
 </head>
+
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-		<a class="navbar-brand" href="{}"><strong>Xshop</strong>	</a>
-		
+		<a class="navbar-brand" href="#"><strong>Egypt Shops</strong> </a>
+
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			{% if user.is_authenticated %}
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-					<a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{{ user.username }}
+					<a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
+						{{ user.mobile }}
+					</a>
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+						{% comment %} <a class="dropdown-item" href="{% url 'password_change'%}">Change password</a>
+						{% endcomment %}
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="#">Log Out
 						</a>
-						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
-							<a class="dropdown-item"href="{% url 'password_change'%}">Change password</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="{}">Log Out
-							</a>
-						</div>
+					</div>
 				</li>
 			</ul>
 			{% else %}
 			<form class="form-inline ml-auto">
-				<a href="{}" class="btn btn-outline-secondary">Log In</a>
-				<a href="{}"class="btn btn-primary ml-2">Sign up</a>
+				<a href="#" class="btn btn-outline-secondary">Log In</a>
+				<a href="#" class="btn btn-primary ml-2">Sign up</a>
 			</form>
 			{% endif %}
 		</div>
-
-	</nav>
 	</nav>
 
 	<div class="container ">
-			<div>
-				<h1 class="display-4">Xshop Store</h1>
-				
-				
-				<p >Write your email to be notified width
-					<a href="{}"><strong>Latest Offers</strong></a>
+		<div>
+			<h1 class="display-4">Egypt Shops</h1>
+			<p>Best digital experience for Egyptian shops
+				<!-- <a href="#"><strong>Latest Offers</strong></a> -->
+			</p>
+			<br>
+			<!-- <div>
+				<p>
+					<a data-testid="buttonElement" class="btn btn-primary btn-lg">
+						<span class="">Notify Me</span>
+					</a>
 				</p>
-				<div>
-					<input class="email" type="email" id="input_email" value="" placeholder="Enter your email here*" required="" pattern="^.+@.+\.[a-zA-Z]{2,63}$" maxLength="250"/>
-				</div>
-				<br>
-				
-				<div>
-					<p>
-						<a data-testid="buttonElement" class="btn btn-primary btn-lg">
-							<span class="">Notify Me</span>
-						</a>
-					</p>
-				</div>
-
-			</div>
+			</div> -->
+		</div>
 	</div>
-	
-		
-
-
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha383-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4\YfRvH+8abtTE1Pi6jizo"
-	crossorigin="anonymous">	
-	</script>
+		integrity="sha383-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4\YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+		</script>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/\1.14.3/umd/popper.min.js"
-	integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbB\JiSnjAK/l8WvCWPIPm49"
-	crossorigin="anonymous">
-	</script>
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbB\JiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+		</script>
+
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/\js/bootstrap.min.js"
-	integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ\6OW/JmZQ5stwEULTy"
-	crossorigin="anonymous">
-	</script>
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ\6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+		</script>
 </body>
+
 </html>
