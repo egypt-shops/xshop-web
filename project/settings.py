@@ -177,7 +177,7 @@ AUTH_USER_MODEL = "users.User"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # sentry
-if DEPLOY and DEPLOY != "LOCAL":
+if DEPLOY and DEPLOY not in ("LOCAL", "TESTING"):
     sentry_sdk.init(
         dsn=env("SENTRY_DSN", str),
         integrations=[DjangoIntegration()],
