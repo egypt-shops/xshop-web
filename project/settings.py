@@ -184,7 +184,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 LOGIN_REDIRECT_URL = "pages:home"
 
 # sentry
-if DEPLOY and DEPLOY != "LOCAL":
+if DEPLOY and DEPLOY not in ("LOCAL", "TESTING"):
     sentry_sdk.init(
         dsn=env("SENTRY_DSN", str),
         integrations=[DjangoIntegration()],

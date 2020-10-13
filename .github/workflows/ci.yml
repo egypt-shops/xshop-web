@@ -5,6 +5,15 @@ on:
     branches: [develop, master]
   pull_request:
 
+env:
+  DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: github_actions
+  POSTGRES_HOST: localhost
+  POSTGRES_PORT: 5432
+  DEPLOY: TESTING
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,15 +46,9 @@ jobs:
         uses: Gr1N/setup-poetry@v3
       - name: Install dependencies
         run: poetry install
+      - name: collect static files
+        run: poetry run python manage.py collectstatic --no-input
       - name: Run Tests
         run: poetry run python manage.py test
-        env:
-          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: github_actions
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-          DEPLOY: LOCAL
       - name: Run flake8 linter based on black
         run: poetry run flake8

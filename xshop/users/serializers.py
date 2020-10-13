@@ -22,5 +22,8 @@ class LoginSerializer(serializers.Serializer):
 
         token_obj, _ = Token.objects.get_or_create(user=user)
         attrs["token"] = token_obj.key
-
+        attrs["name"] = user.name
+        attrs["mobile"] = str(user.mobile)
+        attrs["email"] = user.email
+        attrs["type"] = user.type
         return attrs
