@@ -31,9 +31,9 @@ api_urlpatterns = [
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("users/", include("xshop.users.urls", namespace="users")),
+    path("users/", include("django.contrib.auth.urls")),
     path("api/", include(api_urlpatterns)),  # API urls from above
     path("", include("xshop.pages.urls", namespace="pages")),
-    path("users/", include("django.contrib.auth.urls")),
     # for testing error alerts
     # path("sentry-debug/", trigger_error),
 ]
