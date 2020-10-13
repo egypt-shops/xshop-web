@@ -182,6 +182,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # Login Redirection
 LOGIN_REDIRECT_URL = "pages:home"
+LOGOUT_REDIRECT_URL = "pages:home"
 
 # sentry
 if DEPLOY and DEPLOY not in ("LOCAL", "TESTING"):
