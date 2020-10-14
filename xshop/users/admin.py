@@ -18,10 +18,10 @@ class TokenInline(admin.StackedInline):
     model = Token
 
 
+@admin.register(User)
 class UserAdmin(OriginalUserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
-    model = User
 
     list_display = ("id", "mobile", "email", "name", "is_staff", "is_active")
     list_display_links = ("mobile",)
@@ -29,10 +29,13 @@ class UserAdmin(OriginalUserAdmin):
     search_fields = ("mobile", "email", "name")
     ordering = ("-id",)
 
+    readonly_fields = ("type",)
+
     fieldsets = (
-        (None, {"fields": ("mobile", "email", "name", "password")}),
+        (None, {"fields": ("mobile", "email", "name", "password", "type")}),
         ("Permissions", {"fields": ("is_staff", "is_active")}),
     )
+
     add_fieldsets = (
         (
             None,
@@ -46,38 +49,38 @@ class UserAdmin(OriginalUserAdmin):
                     "password2",
                     "is_staff",
                     "is_active",
+                    "type",
                 ),
             },
         ),
     )
 
-    inlines = [TokenInline]
+    inlines = (TokenInline,)
 
 
-class SubManagerAdmin(admin.ModelAdmin):
-    model = SubManager
+@admin.register(Customer)
+class CustomerAdmin(UserAdmin):
+    ...
 
 
-class CustomerAdmin(admin.ModelAdmin):
-    model = Customer
+@admin.register(Cashier)
+class CashierAdmin(UserAdmin):
+    readonly_fields = ()
 
 
-class CashierAdmin(admin.ModelAdmin):
-    model = Cashier
+@admin.register(DataEntryClerk)
+class DataEntryClerkAdmin(UserAdmin):
+    ...
 
 
-class DataEntryClerkAdmin(admin.ModelAdmin):
-    model = DataEntryClerk
+@admin.register(SubManager)
+class SubManagerAdmin(UserAdmin):
+    ...
 
 
-class ManagerAdmin(admin.ModelAdmin):
-    model = Manager
+@admin.register(Manager)
+class ManagerAdmin(UserAdmin):
+    ...
 
 
-admin.site.register(Customer, CustomerAdmin)
-admin.site.register(Cashier, CashierAdmin)
-admin.site.register(DataEntryClerk, DataEntryClerkAdmin)
-admin.site.register(Manager, ManagerAdmin)
-admin.site.register(SubManager, SubManagerAdmin)
-admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)
