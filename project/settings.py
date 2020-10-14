@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "phonenumber_field",
     "multiselectfield",
+    "crispy_forms",
     # Local
     "xshop.users.apps.UsersConfig",
     "xshop.pages.apps.PagesConfig",
@@ -175,6 +176,13 @@ AUTH_USER_MODEL = "users.User"
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# django-crispy-forms
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+# Login Redirection
+LOGIN_REDIRECT_URL = "pages:home"
+LOGOUT_REDIRECT_URL = "pages:home"
 
 # sentry
 if DEPLOY and DEPLOY not in ("LOCAL", "TESTING"):
