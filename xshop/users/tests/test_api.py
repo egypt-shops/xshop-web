@@ -6,15 +6,15 @@ from model_bakery import baker
 from ..models import User
 
 
-class LoginTests(APITestCase):
+class TokenApiTests(APITestCase):
     def setUp(self):
         self.user = baker.make(User, mobile="01010092181", name="Ahmed Loay Shahwan",)
         self.user.set_password("test")
         self.user.save()
         self.client = APIClient()
-        self.url = reverse("users_api:login")
+        self.url = reverse("users_api:token")
 
-    def test_login_desired_scenario(self):
+    def test_token_desired_scenario(self):
         resp = self.client.post(
             self.url, {"mobile": self.user.mobile, "password": "test"}
         )
@@ -31,7 +31,7 @@ class LoginTests(APITestCase):
         self.assertEqual(self.user.type, user.get("type"))
         self.assertEqual(self.user.mobile, user.get("mobile"))
 
-    def test_login_with_nonexistant_mobile(self):
+    def test_token_with_nonexistant_mobile(self):
         resp = self.client.post(self.url, {"mobile": "01011698551", "password": "test"})
 
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
@@ -39,7 +39,7 @@ class LoginTests(APITestCase):
             resp.json().get("mobile")[0], "user with this mobile does not exist"
         )
 
-    def test_login_with_wrong_password(self):
+    def test_token_with_wrong_password(self):
         resp = self.client.post(
             self.url, {"mobile": self.user.mobile, "password": "sfsdafasdfsad"}
         )

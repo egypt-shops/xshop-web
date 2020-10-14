@@ -1,11 +1,11 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..serializers import LoginSerializer
+from .serializers import TokenApiSerializer
 
 
-class Login(APIView):
-    serializer_class = LoginSerializer
+class TokenApi(APIView):
+    serializer_class = TokenApiSerializer
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
