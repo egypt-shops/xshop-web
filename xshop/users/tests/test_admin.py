@@ -15,6 +15,15 @@ class MockRequest:
         return request_factory.get("/admin")
 
 
+class MockSuperUser:
+    def has_perm(self, perm, obj=None):
+        return True
+
+
+request = MockRequest()
+request.user = MockSuperUser()
+
+
 class UserAdminTests(TestCase):
     def setUp(self) -> None:
         self.site = AdminSite()

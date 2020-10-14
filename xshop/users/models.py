@@ -6,10 +6,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.dispatch import receiver
 
+from rest_framework.authtoken.models import Token
 from phonenumber_field.modelfields import PhoneNumberField
 from model_utils.models import TimeStampedModel
 from multiselectfield import MultiSelectField
-from rest_framework.authtoken.models import Token
 
 
 # =========================================== Model Managers
