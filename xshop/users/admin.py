@@ -14,8 +14,9 @@ from .models import (
 )
 
 
-class TokenInline(admin.StackedInline):
+class TokenAdminInline(admin.StackedInline):
     model = Token
+    readonly_fields = ("key",)
 
 
 @admin.register(User)
@@ -55,7 +56,7 @@ class UserAdmin(OriginalUserAdmin):
         ),
     )
 
-    inlines = (TokenInline,)
+    inlines = (TokenAdminInline,)
 
 
 @admin.register(Customer)
