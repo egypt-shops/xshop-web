@@ -2,10 +2,10 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from phonenumber_field.serializerfields import PhoneNumberField
 
-from .models import User
+from ..models import User
 
 
-class LoginSerializer(serializers.Serializer):
+class TokenApiSerializer(serializers.Serializer):
     mobile = PhoneNumberField()
     password = serializers.CharField()
 
