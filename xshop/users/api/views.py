@@ -5,20 +5,23 @@ from .serializers import TokenApiSerializer
 
 
 class TokenApi(APIView):
+    """Get user's token and basic data"""
+
     serializer_class = TokenApiSerializer
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        vd = serializer.validated_data
         return Response(
             {
-                "token": serializer.validated_data.get("token"),
+                "token": vd.get("token"),
                 "user": {
-                    "name": serializer.validated_data.get("name"),
-                    "mobile": serializer.validated_data.get("mobile"),
-                    "email": serializer.validated_data.get("email"),
-                    "type": serializer.validated_data.get("type"),
+                    "name": vd.get("name"),
+                    "mobile": vd.get("mobile"),
+                    "email": vd.get("email"),
+                    "type": vd.get("type"),
                 },
             }
         )
