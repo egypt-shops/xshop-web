@@ -25,6 +25,7 @@ def trigger_error(request):
 
 api_urlpatterns = [
     path("users/", include("xshop.users.api.urls", namespace="users_api")),
+    path("core/", include("xshop.core.api.urls", namespace="core_api")),
     path("", include("xshop.pages.api.urls", namespace="pages_api")),
 ]
 
@@ -32,6 +33,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("users/", include("xshop.users.urls", namespace="users")),
     path("users/", include("django.contrib.auth.urls")),
+    path("core/", include("xshop.core.urls", namespace="core")),
     path("api/", include(api_urlpatterns)),  # API urls from above
     path("", include("xshop.pages.urls", namespace="pages")),
     # for testing error alerts
