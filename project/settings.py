@@ -208,6 +208,9 @@ CURRENCY_CHOICES = [
 DEFAULT_CURRENCY = "EGP"
 CURRENCY_DECIMAL_PLACES = 2
 
+# All URLs end with '/'
+APPEND_SLASH = True
+
 # django admin customization with jazzmin
 JAZZMIN_SETTINGS = {
     # title of the window
