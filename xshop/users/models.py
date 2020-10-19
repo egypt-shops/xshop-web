@@ -21,7 +21,7 @@ class UserManager(BaseUserManager):
 
     def create_user(self, mobile, password, **extra_fields):
         """
-        Create and save a User with the given email and password.
+        Create and save a User with the given mobile and password.
         """
         user = self.model(mobile=mobile, **extra_fields)
         user.set_password(password)
@@ -31,7 +31,7 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, mobile, password, **extra_fields):
         """
-        Create and save a SuperUser with the given email and password.
+        Create and save a SuperUser with the given mobile and password.
         """
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
@@ -111,48 +111,48 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 
 # =========================================== Other Users ModelManagers
-class CustomerManager(BaseUserManager):
+class CustomerManager(UserManager):
     def get_queryset(self):
         return super().get_queryset().filter(type=[User.Types.CUSTOMER])
 
     def create(self, **kwargs):
-        kwargs.update({"type": User.Types.CUSTOMER})
+        kwargs.update({"type": [User.Types.CUSTOMER]})
         return super().create(**kwargs)
 
 
-class CashierManager(BaseUserManager):
+class CashierManager(UserManager):
     def get_queryset(self):
         return super().get_queryset().filter(type=[User.Types.CASHIER])
 
     def create(self, **kwargs):
-        kwargs.update({"type": User.Types.CASHIER})
+        kwargs.update({"type": [User.Types.CASHIER]})
         return super().create(**kwargs)
 
 
-class DataEntryClerkManager(BaseUserManager):
+class DataEntryClerkManager(UserManager):
     def get_queryset(self):
         return super().get_queryset().filter(type=[User.Types.DATA_ENTRY_CLERK])
 
     def create(self, **kwargs):
-        kwargs.update({"type": User.Types.DATA_ENTRY_CLERK})
+        kwargs.update({"type": [User.Types.DATA_ENTRY_CLERK]})
         return super().create(**kwargs)
 
 
-class SubManagerManager(BaseUserManager):
+class SubManagerManager(UserManager):
     def get_queryset(self):
         return super().get_queryset().filter(type=[User.Types.SUB_MANAGER])
 
     def create(self, **kwargs):
-        kwargs.update({"type": User.Types.SUB_MANAGER})
+        kwargs.update({"type": [User.Types.SUB_MANAGER]})
         return super().create(**kwargs)
 
 
-class ManagerManager(BaseUserManager):
+class ManagerManager(UserManager):
     def get_queryset(self):
         return super().get_queryset().filter(type=[User.Types.MANAGER])
 
     def create(self, **kwargs):
-        kwargs.update({"type": User.Types.MANAGER})
+        kwargs.update({"type": [User.Types.MANAGER]})
         return super().create(**kwargs)
 
 

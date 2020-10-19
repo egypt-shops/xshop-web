@@ -45,7 +45,7 @@ class CustomerManagerTests(TestCase):
     def test_create_customer(self):
         customer = Customer.objects.create(mobile="+201010092181", password="foo")
         self.assertEqual(customer.mobile, "+201010092181")
-        self.assertEqual(customer.type, "CUSTOMER")
+        self.assertEqual(customer.type, ["CUSTOMER"])
         self.assertTrue(customer.is_active)
         self.assertFalse(customer.is_staff)
         self.assertFalse(customer.is_superuser)
@@ -58,10 +58,10 @@ class CustomerManagerTests(TestCase):
 
 @tag("camt")
 class CashierManagerTests(TestCase):
-    def test_create_customer(self):
+    def test_create_cashier(self):
         cashier = Cashier.objects.create(mobile="+201010092181", password="foo")
         self.assertEqual(cashier.mobile, "+201010092181")
-        self.assertEqual(cashier.type, "CASHIER")
+        self.assertEqual(cashier.type, ["CASHIER"])
         self.assertTrue(cashier.is_active)
         self.assertFalse(cashier.is_staff)
         self.assertFalse(cashier.is_superuser)
@@ -74,10 +74,10 @@ class CashierManagerTests(TestCase):
 
 @tag("decmt")
 class DataEntryClerkManagerTests(TestCase):
-    def test_create_customer(self):
+    def test_create_dec(self):
         dec = DataEntryClerk.objects.create(mobile="+201010092181", password="foo")
         self.assertEqual(dec.mobile, "+201010092181")
-        self.assertEqual(dec.type, "DATA_ENTRY_CLERK")
+        self.assertEqual(dec.type, ["DATA_ENTRY_CLERK"])
         self.assertTrue(dec.is_active)
         self.assertFalse(dec.is_staff)
         self.assertFalse(dec.is_superuser)
@@ -90,10 +90,10 @@ class DataEntryClerkManagerTests(TestCase):
 
 @tag("smmt")
 class SubManagerManagerTests(TestCase):
-    def test_create_customer(self):
+    def test_create_sub_manager(self):
         sub_manager = SubManager.objects.create(mobile="+201010092181", password="foo")
         self.assertEqual(sub_manager.mobile, "+201010092181")
-        self.assertEqual(sub_manager.type, "SUB_MANAGER")
+        self.assertEqual(sub_manager.type, ["SUB_MANAGER"])
         self.assertTrue(sub_manager.is_active)
         self.assertFalse(sub_manager.is_staff)
         self.assertFalse(sub_manager.is_superuser)
@@ -106,10 +106,10 @@ class SubManagerManagerTests(TestCase):
 
 @tag("mmt")
 class ManagerManagerTests(TestCase):
-    def test_create_customer(self):
+    def test_create_manager(self):
         manager = Manager.objects.create(mobile="+201010092181", password="foo")
         self.assertEqual(manager.mobile, "+201010092181")
-        self.assertEqual(manager.type, "MANAGER")
+        self.assertEqual(manager.type, ["MANAGER"])
         self.assertTrue(manager.is_active)
         self.assertFalse(manager.is_staff)
         self.assertFalse(manager.is_superuser)
