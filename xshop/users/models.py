@@ -113,7 +113,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 # =========================================== Other Users ModelManagers
 class CustomerManager(BaseUserManager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.CUSTOMER)
+        return super().get_queryset().filter(type=[User.Types.CUSTOMER])
 
     def create(self, **kwargs):
         kwargs.update({"type": User.Types.CUSTOMER})
@@ -122,7 +122,7 @@ class CustomerManager(BaseUserManager):
 
 class CashierManager(BaseUserManager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.CASHIER)
+        return super().get_queryset().filter(type=[User.Types.CASHIER])
 
     def create(self, **kwargs):
         kwargs.update({"type": User.Types.CASHIER})
@@ -131,7 +131,7 @@ class CashierManager(BaseUserManager):
 
 class DataEntryClerkManager(BaseUserManager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.DATA_ENTRY_CLERK)
+        return super().get_queryset().filter(type=[User.Types.DATA_ENTRY_CLERK])
 
     def create(self, **kwargs):
         kwargs.update({"type": User.Types.DATA_ENTRY_CLERK})
@@ -140,7 +140,7 @@ class DataEntryClerkManager(BaseUserManager):
 
 class SubManagerManager(BaseUserManager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.SUB_MANAGER)
+        return super().get_queryset().filter(type=[User.Types.SUB_MANAGER])
 
     def create(self, **kwargs):
         kwargs.update({"type": User.Types.SUB_MANAGER})
@@ -149,7 +149,7 @@ class SubManagerManager(BaseUserManager):
 
 class ManagerManager(BaseUserManager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.MANAGER)
+        return super().get_queryset().filter(type=[User.Types.MANAGER])
 
     def create(self, **kwargs):
         kwargs.update({"type": User.Types.MANAGER})

@@ -51,6 +51,10 @@ class CustomerManagerTests(TestCase):
         self.assertFalse(customer.is_superuser)
         self.assertIsNone(customer.username)
 
+    def test_customer_objects_all(self):
+        Customer.objects.create(mobile="+201010092181", password="foo")
+        self.assertEqual(len(Customer.objects.all()), 1)
+
 
 @tag("camt")
 class CashierManagerTests(TestCase):
@@ -62,6 +66,10 @@ class CashierManagerTests(TestCase):
         self.assertFalse(cashier.is_staff)
         self.assertFalse(cashier.is_superuser)
         self.assertIsNone(cashier.username)
+
+    def test_cashier_objects_all(self):
+        Cashier.objects.create(mobile="+201010092181", password="foo")
+        self.assertEqual(len(Cashier.objects.all()), 1)
 
 
 @tag("decmt")
@@ -75,6 +83,10 @@ class DataEntryClerkManagerTests(TestCase):
         self.assertFalse(dec.is_superuser)
         self.assertIsNone(dec.username)
 
+    def test_dec_objects_all(self):
+        DataEntryClerk.objects.create(mobile="+201010092181", password="foo")
+        self.assertEqual(len(DataEntryClerk.objects.all()), 1)
+
 
 @tag("smmt")
 class SubManagerManagerTests(TestCase):
@@ -87,6 +99,10 @@ class SubManagerManagerTests(TestCase):
         self.assertFalse(sub_manager.is_superuser)
         self.assertIsNone(sub_manager.username)
 
+    def test_sub_manager_objects_all(self):
+        SubManager.objects.create(mobile="+201010092181", password="foo")
+        self.assertEqual(len(SubManager.objects.all()), 1)
+
 
 @tag("mmt")
 class ManagerManagerTests(TestCase):
@@ -98,3 +114,7 @@ class ManagerManagerTests(TestCase):
         self.assertFalse(manager.is_staff)
         self.assertFalse(manager.is_superuser)
         self.assertIsNone(manager.username)
+
+    def test_manager_objects_all(self):
+        Manager.objects.create(mobile="+201010092181", password="foo")
+        self.assertEqual(len(Manager.objects.all()), 1)
