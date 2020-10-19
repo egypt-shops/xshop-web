@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "multiselectfield",
     "crispy_forms",
+    "djmoney",
     # Local
     "xshop.users.apps.UsersConfig",
     "xshop.pages.apps.PagesConfig",

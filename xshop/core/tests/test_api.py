@@ -16,8 +16,12 @@ class ProductCrudOperationsTest(APITestCase):
     def setUp(self) -> None:
         self.user = baker.make(User, mobile="01010092181", name="Ahmed Loay Shahwan",)
         self.user.save()
-        self.product1 = baker.make(Product, name="Prod1", stock=15, added_by=self.user)
-        self.product2 = baker.make(Product, name="Prod2", stock=10, added_by=self.user)
+        self.product1 = baker.make(
+            Product, name="Prod1", stock=15, price=12, added_by=self.user
+        )
+        self.product2 = baker.make(
+            Product, name="Prod2", stock=10, price=41, added_by=self.user
+        )
         self.product1.save()
         self.product2.save()
         self.client = APIClient()
@@ -28,12 +32,26 @@ class ProductCrudOperationsTest(APITestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(len(resp.data), 2)
 
-    def test_create_valid_product(self):
+    def test_create_valid_product_with_price(self):
+        product = {
+            "name": "test",
+            "stock": 14,
+            "price": "17.00",
+            "added_by": self.user.id,
+        }
+        resp = self.client.post(self.url, product)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.data["name"], product["name"])
+        self.assertEqual(resp.data["stock"], product["stock"])
+        self.assertEqual(resp.data["price"], product["price"])
+
+    def test_create_valid_product_without_price(self):
         product = {"name": "test", "stock": 14, "added_by": self.user.id}
         resp = self.client.post(self.url, product)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["name"], product["name"])
         self.assertEqual(resp.data["stock"], product["stock"])
+        self.assertEqual(resp.data["price"], "0.00")
 
     def test_create_product_with_string_stock(self):
         product = {"name": "test", "stock": "test", "added_by": self.user.id}
@@ -86,3 +104,9 @@ class ProductCrudOperationsTest(APITestCase):
         resp = self.client.patch(product_detail_url(self.product1.id), product_stock)
         self.assertEqual(resp.status_code, 400)
         self.assertTrue("A valid integer is required." in resp.data["stock"])
+
+    def test_patch_exiting_product_price(self):
+        product_price = {"price": 25}
+        resp = self.client.patch(product_detail_url(self.product1.id), product_price)
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(resp.data["name"], str(product_price["price"]))
