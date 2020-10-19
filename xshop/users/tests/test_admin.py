@@ -43,11 +43,12 @@ class UserAdminTests(TestCase):
             "mobile",
             "email",
             "name",
+            "type",
             "is_staff",
             "is_active",
         )
         self.superuser_list_filter = ("is_staff", "is_active")
-        self.readonly_fields = ("type",)
+        self.readonly_fields = ()
 
     def test_superuser_user_admin_str(self):
         self.assertEqual(str(self.model_admin), "users.UserAdmin")
@@ -95,18 +96,21 @@ class UserAdminTests(TestCase):
         self.request.user = self.superuser
         self.assertEqual(
             tuple(self.model_admin.get_fields(self.request, self.test_user)),
-            ("mobile", "password", "type"),
+            ("mobile", "password"),
         )
 
     def test_superuser_exclude_fields(self):
+        self.request.user = self.superuser
         self.assertEqual(self.model_admin.get_exclude(self.request), None)
 
     def test_superuser_read_only_fields(self):
+        self.request.user = self.superuser
         self.assertEqual(
             self.model_admin.get_readonly_fields(self.request), self.readonly_fields
         )
 
     def test_superuser_actions(self):
+        self.request.user = self.superuser
         self.assertEqual(
             tuple(self.model_admin.get_actions(self.request).keys()),
             ("delete_selected",),

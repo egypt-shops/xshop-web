@@ -24,13 +24,11 @@ class UserAdmin(OriginalUserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
 
-    list_display = ("id", "mobile", "email", "name", "is_staff", "is_active")
-    list_display_links = ("mobile",)
+    list_display = ("id", "mobile", "email", "name", "type", "is_staff", "is_active")
+    list_display_links = ("id", "mobile")
     list_filter = ("is_staff", "is_active")
     search_fields = ("mobile", "email", "name")
     ordering = ("-id",)
-
-    readonly_fields = ("type",)
 
     fieldsets = (
         (None, {"fields": ("mobile", "email", "name", "password", "type")}),
@@ -58,30 +56,52 @@ class UserAdmin(OriginalUserAdmin):
 
     inlines = (TokenAdminInline,)
 
+    # custom permissions
+    # Superuser only has the permissions for the Users Module
+    def has_module_permission(self, request):
+        if request.user.is_authenticated and request.user.is_superuser:
+            return True
+
+    def has_view_permission(self, request, obj=None):
+        if request.user.is_authenticated and request.user.is_superuser:
+            return True
+
+    def has_change_permission(self, request, obj=None):
+        if request.user.is_authenticated and request.user.is_superuser:
+            return True
+
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_authenticated and request.user.is_superuser:
+            return True
+
+    def has_add_permission(self, request, obj=None):
+        if request.user.is_authenticated and request.user.is_superuser:
+            return True
+
 
 @admin.register(Customer)
 class CustomerAdmin(UserAdmin):
-    ...
+    readonly_fields = ("type",)
 
 
 @admin.register(Cashier)
 class CashierAdmin(UserAdmin):
-    readonly_fields = ()
+    readonly_fields = ("type",)
 
 
 @admin.register(DataEntryClerk)
 class DataEntryClerkAdmin(UserAdmin):
-    ...
+    readonly_fields = ("type",)
 
 
 @admin.register(SubManager)
 class SubManagerAdmin(UserAdmin):
-    ...
+    readonly_fields = ("type",)
 
 
 @admin.register(Manager)
 class ManagerAdmin(UserAdmin):
-    ...
+    readonly_fields = ("type",)
 
 
 admin.site.unregister(Group)
