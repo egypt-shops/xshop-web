@@ -73,7 +73,7 @@ class UserAdminTests(TestCase):
         )
 
     def test_superuser_list_display_links(self):
-        superuser_user_list_display_links = ("mobile",)
+        superuser_user_list_display_links = ("id", "mobile")
         self.assertEqual(
             self.model_admin.get_list_display_links(
                 self.request, self.superuser_user_list_display

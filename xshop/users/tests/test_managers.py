@@ -1,6 +1,8 @@
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+
+from xshop.users.models import Cashier, Customer, DataEntryClerk, Manager, SubManager
 
 
 class UserManagerTests(TestCase):
@@ -36,3 +38,63 @@ class UserManagerTests(TestCase):
             User.objects.create_superuser(
                 mobile="+201010092181", password="foo", is_superuser=False
             )
+
+
+@tag("cmt")
+class CustomerManagerTests(TestCase):
+    def test_create_customer(self):
+        customer = Customer.objects.create(mobile="+201010092181", password="foo")
+        self.assertEqual(customer.mobile, "+201010092181")
+        self.assertEqual(customer.type, "CUSTOMER")
+        self.assertTrue(customer.is_active)
+        self.assertFalse(customer.is_staff)
+        self.assertFalse(customer.is_superuser)
+        self.assertIsNone(customer.username)
+
+
+@tag("camt")
+class CashierManagerTests(TestCase):
+    def test_create_customer(self):
+        cashier = Cashier.objects.create(mobile="+201010092181", password="foo")
+        self.assertEqual(cashier.mobile, "+201010092181")
+        self.assertEqual(cashier.type, "CASHIER")
+        self.assertTrue(cashier.is_active)
+        self.assertFalse(cashier.is_staff)
+        self.assertFalse(cashier.is_superuser)
+        self.assertIsNone(cashier.username)
+
+
+@tag("decmt")
+class DataEntryClerkManagerTests(TestCase):
+    def test_create_customer(self):
+        dec = DataEntryClerk.objects.create(mobile="+201010092181", password="foo")
+        self.assertEqual(dec.mobile, "+201010092181")
+        self.assertEqual(dec.type, "DATA_ENTRY_CLERK")
+        self.assertTrue(dec.is_active)
+        self.assertFalse(dec.is_staff)
+        self.assertFalse(dec.is_superuser)
+        self.assertIsNone(dec.username)
+
+
+@tag("smmt")
+class SubManagerManagerTests(TestCase):
+    def test_create_customer(self):
+        sub_manager = SubManager.objects.create(mobile="+201010092181", password="foo")
+        self.assertEqual(sub_manager.mobile, "+201010092181")
+        self.assertEqual(sub_manager.type, "SUB_MANAGER")
+        self.assertTrue(sub_manager.is_active)
+        self.assertFalse(sub_manager.is_staff)
+        self.assertFalse(sub_manager.is_superuser)
+        self.assertIsNone(sub_manager.username)
+
+
+@tag("mmt")
+class ManagerManagerTests(TestCase):
+    def test_create_customer(self):
+        manager = Manager.objects.create(mobile="+201010092181", password="foo")
+        self.assertEqual(manager.mobile, "+201010092181")
+        self.assertEqual(manager.type, "MANAGER")
+        self.assertTrue(manager.is_active)
+        self.assertFalse(manager.is_staff)
+        self.assertFalse(manager.is_superuser)
+        self.assertIsNone(manager.username)
