@@ -52,7 +52,7 @@ class test_customer_user(TestCase):
         )
 
     def test_customer_user_type(self):
-        self.assertEqual(self.user2.type, User.Types.CUSTOMER)
+        self.assertEqual(self.user2.type, [User.Types.CUSTOMER])
 
     def test_repr_customer(self):
         self.assertEqual(
@@ -71,7 +71,7 @@ class test_cashier_user(TestCase):
         )
 
     def test_customer_user_type(self):
-        self.assertEqual(self.user2.type, User.Types.CASHIER)
+        self.assertEqual(self.user2.type, [User.Types.CASHIER])
 
 
 class test_data_entry_user(TestCase):
@@ -84,7 +84,7 @@ class test_data_entry_user(TestCase):
         )
 
     def test_customer_user_type(self):
-        self.assertEqual(self.user2.type, User.Types.DATA_ENTRY_CLERK)
+        self.assertEqual(self.user2.type, [User.Types.DATA_ENTRY_CLERK])
 
 
 class test_manager_user(TestCase):
@@ -97,7 +97,7 @@ class test_manager_user(TestCase):
         )
 
     def test_customer_user_type(self):
-        self.assertEqual(self.user2.type, User.Types.MANAGER)
+        self.assertEqual(self.user2.type, [User.Types.MANAGER])
 
 
 class test_sub_manager_user(TestCase):
@@ -110,4 +110,4 @@ class test_sub_manager_user(TestCase):
         )
 
     def test_customer_user_type(self):
-        self.assertEqual(self.user2.type, User.Types.SUB_MANAGER)
+        self.assertEqual(self.user2.type, [User.Types.SUB_MANAGER])
