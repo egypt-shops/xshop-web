@@ -68,6 +68,10 @@ INSTALLED_APPS = [
     "xshop.users.apps.UsersConfig",
     "xshop.pages.apps.PagesConfig",
     "xshop.core.apps.CoreConfig",
+    "xshop.shops.apps.ShopsConfig",
+    "xshop.products.apps.ProductsConfig",
+    "xshop.orders.apps.OrdersConfig",
+    "xshop.invoices.apps.InvoicesConfig",
 ]
 
 

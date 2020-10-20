@@ -25,7 +25,7 @@ def trigger_error(request):
 
 api_urlpatterns = [
     path("users/", include("xshop.users.api.urls", namespace="users_api")),
-    path("core/", include("xshop.core.api.urls", namespace="core_api")),
+    path("products/", include("xshop.products.api.urls", namespace="products_api")),
     path("", include("xshop.pages.api.urls", namespace="pages_api")),
 ]
 
