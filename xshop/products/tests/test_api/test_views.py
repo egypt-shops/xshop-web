@@ -4,14 +4,15 @@ from rest_framework import status
 from model_bakery import baker
 from django.contrib.auth import get_user_model
 
-from ..models import Product
+from xshop.products.models import Product
 
 User = get_user_model()
 
 
 class ProductApiTests(APITestCase):
+    # utils
     def detail_patch_url(self, product_id):
-        return reverse("core_api:product_detail_patch", args=[product_id])
+        return reverse("products_api:product_detail_patch", args=[product_id])
 
     def setUp(self) -> None:
         self.user = baker.make(User, mobile="01010092181", name="Ahmed Loay Shahwan",)
@@ -25,7 +26,7 @@ class ProductApiTests(APITestCase):
         self.product1.save()
         self.product2.save()
         self.client = APIClient()
-        self.list_create_url = reverse("core_api:product_list_create")
+        self.list_create_url = reverse("products_api:product_list_create")
 
     def test_get_all_products(self):
         resp = self.client.get(self.list_create_url)

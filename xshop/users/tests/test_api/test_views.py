@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
 from model_bakery import baker
 
-from ..models import User
+from xshop.users.models import User
 
 
 class TokenApiTests(APITestCase):

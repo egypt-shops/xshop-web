@@ -9,10 +9,6 @@ from django.utils.translation import ugettext_lazy as _
 
 # from django_admin_listfilter_dropdown.filters import DropdownFilter
 
-import csv
-from django.http import HttpResponse
-
-from .models import Shop, Invoice, Order, OrderItem, PricingPlan, Product
 
 logger = logging.getLogger(__name__)
 
@@ -21,13 +17,13 @@ class CoreAdmin(AdminSite):
     """Django Admin customizations"""
 
     # Text to put at the end of each page's <title>.
-    site_title = _("Egypt Shops Dashboard")
+    site_title = _("Egypt Shops")
 
     # Text to put in each page's <h1> (and above login form).
-    site_header = _("Egypt Shops Dashboard")
+    site_header = _("Egypt Shops")
 
     # Text to put at the top of the admin index page.
-    index_title = _("Egypt Shops Dashboard")
+    index_title = _("Dashboard")
 
     def get_urls(self):
         """Customize returned URLs"""
@@ -153,79 +149,3 @@ class CustomModelAdmin(CustomPermissionsMixin, admin.ModelAdmin):
 #                     .order_by(field.name)
 #                     .values_list(field.name, flat=True)
 #                 )
-
-
-@admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    model = Product
-    list_display = ("id", "added_by", "name", "price", "stock", "shop")
-    list_display_links = ("id", "name")
-    list_filter = ("price",)
-    search_fields = ("name",)
-    ordering = ("-id",)
-
-    def export_as_csv(self, request, queryset):
-        meta = self.model._meta
-        field_names = [field.name for field in meta.fields]
-
-        response = HttpResponse(content_type="text/csv")
-        response["Content-Disposition"] = f"attachment; filename={meta}.csv"
-        writer = csv.writer(response)
-
-        writer.writerow(field_names)
-        for obj in queryset:
-            writer.writerow([getattr(obj, field) for field in field_names])
-
-        return response
-
-    actions = ["export_as_csv"]
-    export_as_csv.short_description = "Export selected products"
-
-
-class ProductInline(admin.TabularInline):
-    model = Product
-    extra = 3
-    list_display = ("id", "added_by", "name", "price", "stock", "shop")
-    list_display_links = ("id", "name")
-    list_filter = ("price",)
-    search_fields = ("name",)
-    ordering = ("-id",)
-
-
-class PricingPlanInline(admin.TabularInline):
-    model = PricingPlan
-    extra = 1
-    max_num = 1
-
-
-@admin.register(Shop)
-class ShopAdmin(admin.ModelAdmin):
-    inlines = (ProductInline, PricingPlanInline)
-    list_display = ("id", "mobile", "name", "dashboard_modules")
-    list_editable = ("name",)
-    list_display_links = ("id", "mobile")
-    search_fields = ("name", "mobile")
-    ordering = ("-id",)
-
-
-@admin.register(Invoice)
-class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ("id", "user")
-    list_display_links = ("user",)
-    list_filter = ("user",)
-    search_fields = ("user",)
-    ordering = ("-id",)
-
-
-class OrderItemInline(admin.TabularInline):
-    model = OrderItem
-    extra = 2
-
-
-@admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    inlines = (OrderItemInline,)
-    list_display = ("id", "user", "shop")
-    list_display_links = ("id", "user")
-    search_fields = ("user__name", "user__mobile", "shop__name", "shop__mobile")
-    ordering = ("-id",)

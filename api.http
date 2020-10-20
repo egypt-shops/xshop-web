@@ -18,4 +18,27 @@ content-type: {{contentType}}
 }
 
 ### ProductsApi
-# Authorization: Token {{token}}
+### list
+GET http://{{host}}/api/products/
+content-type: {{contentType}}
+
+### create
+POST http://{{host}}/api/products/
+content-type: {{contentType}}
+
+{
+    "name": "new product name",
+    "stock": 123
+}
+
+### detail
+GET http://{{host}}/api/products/1/
+content-type: {{contentType}}
+
+### patch
+PATCH http://{{host}}/api/products/1/
+content-type: {{contentType}}
+
+{
+    "name":"another product name"
+}
