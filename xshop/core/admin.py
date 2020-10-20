@@ -1,18 +1,34 @@
 from django.contrib import admin
-
+import csv
+from django.http import HttpResponse
 
 from .models import Shop, Invoice, Order, OrderItem, PricingPlan, Product
 
 
-class ProductInline(admin.TabularInline):
+class ProductAdmin(admin.ModelAdmin):
     model = Product
-    extra = 1
-
-    list_display = ("id", "added_by", "name", "price", "stock")
+    list_display = ("id", "added_by", "name", "price", "stock", "shop")
     list_display_links = ("name",)
-    list_filter = "price"
-    search_fields = "name"
+    list_filter = ("price",)
+    search_fields = ("name",)
     ordering = ("-id",)
+
+    def export_as_csv(self, request, queryset):
+        meta = self.model._meta
+        field_names = [field.name for field in meta.fields]
+
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = "attachment; filename={}.csv".format(meta)
+        writer = csv.writer(response)
+
+        writer.writerow(field_names)
+        for obj in queryset:
+            writer.writerow([getattr(obj, field) for field in field_names])
+
+        return response
+
+    actions = ["export_as_csv"]
+    export_as_csv.short_description = "Export selected products"
 
 
 class PricingPlanInline(admin.TabularInline):
@@ -29,7 +45,9 @@ class PricingPlanInline(admin.TabularInline):
 
 class ShopAdmin(admin.ModelAdmin):
     model = Shop
-    inlines = [ProductInline, PricingPlanInline]
+    inlines = [
+        PricingPlanInline,
+    ]
     list_display = ("id", "mobile", "name", "dashboard_modules")
     list_display_links = ("name",)
     list_filter = ("name",)
@@ -78,3 +96,4 @@ class Orderadmin(admin.ModelAdmin):
 admin.site.register(Shop, ShopAdmin)
 admin.site.register(Order, Orderadmin)
 admin.site.register(Invoice, InvoiceAdmin)
+admin.site.register(Product, ProductAdmin)
