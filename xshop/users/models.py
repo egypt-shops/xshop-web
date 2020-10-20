@@ -6,15 +6,13 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.dispatch import receiver
 
+from rest_framework.authtoken.models import Token
 from phonenumber_field.modelfields import PhoneNumberField
 from model_utils.models import TimeStampedModel
 from multiselectfield import MultiSelectField
-from rest_framework.authtoken.models import Token
 
 
-# =========================================== Model Managers
-
-
+# =========================================== User ModelManager
 class UserManager(BaseUserManager):
     """
     User model manager where mobile is the unique identifiers
@@ -23,7 +21,7 @@ class UserManager(BaseUserManager):
 
     def create_user(self, mobile, password, **extra_fields):
         """
-        Create and save a User with the given email and password.
+        Create and save a User with the given mobile and password.
         """
         user = self.model(mobile=mobile, **extra_fields)
         user.set_password(password)
@@ -33,7 +31,7 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, mobile, password, **extra_fields):
         """
-        Create and save a SuperUser with the given email and password.
+        Create and save a SuperUser with the given mobile and password.
         """
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
@@ -46,54 +44,7 @@ class UserManager(BaseUserManager):
         return self.create_user(mobile, password, **extra_fields)
 
 
-class CustomerManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.CUSTOMER)
-
-    def create(self, **kwargs):
-        kwargs.update({"type": User.Types.CUSTOMER})
-        return super().create(**kwargs)
-
-
-class CashierManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.CASHIER)
-
-    def create(self, **kwargs):
-        kwargs.update({"type": User.Types.CASHIER})
-        return super().create(**kwargs)
-
-
-class DataEntryClerkManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.DATA_ENTRY_CLERK)
-
-    def create(self, **kwargs):
-        kwargs.update({"type": User.Types.DATA_ENTRY_CLERK})
-        return super().create(**kwargs)
-
-
-class SubManagerManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.SUB_MANAGER)
-
-    def create(self, **kwargs):
-        kwargs.update({"type": User.Types.SUB_MANAGER})
-        return super().create(**kwargs)
-
-
-class ManagerManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(type=User.Types.MANAGER)
-
-    def create(self, **kwargs):
-        kwargs.update({"type": User.Types.MANAGER})
-        return super().create(**kwargs)
-
-
-# =========================================== Models
-
-
+# =========================================== User Model
 class User(AbstractUser, TimeStampedModel):
     class Types(models.TextChoices):
         """User types in our system"""
@@ -125,6 +76,14 @@ class User(AbstractUser, TimeStampedModel):
 
     objects = UserManager()
 
+    def __str__(self) -> str:
+        return self.mobile.as_national.replace(" ", "")
+
+    def __repr__(self) -> str:
+        if self.name:
+            return f"<User {self.id}: {str(self)} - {self.name}>"
+        return f"<User {self.id}: {str(self)}>"
+
     def get_full_name(self) -> str:
         return self.name
 
@@ -134,21 +93,70 @@ class User(AbstractUser, TimeStampedModel):
             return name_list[0]
         return ""
 
-    def __str__(self) -> str:
-        return self.mobile.as_national.replace(" ", "")
+    # def has_module_permission(self) -> bool:
+    #     """Customize permission based on user's type"""
 
-    def __repr__(self) -> str:
-        if self.name:
-            return f"<User {self.id}: {str(self)} - {self.name}>"
-        return f"<User {self.id}: {str(self)}>"
+    # if self.type:
+    #     if self.type in ("MANAGER", "SUB_MANAGER"):
+    #         return
+    #     if self.type in ("CUSTOMER",):
+    #         return False
 
 
+# Create auth_token upon user creation
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
 
 
+# =========================================== Other Users ModelManagers
+class CustomerManager(UserManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(type=[User.Types.CUSTOMER])
+
+    def create(self, **kwargs):
+        kwargs.update({"type": [User.Types.CUSTOMER]})
+        return super().create(**kwargs)
+
+
+class CashierManager(UserManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(type=[User.Types.CASHIER])
+
+    def create(self, **kwargs):
+        kwargs.update({"type": [User.Types.CASHIER]})
+        return super().create(**kwargs)
+
+
+class DataEntryClerkManager(UserManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(type=[User.Types.DATA_ENTRY_CLERK])
+
+    def create(self, **kwargs):
+        kwargs.update({"type": [User.Types.DATA_ENTRY_CLERK]})
+        return super().create(**kwargs)
+
+
+class SubManagerManager(UserManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(type=[User.Types.SUB_MANAGER])
+
+    def create(self, **kwargs):
+        kwargs.update({"type": [User.Types.SUB_MANAGER]})
+        return super().create(**kwargs)
+
+
+class ManagerManager(UserManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(type=[User.Types.MANAGER])
+
+    def create(self, **kwargs):
+        kwargs.update({"type": [User.Types.MANAGER]})
+        return super().create(**kwargs)
+
+
+# =========================================== Other Users Models
 class Customer(User):
     class Meta:
         proxy = True

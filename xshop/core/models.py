@@ -47,6 +47,7 @@ class Order(TimeStampedModel):
         "users.User", on_delete=models.SET_NULL, null=True, blank=True
     )
     shop = models.ForeignKey(Shop, on_delete=models.SET_NULL, null=True, blank=True)
+    paid = models.BooleanField(default=False)
 
 
 class OrderItem(TimeStampedModel):

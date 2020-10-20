@@ -1,5 +1,6 @@
 from django.test import TestCase, Client, tag
 from django.urls import reverse
+from rest_framework import status
 
 
 @tag("homeview")
@@ -11,7 +12,7 @@ class HomeTests(TestCase):
     def test_home_uses_desired_template(self):
         resp = self.client.get(self.url)
 
-        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertTemplateUsed(resp, "pages/home.html")
 
 
@@ -23,5 +24,5 @@ class LoginTests(TestCase):
     def test_login_uses_desired_template(self):
         resp = self.client.get(self.url)
 
-        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertTemplateUsed(resp, "registration/login.html")

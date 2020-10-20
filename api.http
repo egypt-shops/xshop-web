@@ -1,0 +1,21 @@
+### API documentation
+
+### Variables
+@hostname = localhost
+@port = 8062
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+@token = "fa1946adfc17ec40a70c16e1d7a410cc9d016f9b"
+
+### TokenApi
+POST http://{{host}}/api/users/token/ HTTP/1.1
+content-type: {{contentType}}
+
+
+{
+    "mobile": "01010092181",
+    "password": "Awesome1"
+}
+
+### ProductsApi
+# Authorization: Token {{token}}

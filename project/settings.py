@@ -73,6 +73,8 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ]
 }
@@ -207,6 +209,9 @@ CURRENCY_CHOICES = [
 DEFAULT_CURRENCY = "EGP"
 CURRENCY_DECIMAL_PLACES = 2
 
+# All URLs end with '/'
+APPEND_SLASH = True
+
 # django admin customization with jazzmin
 JAZZMIN_SETTINGS = {
     # title of the window
@@ -280,8 +285,8 @@ JAZZMIN_SETTINGS = {
     # Custom icons for side menu apps/models See https://www.fontawesomecheatsheet.com/font-awesome-cheatsheet-5x/
     # for a list of icon classes
     "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
+        "users": "fas fa-users-cog",
+        "users.user": "fas fa-user",
         "auth.Group": "fas fa-users",
     },
     # Icons that are used when one is not manually specified
@@ -307,8 +312,8 @@ JAZZMIN_SETTINGS = {
     "changeform_format": "horizontal_tabs",
     # override change forms on a per modeladmin basis
     "changeform_format_overrides": {
-        "users.User": "collapsible",
-        "auth.group": "vertical_tabs",
+        "users.User": "single",
+        # "auth.group": "vertical_tabs",
     },
     # Add a language dropdown into the admin
     "language_chooser": False,
