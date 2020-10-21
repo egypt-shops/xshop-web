@@ -1,4 +1,153 @@
 {% extends "admin/base_site.html" %} 
+
+{% block extrahead %}
+    <style>
+        div.breadcrumbs {
+            background: #accbdb;
+            padding: 10px 40px;
+            border: none;
+            font-size: 14px;
+            color: #c4dce8;
+            text-align: left;
+        }
+
+        div.breadcrumbs a {
+            color: #fff;
+        }
+
+        div.breadcrumbs a:focus, div.breadcrumbs a:hover {
+            color: #c4dce8;
+        }
+
+        ul li {
+            list-style-type: square;
+            padding: 1px 0;
+        }
+
+        li, dt, dd {
+            font-size: 13px;
+            line-height: 20px;
+        }
+
+        h1,h2,h3,h4,h5 {
+            font-weight: bold;
+        }
+
+        h1 {
+            margin: 0 0 20px;
+            font-weight: 300;
+            font-size: 20px;
+            color: #666;
+        }
+
+        p, ol, ul, dl {
+            margin: .2em 0 .8em 0;
+        }
+
+        p {
+            padding: 0;
+            line-height: 140%;
+        }
+
+
+        .object-tools {
+            font-size: 10px;
+            font-weight: bold;
+            padding-left: 0;
+            float: right;
+            position: relative;
+            margin-top: -48px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+            color: #333;
+            background: #fff;
+        }
+
+        /* TABLES */
+
+        table {
+            border-collapse: collapse;
+            border-color: #ccc;
+        }
+
+        td, th {
+            font-size: 13px;
+            line-height: 16px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+            padding: 8px;
+            font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+        }
+
+        th {
+            font-weight: 600;
+            text-align: left;
+        }
+
+        thead th,
+        tfoot td {
+            color: #666;
+            padding: 5px 10px;
+            font-size: 11px;
+            background: #fff;
+            border: none;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        thead th.required {
+            color: #000;
+        }
+
+        tr.alt {
+            background: #f6f6f6;
+        }
+
+        .row1 {
+            background: #fff;
+        }
+
+        .row2 {
+            background: #f9f9f9;
+        }
+
+        /* MODULES */
+
+        .module {
+            border: none;
+            margin-bottom: 30px;
+            background: #fff;
+        }
+
+        .module p, .module ul, .module h3, .module h4, .module dl, .module pre {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .module h2, .module caption, .inline-group h2 {
+            margin: 0;
+            padding: 8px;
+            font-weight: 400;
+            font-size: 13px;
+            text-align: left;
+            background: #accbdb;
+            color: #fff;
+        }
+
+        .module table {
+            border-collapse: collapse;
+        }
+
+        
+
+    </style>
+{% endblock %}
+
 {% block title %}   
     Invoice {{ invoice.id }} {{ block.super }} 
 {% endblock %} 
@@ -45,10 +194,6 @@
                         <td class="num">${{ item.total_price }}</td>
                     </tr>
                 {% endfor %}       
-                <!-- <tr class="total">         
-                    <td colspan="3">Total</td>         
-                    <td class="num">${{ order.get_total_cost }}</td>       
-                </tr>      -->
             </tbody>   
         </table> 
     </div>
