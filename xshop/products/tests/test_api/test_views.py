@@ -1,8 +1,8 @@
-from django.urls import reverse
-from rest_framework.test import APITestCase, APIClient
-from rest_framework import status
-from model_bakery import baker
 from django.contrib.auth import get_user_model
+from django.urls import reverse
+from model_bakery import baker
+from rest_framework import status
+from rest_framework.test import APIClient, APITestCase
 
 from xshop.products.models import Product
 

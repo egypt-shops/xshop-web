@@ -1,8 +1,7 @@
 from django.db import models
-
-from model_utils.models import TimeStampedModel
-from djmoney.money import Money
 from djmoney.models.fields import MoneyField
+from djmoney.money import Money
+from model_utils.models import TimeStampedModel
 
 
 class Product(TimeStampedModel):

@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.db import models
-
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 from model_utils.models import TimeStampedModel

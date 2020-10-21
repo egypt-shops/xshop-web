@@ -1,11 +1,12 @@
 import logging
 
-# from collections import OrderedDict
-
 # from django.urls import path
 from django.contrib import admin
 from django.contrib.admin import AdminSite
 from django.utils.translation import ugettext_lazy as _
+
+# from collections import OrderedDict
+
 
 # from django_admin_listfilter_dropdown.filters import DropdownFilter
 

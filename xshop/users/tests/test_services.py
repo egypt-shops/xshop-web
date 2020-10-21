@@ -1,14 +1,14 @@
 from django.test import TestCase
 
+from ..models import User
 from ..services import (
-    user_create,
-    customer_create,
     cashier_create,
+    customer_create,
     data_entry_create,
     manager_create,
     sub_manager_create,
+    user_create,
 )
-from ..models import User
 
 
 class user_create_test(TestCase):

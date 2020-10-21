@@ -1,7 +1,7 @@
 from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APITestCase, APIClient
 from model_bakery import baker
+from rest_framework import status
+from rest_framework.test import APIClient, APITestCase
 
 from xshop.users.models import User
 

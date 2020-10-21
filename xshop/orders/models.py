@@ -1,6 +1,5 @@
-from django.db import models
 from django.core.validators import MinValueValidator
-
+from django.db import models
 from model_utils.models import TimeStampedModel
 
 

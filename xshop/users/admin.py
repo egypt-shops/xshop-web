@@ -2,17 +2,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as OriginalUserAdmin
 from django.contrib.auth.models import Group
 
-# from rest_framework.authtoken.models import Token, TokenProxy
+from .forms import UserChangeForm, UserCreationForm
+from .models import Cashier, Customer, DataEntryClerk, Manager, SubManager, User
 
-from .forms import UserCreationForm, UserChangeForm
-from .models import (
-    User,
-    Customer,
-    Cashier,
-    DataEntryClerk,
-    Manager,
-    SubManager,
-)
+# from rest_framework.authtoken.models import Token, TokenProxy
 
 
 # class TokenAdminInline(admin.StackedInline):

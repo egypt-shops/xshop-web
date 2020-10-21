@@ -1,6 +1,6 @@
 from typing import Optional
 
-from .models import User, Customer, Cashier, Manager, DataEntryClerk, SubManager
+from .models import Cashier, Customer, DataEntryClerk, Manager, SubManager, User
 
 
 def user_create(

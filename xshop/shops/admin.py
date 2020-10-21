@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 from xshop.products.admin import ProductInline
-from .models import Shop, PricingPlan
+
+from .models import PricingPlan, Shop
 
 
 class PricingPlanInline(admin.TabularInline):

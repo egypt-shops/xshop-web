@@ -1,6 +1,6 @@
-from django.test import TestCase, tag
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from django.test import TestCase, tag
 
 from xshop.users.models import Cashier, Customer, DataEntryClerk, Manager, SubManager
 
