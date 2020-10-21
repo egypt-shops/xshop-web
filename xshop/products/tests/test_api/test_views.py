@@ -19,7 +19,6 @@ class ProductApiTests(APITestCase):
         self.user = baker.make(User, mobile="01010092181", name="Ahmed Loay Shahwan",)
         self.shop1 = baker.make(Shop, mobile=self.user.mobile, name="shop1")
         self.shop2 = baker.make(Shop, mobile=self.user.mobile, name="shop2")
-        self.user.save()
         self.product1 = baker.make(
             Product,
             name="Prod1",
@@ -36,8 +35,6 @@ class ProductApiTests(APITestCase):
             added_by=self.user,
             shop=self.shop1,
         )
-        self.product1.save()
-        self.product2.save()
         self.client = APIClient()
         self.list_create_url = reverse("products_api:product_list_create")
 
