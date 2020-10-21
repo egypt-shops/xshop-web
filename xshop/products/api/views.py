@@ -9,8 +9,16 @@ from .serializers import ProductSerializer
 class ProductListCreateApi(APIView):
     serializer_class = ProductSerializer
 
+    def get_queryset(self):
+        query_set = Product.objects.prefetch_related("shop").all()
+        shop_id = self.request.query_params.get("shop_id", None)
+
+        if shop_id is not None:
+            query_set = query_set.filter(shop=shop_id)
+        return query_set
+
     def get(self, request):
-        products = Product.objects.all()
+        products = self.get_queryset()
 
         serializer = self.serializer_class(products, many=True)
         return Response(serializer.data)
