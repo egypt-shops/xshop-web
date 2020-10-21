@@ -10,6 +10,6 @@ def admin_invoice_detail(request, invoice_id):
     order_items = OrderItem.objects.filter(order=invoice.order)
     return render(
         request,
-        "admin/invoices/invoice/detail.html",
+        "invoices/admin/invoice/detail.html",
         {"invoice": invoice, "order_items": order_items},
     )
