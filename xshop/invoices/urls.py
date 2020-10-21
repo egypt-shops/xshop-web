@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import admin_invoice_detail
 
-app_name = "core"
+app_name = "invoices"
 
 
 urlpatterns = [
