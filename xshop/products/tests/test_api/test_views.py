@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.test import tag
 from django.urls import reverse
 from model_bakery import baker
 from rest_framework import status
@@ -10,6 +11,7 @@ from xshop.shops.models import Shop
 User = get_user_model()
 
 
+@tag("productapi")
 class ProductApiTests(APITestCase):
     # utils
     def detail_patch_url(self, product_id):
@@ -40,6 +42,7 @@ class ProductApiTests(APITestCase):
 
     def test_get_all_products(self):
         resp = self.client.get(self.list_create_url)
+
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(len(resp.data), 2)
 
