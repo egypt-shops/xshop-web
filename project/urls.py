@@ -34,6 +34,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("users/", include("xshop.users.urls", namespace="users")),
     path("users/", include("django.contrib.auth.urls")),
+    path("invoices/", include("xshop.invoices.urls", namespace="invoices")),
     path("core/", include("xshop.core.urls", namespace="core")),
     path("api/", include(api_urlpatterns)),  # API urls from above
     path("", include("xshop.pages.urls", namespace="pages")),

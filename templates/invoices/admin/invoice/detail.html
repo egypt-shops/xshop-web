@@ -1,0 +1,180 @@
+{% extends "admin/base_site.html" %} 
+
+{% block extrahead %}
+    <style>
+        div.breadcrumbs {
+            background: #04151dc5;
+            padding: 10px 40px;
+            border: none;
+            font-size: 14px;
+            color: #ffffffc9;
+            text-align: left;
+        }
+
+        div.breadcrumbs a {
+            color: #ffffffc9;
+        }
+
+        div.breadcrumbs a:focus, div.breadcrumbs a:hover {
+            color: #ffffffc9;
+        }
+
+        ul li {
+            list-style-type: square;
+            padding: 1px 0;
+            
+        }
+
+        li{
+            font-size: 13px;
+            line-height: 20px;
+        }
+
+        h1,h2 {
+            font-weight: bold;
+        }
+
+        h1 {
+            margin: 0 0 20px;
+            font-weight: 300;
+            font-size: 20px;
+            color: #666;
+        }
+
+        ul {
+            margin: .2em 0 .8em 0;
+        }
+
+        .object-tools {
+            font-size: 10px;
+            font-weight: bold;
+            padding-left: 0;
+            float: right;
+            position: relative;
+            margin-top: -48px;
+            
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+            color: #333;
+            background: #fff;
+        }
+
+        /* TABLES */
+
+        table {
+            border-collapse: collapse;
+            border-color: #ccc;
+        }
+
+        td, th {
+            font-size: 13px;
+            line-height: 16px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+            padding: 8px;
+            font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+        }
+
+        th {
+            font-weight: 600;
+            text-align: left;
+        }
+
+        thead th {
+            color: #666;
+            padding: 5px 10px;
+            font-size: 11px;
+            background: #fff;
+            border: none;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .row1 {
+            background: #fff;
+        }
+
+        .row2 {
+            background: #f9f9f9;
+        }
+
+        /* MODULES */
+
+        .module {
+            border: none;
+            margin-bottom: 30px;
+            background: #fff;
+        }
+
+        .module h2 {
+            margin: 0;
+            padding: 8px;
+            font-weight: 400;
+            font-size: 13px;
+            text-align: left;
+            background: #04151dc5;
+            color: #fff;
+        }
+
+        .module table {
+            border-collapse: collapse;
+        }
+
+    </style>
+{% endblock %}
+
+{% block title %}   
+    Invoice {{ invoice.id }} {{ block.super }} 
+{% endblock %} 
+
+{% block breadcrumbs %}   
+    <div class="breadcrumbs">     
+        <a href="{% url 'admin:index' %}" style="color: rgb(245, 241, 241)">Home</a> &rsaquo;     
+    </div> 
+{% endblock %} 
+{% block content %} 
+    <h1>Invoice {{ invoice.id }}</h1> 
+    <ul class="object-tools">   
+        <li>     
+            <a href="#" onclick='window.print();'>Print order</a>   
+        </li> 
+    </ul> 
+    <table>   
+        <tr>     
+            <th>Order</th>     
+            <td>{{ invoice.order }}</td>   
+        </tr>   
+        <tr>
+            <th>Customer</th>     
+            <td>{{ invoice.user }}</td>   
+        </tr>
+    </table> 
+    <div class="module">   
+        <h2>Items bought</h2>   
+        <table style="width:100%">     
+            <thead>       
+                <tr>         
+                    <th>Product</th>         
+                    <th>Price</th>         
+                    <th>Quantity</th>         
+                    <th>Total</th>       
+                </tr>     
+            </thead>     
+            <tbody>       
+                {% for item in order_items.all %}         
+                    <tr class="row{% cycle '1' '2' %}">           
+                        <td>{{ item.product.name }}</td>           
+                        <td class="num">${{ item.product.price }}</td>           
+                        <td class="num">{{ item.quantity }}</td>           
+                        <td class="num">${{ item.total_price }}</td>
+                    </tr>
+                {% endfor %}       
+            </tbody>   
+        </table> 
+    </div>
+{% endblock %}
