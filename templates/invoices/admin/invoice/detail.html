@@ -3,33 +3,34 @@
 {% block extrahead %}
     <style>
         div.breadcrumbs {
-            background: #accbdb;
+            background: #04151dc5;
             padding: 10px 40px;
             border: none;
             font-size: 14px;
-            color: #c4dce8;
+            color: #ffffffc9;
             text-align: left;
         }
 
         div.breadcrumbs a {
-            color: #fff;
+            color: #ffffffc9;
         }
 
         div.breadcrumbs a:focus, div.breadcrumbs a:hover {
-            color: #c4dce8;
+            color: #ffffffc9;
         }
 
         ul li {
             list-style-type: square;
             padding: 1px 0;
+            
         }
 
-        li, dt, dd {
+        li{
             font-size: 13px;
             line-height: 20px;
         }
 
-        h1,h2,h3,h4,h5 {
+        h1,h2 {
             font-weight: bold;
         }
 
@@ -40,15 +41,9 @@
             color: #666;
         }
 
-        p, ol, ul, dl {
+        ul {
             margin: .2em 0 .8em 0;
         }
-
-        p {
-            padding: 0;
-            line-height: 140%;
-        }
-
 
         .object-tools {
             font-size: 10px;
@@ -57,6 +52,7 @@
             float: right;
             position: relative;
             margin-top: -48px;
+            
         }
 
         body {
@@ -89,8 +85,7 @@
             text-align: left;
         }
 
-        thead th,
-        tfoot td {
+        thead th {
             color: #666;
             padding: 5px 10px;
             font-size: 11px;
@@ -98,14 +93,6 @@
             border: none;
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
-        }
-
-        thead th.required {
-            color: #000;
-        }
-
-        tr.alt {
-            background: #f6f6f6;
         }
 
         .row1 {
@@ -124,26 +111,19 @@
             background: #fff;
         }
 
-        .module p, .module ul, .module h3, .module h4, .module dl, .module pre {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        .module h2, .module caption, .inline-group h2 {
+        .module h2 {
             margin: 0;
             padding: 8px;
             font-weight: 400;
             font-size: 13px;
             text-align: left;
-            background: #accbdb;
+            background: #04151dc5;
             color: #fff;
         }
 
         .module table {
             border-collapse: collapse;
         }
-
-        
 
     </style>
 {% endblock %}
@@ -154,7 +134,7 @@
 
 {% block breadcrumbs %}   
     <div class="breadcrumbs">     
-        <a href="{% url 'admin:index' %}">Home</a> &rsaquo;     
+        <a href="{% url 'admin:index' %}" style="color: rgb(245, 241, 241)">Home</a> &rsaquo;     
     </div> 
 {% endblock %} 
 {% block content %} 

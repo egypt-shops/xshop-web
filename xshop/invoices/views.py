@@ -4,6 +4,7 @@ from .models import Invoice
 from ..orders.models import OrderItem
 
 
+# Custom administrarion
 @staff_member_required
 def admin_invoice_detail(request, invoice_id):
     invoice = get_object_or_404(Invoice, id=invoice_id)
