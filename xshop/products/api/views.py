@@ -1,6 +1,8 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from drf_yasg2.utils import swagger_auto_schema
+
 
 from ..models import Product
 from .serializers import ProductSerializer
@@ -17,12 +19,20 @@ class ProductListCreateApi(APIView):
             query_set = query_set.filter(shop=shop_id)
         return query_set
 
+    @swagger_auto_schema(
+        operation_description="List all products in specific shop",
+        responses={200: "List of products"},
+    )
     def get(self, request):
         products = self.get_queryset()
 
         serializer = self.serializer_class(products, many=True)
         return Response(serializer.data)
 
+    @swagger_auto_schema(
+        operation_description="Post new product in specific shop",
+        request_body=ProductSerializer,
+    )
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -33,6 +43,10 @@ class ProductListCreateApi(APIView):
 class ProductDetailPatchApi(APIView):
     serializer_class = ProductSerializer
 
+    @swagger_auto_schema(
+        operation_description="List product's info",
+        responses={200: "Product's data", 400: "Product not found"},
+    )
     def get(self, request, product_id):
         try:
             product = Product.objects.get(id=product_id)
@@ -42,6 +56,11 @@ class ProductDetailPatchApi(APIView):
         except Product.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+    @swagger_auto_schema(
+        operation_description="Patch existing product in specific shop",
+        request_body=ProductSerializer,
+        responses={400: "Product not found"},
+    )
     def patch(self, request, product_id):
         try:
             product = Product.objects.get(id=product_id)

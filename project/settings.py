@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "multiselectfield",
     "crispy_forms",
     "djmoney",
+    "drf_yasg2",
     # Local
     "xshop.users.apps.UsersConfig",
     "xshop.pages.apps.PagesConfig",
