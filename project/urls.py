@@ -27,6 +27,7 @@ api_urlpatterns = [
     path("users/", include("xshop.users.api.urls", namespace="users_api")),
     path("products/", include("xshop.products.api.urls", namespace="products_api")),
     path("invoices/", include("xshop.invoices.api.urls", namespace="invoices_api")),
+    path("shops/", include("xshop.shops.api.urls", namespace="shops_api")),
     path("", include("xshop.pages.api.urls", namespace="pages_api")),
 ]
 
@@ -34,6 +35,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("users/", include("xshop.users.urls", namespace="users")),
     path("users/", include("django.contrib.auth.urls")),
+    path("invoices/", include("xshop.invoices.urls", namespace="invoices")),
     path("core/", include("xshop.core.urls", namespace="core")),
     path("api/", include(api_urlpatterns)),  # API urls from above
     path("", include("xshop.pages.urls", namespace="pages")),
@@ -46,6 +48,6 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Admin Site texts
-admin.site.site_header = "Egypt Shops administration"
-admin.site.site_title = "Egypt Shops Admin Portal"
-admin.site.index_title = "Egypt Shops administration"
+admin.site.site_header = "Egypt Shops"
+admin.site.site_title = "Egypt Shops"
+admin.site.index_title = "Egypt Shops"
