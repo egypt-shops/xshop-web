@@ -12,7 +12,9 @@ def invoice_detail(obj):
 def invoice_pdf(obj):
     url = reverse("invoices:admin_invoice_pdf", args=[obj.id])
     return mark_safe(f'<a href="{url}">PDF</a>')
-invoice_pdf.short_discription = 'Invoice'
+
+
+invoice_pdf.short_discription = "Invoice"
 
 
 @admin.register(Invoice)

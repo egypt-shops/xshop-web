@@ -14,5 +14,5 @@ urlpatterns = [
         "admin/invoices/<int:invoice_id>/pdf/",
         admin_invoice_pdf,
         name="admin_invoice_pdf",
-    )
+    ),
 ]
