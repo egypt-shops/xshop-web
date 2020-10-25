@@ -2,10 +2,18 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from drf_yasg2.utils import swagger_auto_schema
-
+from drf_yasg2 import openapi
 
 from ..models import Product
 from .serializers import ProductSerializer
+
+# query parameter used to filter shops by id to return list per shop
+shop_id = openapi.Parameter(
+    "shop_id",
+    openapi.IN_QUERY,
+    description="Shop's identification number",
+    type=openapi.TYPE_INTEGER,
+)
 
 
 class ProductListCreateApi(APIView):
@@ -21,6 +29,7 @@ class ProductListCreateApi(APIView):
 
     @swagger_auto_schema(
         operation_description="List all products in specific shop",
+        manual_parameters=[shop_id],
         responses={200: "List of products"},
     )
     def get(self, request):
