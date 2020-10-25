@@ -9,9 +9,15 @@ def invoice_detail(obj):
     return mark_safe(f'<a href="{url}">View</a>')
 
 
+def invoice_pdf(obj):
+    url = reverse("invoices:admin_invoice_pdf", args=[obj.id])
+    return mark_safe(f'<a href="{url}">PDF</a>')
+invoice_pdf.short_discription = 'Invoice'
+
+
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", invoice_detail)
+    list_display = ("id", "user", invoice_detail, invoice_pdf)
     list_display_links = ("user",)
     list_filter = ("user",)
     search_fields = ("user",)
