@@ -29,7 +29,7 @@ class TokenApiSerializer(serializers.Serializer):
         return attrs
 
 
-class UserSerializer(serializers.Serializer):
+class TokenUserSerializer(serializers.Serializer):
     mobile = serializers.CharField()
     email = serializers.CharField()
     type = serializers.ListField()
@@ -37,4 +37,4 @@ class UserSerializer(serializers.Serializer):
 
 class TokenResponseSerializer(serializers.Serializer):
     token = serializers.CharField()
-    user = UserSerializer()
+    user = TokenUserSerializer()
