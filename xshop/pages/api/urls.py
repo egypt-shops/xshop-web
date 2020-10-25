@@ -1,17 +1,21 @@
 from django.urls import path
-from rest_framework.schemas import get_schema_view
-
-from .views import SwaggerUi
+from drf_yasg2.views import get_schema_view
+from drf_yasg2 import openapi
 
 app_name = "pages_api"
 
 schema_view = get_schema_view(
-    title="XShop Web API",
-    description="API for XShop web to be integrated with mobile application and website",
-    version="1.0.0",
+    openapi.Info(
+        title="XShop Web API",
+        default_version="v1",
+        description="API for XShop web to be integrated with mobile application and website",
+    ),
 )
 
 urlpatterns = [
-    path("schema/", schema_view, name="schema"),
-    path("swagger/", SwaggerUi.as_view(), name="swagger"),
+    path(
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
 ]
