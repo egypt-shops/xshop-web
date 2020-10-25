@@ -30,7 +30,7 @@ class ProductListCreateApi(APIView):
         return Response(serializer.data)
 
     @swagger_auto_schema(
-        operation_description="Post new product in specific shop",
+        operation_description="Create new product in specific shop",
         request_body=ProductSerializer,
     )
     def post(self, request):
@@ -45,7 +45,7 @@ class ProductDetailPatchApi(APIView):
 
     @swagger_auto_schema(
         operation_description="List product's info",
-        responses={200: "Product's data", 400: "Product not found"},
+        responses={200: ProductSerializer, 400: "Product not found"},
     )
     def get(self, request, product_id):
         try:
@@ -59,7 +59,7 @@ class ProductDetailPatchApi(APIView):
     @swagger_auto_schema(
         operation_description="Patch existing product in specific shop",
         request_body=ProductSerializer,
-        responses={400: "Product not found"},
+        responses={404: "Product not found"},
     )
     def patch(self, request, product_id):
         try:

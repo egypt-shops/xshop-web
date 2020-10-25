@@ -12,7 +12,7 @@ class ShopListApi(APIView):
 
     @swagger_auto_schema(
         operation_description="List all shops that exists in the DB",
-        responses={200: "List of shops"},
+        responses={200: "[List of shops]"},
     )
     def get(self, request):
         shops = Shop.objects.all()
@@ -25,8 +25,8 @@ class ShopDetailApi(APIView):
     serializer_class = ShopSerializer
 
     @swagger_auto_schema(
-        operation_description="List specific shop's data",
-        responses={200: "Shop's data", 400: "Shop not found"},
+        operation_description="Get specific shop's data",
+        responses={200: ShopSerializer, 400: "Shop not found"},
     )
     def get(self, request, shop_id):
         try:
