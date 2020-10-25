@@ -26,7 +26,7 @@ class ShopDetailApi(APIView):
 
     @swagger_auto_schema(
         operation_description="Get specific shop's data",
-        responses={200: ShopSerializer, 400: "Shop not found"},
+        responses={200: ShopSerializer, 404: "Shop not found"},
     )
     def get(self, request, shop_id):
         try:

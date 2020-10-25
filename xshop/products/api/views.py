@@ -53,8 +53,8 @@ class ProductDetailPatchApi(APIView):
     serializer_class = ProductSerializer
 
     @swagger_auto_schema(
-        operation_description="List product's info",
-        responses={200: ProductSerializer, 400: "Product not found"},
+        operation_description="Get product's info",
+        responses={200: ProductSerializer, 404: "Product not found"},
     )
     def get(self, request, product_id):
         try:
