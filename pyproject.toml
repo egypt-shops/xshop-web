@@ -62,6 +62,8 @@ django-crispy-forms = "^1.9.2"
 django-admin-list-filter-dropdown = "^1.0.3"
 drf-yasg2 = "^1.19.3"
 WeasyPrint = "51"
+django-baton = "^1.12.1"
+pyOpenSSL = "^19.1.0"
 
 [tool.poetry.dev-dependencies]
 flake8-black = "^0.2.0"

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
+from baton.autodiscover import admin
 from django.urls import path, include
 
 
@@ -32,6 +32,7 @@ api_urlpatterns = [
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("baton/", include("baton.urls")),
     path("users/", include("xshop.users.urls", namespace="users")),
     path("users/", include("django.contrib.auth.urls")),
     path("invoices/", include("xshop.invoices.urls", namespace="invoices")),
