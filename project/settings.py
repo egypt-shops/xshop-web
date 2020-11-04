@@ -241,11 +241,23 @@ BATON = {
     "MENU_TITLE": "Menu",
     "GRAVATAR_DEFAULT_IMG": "retro",
     "MENU": (
-        {"type": "title", "label": "System", "apps": ("users",)},
+        {"type": "title", "label": "System", "apps": ("auth", "users")},
+        # {
+        #     "type": "app",
+        #     "name": "auth",
+        #     "label": "Authentication",
+        #     "icon": "fa fa-lock",
+        #     "models": (
+        #         # {"name": "user", "label": "Users"},
+        #         {"name": "group", "label": "Groups"},
+        #     ),
+        # },
         {"type": "model", "label": "Users", "name": "user", "app": "users"},
+        {"type": "model", "label": "Groups", "name": "group", "app": "auth"},
+        {"type": "title", "label": "Shop", "apps": ("shops", "users")},
         {
             "type": "free",
-            "label": "Shop",
+            "label": "Users",
             # "apps": ("users", "shops"),
             "default_open": False,
             "children": [

@@ -144,6 +144,3 @@ class SubManagerAdmin(CustomUserPermissionsMixin, UserAdmin):
 @admin.register(Manager)
 class ManagerAdmin(UserAdmin):
     readonly_fields = ("type",)
-
-
-admin.site.unregister(Group)
