@@ -1,6 +1,5 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as OriginalUserAdmin
-from django.contrib.auth.models import Group
+from django.contrib import auth
 
 from .forms import UserChangeForm, UserCreationForm
 from .models import Cashier, Customer, DataEntryClerk, Manager, SubManager, User
@@ -14,7 +13,7 @@ from .models import Cashier, Customer, DataEntryClerk, Manager, SubManager, User
 
 
 @admin.register(User)
-class UserAdmin(OriginalUserAdmin):
+class UserAdmin(auth.admin.UserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
 
@@ -144,6 +143,3 @@ class SubManagerAdmin(CustomUserPermissionsMixin, UserAdmin):
 @admin.register(Manager)
 class ManagerAdmin(UserAdmin):
     readonly_fields = ("type",)
-
-
-admin.site.unregister(Group)

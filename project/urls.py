@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
+from baton.autodiscover import admin
 from django.urls import path, include
 
 
@@ -32,6 +32,7 @@ api_urlpatterns = [
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("baton/", include("baton.urls")),
     path("users/", include("xshop.users.urls", namespace="users")),
     path("users/", include("django.contrib.auth.urls")),
     path("invoices/", include("xshop.invoices.urls", namespace="invoices")),
@@ -45,8 +46,3 @@ urlpatterns = [
 # media & static urls
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-# Admin Site texts
-admin.site.site_header = "Egypt Shops administration"
-admin.site.site_title = "Egypt Shops Admin Portal"
-admin.site.index_title = "Egypt Shops administration"
