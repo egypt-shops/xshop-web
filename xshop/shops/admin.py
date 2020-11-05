@@ -3,6 +3,7 @@ from django.contrib import admin
 from xshop.products.admin import ProductInline
 
 from .models import PricingPlan, Shop
+from ..users.mixins import ManagerFullPermissionMixin
 
 
 class PricingPlanInline(admin.TabularInline):
@@ -12,7 +13,7 @@ class PricingPlanInline(admin.TabularInline):
 
 
 @admin.register(Shop)
-class ShopAdmin(admin.ModelAdmin):
+class ShopAdmin(ManagerFullPermissionMixin, admin.ModelAdmin):
     inlines = (ProductInline, PricingPlanInline)
     list_display = ("id", "mobile", "name", "dashboard_modules")
     list_editable = ("name",)
