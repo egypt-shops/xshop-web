@@ -1,3 +1,48 @@
+[tool.poetry]
+name = "xshop-web"
+version = "0.1.0"
+description = "XShop's web-related functionality (Dashboard, API, etc...)"
+authors = ["Ahmed Shahwan <ahmed@shahwan.me>"]
+
+[tool.poetry.dependencies]
+python = "3.8.6"
+django = "^3.1"
+django-phonenumber-field = {extras = ["phonenumbers"], version = "^4.0.0"}
+model_bakery = "^1.1.1"
+django-model-utils = "^4.0.0"
+django-extensions = "^3.0.5"
+django-environ = "^0.4.5"
+psycopg2-binary = "^2.8.5"
+psycopg2 = "^2.8.5"
+gunicorn = "^20.0.4"
+whitenoise = "^5.2.0"
+sentry-sdk = "^0.17.3"
+django-multiselectfield = "^0.1.12"
+django-jazzmin = "^2.2.9"
+django-money = "^1.1"
+djangorestframework = "^3.12.1"
+PyYAML = "^5.3.1"
+uritemplate = "^3.0.1"
+Markdown = "^3.3"
+Pygments = "^2.7.1"
+django-filter = "^2.4.0"
+django-crispy-forms = "^1.9.2"
+django-admin-list-filter-dropdown = "^1.0.3"
+drf-yasg2 = "^1.19.3"
+WeasyPrint = "51"
+django-baton = "^1.12.1"
+pyOpenSSL = "^19.1.0"
+
+[tool.poetry.dev-dependencies]
+flake8-black = "^0.2.0"
+ipdb = "^0.13.3"
+docker-compose = "^1.27.4"
+flake9 = "^3.8.3"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
 [tool.black]
 line-length = 88
 target-version = ['py38']
@@ -59,50 +104,3 @@ exclude = '''
     .eggs,
     *.egg
 '''
-
-[tool.poetry]
-name = "xshop-web"
-version = "0.1.0"
-description = "XShop's web-related functionality (Dashboard, API, etc...)"
-authors = ["Ahmed Shahwan <ahmed@shahwan.me>"]
-
-[tool.poetry.dependencies]
-python = "3.8.6"
-django = "^3.1"
-django-phonenumber-field = {extras = ["phonenumbers"], version = "^4.0.0"}
-model_bakery = "^1.1.1"
-django-model-utils = "^4.0.0"
-django-extensions = "^3.0.5"
-django-environ = "^0.4.5"
-psycopg2-binary = "^2.8.5"
-psycopg2 = "^2.8.5"
-gunicorn = "^20.0.4"
-whitenoise = "^5.2.0"
-sentry-sdk = "^0.17.3"
-django-multiselectfield = "^0.1.12"
-django-jazzmin = "^2.2.9"
-django-money = "^1.1"
-djangorestframework = "^3.12.1"
-PyYAML = "^5.3.1"
-uritemplate = "^3.0.1"
-Markdown = "^3.3"
-Pygments = "^2.7.1"
-django-filter = "^2.4.0"
-django-crispy-forms = "^1.9.2"
-django-admin-list-filter-dropdown = "^1.0.3"
-drf-yasg2 = "^1.19.3"
-WeasyPrint = "51"
-django-baton = "^1.12.1"
-pyOpenSSL = "^19.1.0"
-
-[tool.poetry.dev-dependencies]
-flake8-black = "^0.2.0"
-flake8 = "^3.8.3"
-black = "^19.10b0"
-ipdb = "^0.13.3"
-docker-compose = "^1.27.4"
-
-[build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
-
