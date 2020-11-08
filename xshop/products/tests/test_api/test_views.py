@@ -1,14 +1,17 @@
 from django.contrib.auth import get_user_model
+from django.test import tag
 from django.urls import reverse
 from model_bakery import baker
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
 from xshop.products.models import Product
+from xshop.shops.models import Shop
 
 User = get_user_model()
 
 
+@tag("productapi")
 class ProductApiTests(APITestCase):
     # utils
     def detail_patch_url(self, product_id):
@@ -16,22 +19,62 @@ class ProductApiTests(APITestCase):
 
     def setUp(self) -> None:
         self.user = baker.make(User, mobile="01010092181", name="Ahmed Loay Shahwan",)
-        self.user.save()
+        self.shop1 = baker.make(Shop, mobile=self.user.mobile, name="shop1")
+        self.shop2 = baker.make(Shop, mobile=self.user.mobile, name="shop2")
         self.product1 = baker.make(
-            Product, name="Prod1", stock=15, price=12, added_by=self.user
+            Product,
+            name="Prod1",
+            stock=15,
+            price=12,
+            added_by=self.user,
+            shop=self.shop1,
         )
         self.product2 = baker.make(
-            Product, name="Prod2", stock=10, price=41, added_by=self.user
+            Product,
+            name="Prod2",
+            stock=10,
+            price=41,
+            added_by=self.user,
+            shop=self.shop1,
         )
-        self.product1.save()
-        self.product2.save()
         self.client = APIClient()
         self.list_create_url = reverse("products_api:product_list_create")
 
     def test_get_all_products(self):
         resp = self.client.get(self.list_create_url)
+
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(len(resp.data), 2)
+
+    def test_list_shop1_products(self):
+        url = "{url}?{filter}={value}".format(
+            url=reverse("products_api:product_list_create"),
+            filter="shop_id",
+            value=self.shop1.id,
+        )
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(resp.data), 2)
+
+    def test_list_shop2_products(self):
+        url = "{url}?{filter}={value}".format(
+            url=reverse("products_api:product_list_create"),
+            filter="shop_id",
+            value=self.shop2.id,
+        )
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(resp.data), 0)
+
+    def test_list_shop_ot_found_products(self):
+        url = "{url}?{filter}={value}".format(
+            url=reverse("products_api:product_list_create"),
+            filter="shop_id",
+            value=1105,
+        )
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(resp.data), 0)
 
     def test_create_valid_product_with_price(self):
         product = {
