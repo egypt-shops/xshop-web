@@ -28,6 +28,7 @@ api_urlpatterns = [
     path("products/", include("xshop.products.api.urls", namespace="products_api")),
     path("invoices/", include("xshop.invoices.api.urls", namespace="invoices_api")),
     path("shops/", include("xshop.shops.api.urls", namespace="shops_api")),
+    path("", include("xshop.pages.api.urls", namespace="pages_api")),
 ]
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -46,6 +47,6 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Admin Site texts
-admin.site.site_header = "Egypt Shops administration"
-admin.site.site_title = "Egypt Shops Admin Portal"
-admin.site.index_title = "Egypt Shops administration"
+admin.site.site_header = "Egypt Shops"
+admin.site.site_title = "Egypt Shops"
+admin.site.index_title = "Egypt Shops"
