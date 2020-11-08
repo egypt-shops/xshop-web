@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
 
+# import os
 import environ
 import sentry_sdk
 
@@ -48,8 +49,11 @@ ALLOWED_HOSTS = env(
 
 # Application definition
 
+# NOTE that Somtimes order matters
 INSTALLED_APPS = [
-    "jazzmin",
+    # Third party
+    "baton",
+    # Built-in
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -64,6 +68,7 @@ INSTALLED_APPS = [
     "multiselectfield",
     "crispy_forms",
     "djmoney",
+    "drf_yasg2",
     # Local
     "xshop.users.apps.UsersConfig",
     "xshop.pages.apps.PagesConfig",
@@ -72,6 +77,8 @@ INSTALLED_APPS = [
     "xshop.products.apps.ProductsConfig",
     "xshop.orders.apps.OrdersConfig",
     "xshop.invoices.apps.InvoicesConfig",
+    # Third party
+    "baton.autodiscover",
 ]
 
 
@@ -216,109 +223,133 @@ CURRENCY_DECIMAL_PLACES = 2
 # All URLs end with '/'
 APPEND_SLASH = True
 
-# django admin customization with jazzmin
-JAZZMIN_SETTINGS = {
-    # title of the window
-    "site_title": "XShop",
-    # Title on the brand, and the login screen (19 chars max)
-    "site_header": "XShop",
-    # square logo to use for your site, must be present in static files, used for favicon and brand on top left
-    # "site_logo": "polls/img/logo.png",
-    # Welcome text on the login screen
-    "welcome_sign": "Welcome to XShop",
-    # Copyright on the footer
-    "copyright": "Egypt Shops LLC",
-    # The model admin to search from the search bar, search bar omitted if excluded
-    "search_model": "users.User",
-    # Field name on user model that contains avatar image
-    "user_avatar": None,
-    ############
-    # Top Menu #
-    ############
-    # Links to put along the top menu
-    "topmenu_links": [
-        # Url that gets reversed (Permissions can be added)
-        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
-        # external url that opens in a new window (Permissions can be added)
+# Django admin customization with Baton
+BATON = {
+    "SITE_HEADER": "Egypt Shops",
+    "SITE_TITLE": "Egypt Shops",
+    "INDEX_TITLE": "Administration",
+    "SUPPORT_HREF": "https://egypt-shops.github.io/",
+    "COPYRIGHT": "copyright © 2020 <a href='https://egypt-shops.github.io/'>Egypt Shops</a>",
+    "POWERED_BY": "<a href='https://egypt-shops.github.io/'>Egypt Shops</a>",
+    "CONFIRM_UNSAVED_CHANGES": True,
+    "SHOW_MULTIPART_UPLOADING": True,
+    "ENABLE_IMAGES_PREVIEW": True,
+    "CHANGELIST_FILTERS_IN_MODAL": True,
+    "CHANGELIST_FILTERS_ALWAYS_OPEN": False,
+    "COLLAPSABLE_USER_AREA": False,
+    "MENU_ALWAYS_COLLAPSED": False,
+    "MENU_TITLE": "Menu",
+    "GRAVATAR_DEFAULT_IMG": "retro",
+    "MENU": (
+        {"type": "title", "label": "System", "apps": ("auth", "users")},
         # {
-        #     "name": "Support",
-        #     "url": "https://github.com/farridav/django-jazzmin/issues",
-        #     "new_window": True,
+        #     "type": "app",
+        #     "name": "auth",
+        #     "label": "Authentication",
+        #     "icon": "fa fa-lock",
+        #     "models": (
+        #         # {"name": "user", "label": "Users"},
+        #         {"name": "group", "label": "Groups"},
+        #     ),
         # },
-        # model admin to link to (Permissions checked against model)
-        # {"model": "users.User"},
-        # App with dropdown menu to all its models pages (Permissions checked against models)
-        # {"app": "core"},
-    ],
-    #############
-    # User Menu #
-    #############
-    # Additional links to include in the user menu on the top right ('app' url type is not allowed)
-    "usermenu_links": [
+        {"type": "model", "label": "Users", "name": "user", "app": "users"},
+        {"type": "model", "label": "Groups", "name": "group", "app": "auth"},
+        {"type": "title", "label": "Shop", "apps": ("shops", "users")},
+        {
+            "type": "free",
+            "label": "Users",
+            # "apps": ("users", "shops"),
+            "default_open": False,
+            "children": [
+                {
+                    "type": "model",
+                    "label": "Managers",
+                    "name": "manager",
+                    "app": "users",
+                },
+                {
+                    "type": "model",
+                    "label": "Sub Managers",
+                    "name": "submanager",
+                    "app": "users",
+                },
+                {
+                    "type": "model",
+                    "label": "Cashiers",
+                    "name": "cashier",
+                    "app": "users",
+                },
+                {
+                    "type": "model",
+                    "label": "Data Entry Clerks",
+                    "name": "dataentryclerk",
+                    "app": "users",
+                },
+                {
+                    "type": "model",
+                    "label": "Customers",
+                    "name": "customer",
+                    "app": "users",
+                },
+            ],
+        },
         # {
-        #     "name": "Support",
-        #     "url": "https://github.com/farridav/django-jazzmin/issues",
-        #     "new_window": True,
+        #     "type": "app",
+        #     "name": "users",
+        #     "label": "Users",
+        #     "icon": "fa fa-users",
+        #     "models": ({"name": "user", "label": "Users"},),
         # },
-        {"model": "users.User"},
-    ],
-    #############
-    # Side Menu #
-    #############
-    # Whether to display the side menu
-    "show_sidebar": True,
-    # Whether to aut expand the menu
-    "navigation_expanded": True,
-    # Hide these apps when generating side menu e.g (auth)
-    "hide_apps": [],
-    # Hide these models when generating side menu (e.g auth.user)
-    "hide_models": [],
-    # List of apps to base side menu ordering off of (does not need to contain all apps)
-    "order_with_respect_to": ["core", "users"],
-    # Custom links to append to app groups, keyed on app name
-    # "custom_links": {
-    #     "polls": [
-    #         {
-    #             "name": "Make Messages",
-    #             "url": "make_messages",
-    #             "icon": "fas fa-comments",
-    #             "permissions": ["polls.view_poll"],
-    #         }
-    #     ]
+        # {
+        #     "type": "app",
+        #     "name": "users",
+        #     "label": "Users",
+        #     "icon": "fa fa-users",
+        #     "models": (
+        #         {"name": "Cashier", "label": "Cashiers"},
+        #         {"name": "User", "label": "users"},
+        #     ),
+        # },
+        # {"type": "title", "label": "main", "apps": ("auth",)},
+        # {
+        #     "type": "app",
+        #     "name": "auth",
+        #     "label": "Authentication",
+        #     "icon": "fa fa-lock",
+        #     "models": (
+        #         {"name": "user", "label": "Users"},
+        #         {"name": "group", "label": "Groups"},
+        #     ),
+        # },
+        # {"type": "title", "label": "Contents", "apps": ("flatpages",)},
+        # {"type": "model", "label": "Pages", "name": "flatpage", "app": "flatpages"},
+        # {
+        #     "type": "free",
+        #     "label": "Custom Link",
+        #     "url": "http://www.google.it",
+        #     "perms": ("flatpages.add_flatpage", "auth.change_user"),
+        # },
+        # {
+        #     "type": "free",
+        #     "label": "Users",
+        #     "default_open": True,
+        #     "children": [
+        #         {
+        #             "type": "model",
+        #             "label": "Users",
+        #             "name": "user",
+        #             "app": "xshop.users",
+        #         },
+        #         # {
+        #         #     "type": "free",
+        #         #     "label": "Another custom link",
+        #         #     "url": "http://www.google.it",
+        #         # },
+        #     ],
+        # },
+    ),
+    # "ANALYTICS": {
+    #     "CREDENTIALS": os.path.join(BASE_DIR, "credentials.json"),
+    #     "VIEW_ID": "12345678",
     # },
-    # Custom icons for side menu apps/models See https://www.fontawesomecheatsheet.com/font-awesome-cheatsheet-5x/
-    # for a list of icon classes
-    "icons": {
-        "users": "fas fa-users-cog",
-        "users.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
-    },
-    # Icons that are used when one is not manually specified
-    "default_icon_parents": "fas fa-chevron-circle-right",
-    "default_icon_children": "fas fa-circle",
-    #############
-    # UI Tweaks #
-    #############
-    # Relative paths to custom CSS/JS scripts (must be present in static files)
-    "custom_css": None,
-    "custom_js": None,
-    # Whether to show the UI customizer on the sidebar
-    "show_ui_builder": False,
-    ###############
-    # Change view #
-    ###############
-    # Render out the change view as a single form, or in tabs, current options are
-    # - single
-    # - horizontal_tabs (default)
-    # - vertical_tabs
-    # - collapsible
-    # - carousel
-    "changeform_format": "horizontal_tabs",
-    # override change forms on a per modeladmin basis
-    "changeform_format_overrides": {
-        "users.User": "single",
-        # "auth.group": "vertical_tabs",
-    },
-    # Add a language dropdown into the admin
-    "language_chooser": False,
 }
