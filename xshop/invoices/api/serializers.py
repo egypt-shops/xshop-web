@@ -5,4 +5,4 @@ from ..models import Invoice
 class InvoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
-        fields = ("user", "order")
+        fields = ("id", "user", "order")

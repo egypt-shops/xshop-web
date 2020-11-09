@@ -19,7 +19,7 @@ class InvoiceApiTests(APITestCase):
         self.user.save()
         self.shop1 = baker.make(Shop, mobile=self.user.mobile, name="shop1")
         self.order1 = baker.make(Order, user=self.user, shop=self.shop1)
-        self.invoice1 = baker.make(Invoice, user=self.user, order=self.order1)
+        self.invoice1 = baker.make(Invoice, id=7, user=self.user, order=self.order1)
         self.client = APIClient()
         self.url = reverse("invoices_api:invoice_list_create")
 
@@ -53,7 +53,7 @@ class InvoiceApiTests(APITestCase):
     def test_retrieve_existing_invoice(self):
         resp = self.client.get(self.detail_patch_url(self.invoice1.id))
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        self.assertEqual(resp.data["user"], self.user.id)
+        self.assertEqual(resp.data["id"], self.invoice1.id)
 
     def test_retrieve_none_existing_invoice(self):
         resp = self.client.get(self.detail_patch_url(102))
