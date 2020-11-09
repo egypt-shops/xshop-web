@@ -32,7 +32,7 @@ class InvoiceDetailPatchApi(APIView):
 
     @swagger_auto_schema(
         operation_description="Get invoice details",
-        responses={200: InvoiceSerializer, 404: "Product not found"},
+        responses={200: InvoiceSerializer, 404: "Invoice not found"},
     )
     def get(self, request, invoice_id):
         try:
