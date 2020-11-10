@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 from ..models import User
+from ...shops.models import Shop
 from ..services import (
     cashier_create,
     customer_create,
@@ -89,11 +90,13 @@ class test_data_entry_user(TestCase):
 
 class test_manager_user(TestCase):
     def setUp(self) -> None:
+        self.shop1 = Shop.objects.create(mobile="01093862826", name="shop")
         self.user2 = manager_create(
             name="Hatem Mhammed Kamal",
             mobile="01093862826",
             password="121qwe!@#",
             email="hmmk@g.com",
+            shop=self.shop1,
         )
 
     def test_customer_user_type(self):

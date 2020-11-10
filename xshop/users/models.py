@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -75,6 +76,10 @@ class User(AbstractUser, TimeStampedModel):
 
     objects = UserManager()
 
+    shop = models.ForeignKey(
+        "shops.Shop", on_delete=models.SET_NULL, null=True, blank=True
+    )
+
     def __str__(self) -> str:
         return self.mobile.as_national.replace(" ", "")
 
@@ -91,6 +96,16 @@ class User(AbstractUser, TimeStampedModel):
         if len(name_list) > 0:
             return name_list[0]
         return ""
+
+    # validating that manager have a shop
+    def clean(self, *args, **kwargs):
+        if self.type and "MANAGER" in self.type and not self.shop:
+            raise ValidationError(_("Manager must have a shop."))
+        super(User, self).clean(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(User, self).save(*args, **kwargs)
 
     # def has_module_permission(self) -> bool:
     #     """Customize permission based on user's type"""

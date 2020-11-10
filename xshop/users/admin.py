@@ -24,7 +24,7 @@ class UserAdmin(auth.admin.UserAdmin):
     ordering = ("-id",)
 
     fieldsets = (
-        (None, {"fields": ("mobile", "email", "name", "password", "type")}),
+        (None, {"fields": ("mobile", "email", "name", "password", "type", "shop")}),
         ("Permissions", {"fields": ("is_staff", "is_active")}),
     )
 
@@ -42,6 +42,7 @@ class UserAdmin(auth.admin.UserAdmin):
                     "is_staff",
                     "is_active",
                     "type",
+                    "shop",
                 ),
             },
         ),
