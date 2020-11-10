@@ -1,5 +1,6 @@
 from django.test import TestCase
 from model_bakery import baker
+from django.core.exceptions import ValidationError
 
 from ..models import User
 
@@ -36,3 +37,9 @@ class UserTests(TestCase):
 
     def test_token_created_on_user_creation(self):
         self.assertIsNotNone(self.user.auth_token)
+
+
+class ManagerUser_test_without_shop(TestCase):
+    def test_validerror_if_noshop_with_manager(self):
+        with self.assertRaises(ValidationError):
+            self.user1 = User.objects.create(mobile="01093862820", type="MANAGER")

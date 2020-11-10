@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase, tag
 
 from xshop.users.models import Cashier, Customer, DataEntryClerk, Manager, SubManager
+from ...shops.models import Shop
 
 
 class UserManagerTests(TestCase):
@@ -107,7 +108,10 @@ class SubManagerManagerTests(TestCase):
 @tag("mmt")
 class ManagerManagerTests(TestCase):
     def test_create_manager(self):
-        manager = Manager.objects.create(mobile="+201010092181", password="foo")
+        shop1 = Shop.objects.create(mobile="01093862826", name="shop")
+        manager = Manager.objects.create(
+            mobile="+201010092181", password="foo", shop=shop1
+        )
         self.assertEqual(manager.mobile, "+201010092181")
         self.assertEqual(manager.type, ["MANAGER"])
         self.assertTrue(manager.is_active)
@@ -116,5 +120,6 @@ class ManagerManagerTests(TestCase):
         self.assertIsNone(manager.username)
 
     def test_manager_objects_all(self):
-        Manager.objects.create(mobile="+201010092181", password="foo")
+        shop1 = Shop.objects.create(mobile="01093862826", name="shop")
+        Manager.objects.create(mobile="+201010092181", password="foo", shop=shop1)
         self.assertEqual(len(Manager.objects.all()), 1)

@@ -99,9 +99,9 @@ class User(AbstractUser, TimeStampedModel):
 
     # validating that manager have a shop
     def clean(self, *args, **kwargs):
-        super(User, self).clean(*args, **kwargs)
-        if self.Types.MANAGER and (self.shop is None):
+        if self.type == ["MANAGER"] and (self.shop is None):
             raise ValidationError(_("Manager must have a shop."))
+        super(User, self).clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         self.full_clean()

@@ -1,6 +1,7 @@
 from typing import Optional
 
 from .models import Cashier, Customer, DataEntryClerk, Manager, SubManager, User
+from ..shops.models import Shop
 
 
 def user_create(
@@ -105,6 +106,7 @@ def manager_create(
     password: str,
     email: Optional[str] = None,
     type: User.Types = User.Types.MANAGER,
+    shop: Shop = None,
 ) -> Manager:
     user = Manager.objects.create(
         name=name,
@@ -114,6 +116,7 @@ def manager_create(
         is_staff=is_staff,
         password=password,
         type=type,
+        shop=shop,
     )
 
     return user
