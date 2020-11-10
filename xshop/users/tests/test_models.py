@@ -39,7 +39,7 @@ class UserTests(TestCase):
         self.assertIsNotNone(self.user.auth_token)
 
 
-class ManagerUser_test_without_shop(TestCase):
+class ManagerTests(TestCase):
     def test_validerror_if_noshop_with_manager(self):
         with self.assertRaises(ValidationError):
-            self.user1 = User.objects.create(mobile="01093862820", type="MANAGER")
+            self.user1 = User.objects.create(mobile="01093862820", type=["MANAGER"])
