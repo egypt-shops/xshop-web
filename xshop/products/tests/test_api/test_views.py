@@ -18,7 +18,11 @@ class ProductApiTests(APITestCase):
         return reverse("products_api:product_detail_patch", args=[product_id])
 
     def setUp(self) -> None:
-        self.user = baker.make(User, mobile="01010092181", name="Ahmed Loay Shahwan",)
+        self.user = baker.make(
+            User,
+            mobile="01010092181",
+            name="Ahmed Loay Shahwan",
+        )
         self.shop1 = baker.make(Shop, mobile=self.user.mobile, name="shop1")
         self.shop2 = baker.make(Shop, mobile=self.user.mobile, name="shop2")
         self.product1 = baker.make(

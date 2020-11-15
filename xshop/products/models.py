@@ -1,3 +1,4 @@
+from barcode.isxn import ISBN13
 from django.db import models
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
@@ -30,8 +31,8 @@ class Product(TimeStampedModel):
         return self.name
 
     def save(self, *args, **kwargs):
-        EAN = barcode.get_barcode_class("ean13")
-        ean = EAN(
+        code39 = barcode.get_barcode_class("code39")
+        ean = code39(
             f"{self.country_id}{self.manufacturer_id}{self.number_id}",
             writer=ImageWriter(),
         )
