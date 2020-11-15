@@ -2,14 +2,22 @@ from django.db import models
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 from model_utils.models import TimeStampedModel
+import barcode
+from barcode.writer import ImageWriter
+from io import BytesIO
+from django.core.files import File
 
 
 class Product(TimeStampedModel):
     name = models.CharField(max_length=255)
     price = MoneyField(max_digits=14, decimal_places=2, default=Money(0, "EGP"))
     stock = models.PositiveIntegerField()
+    barcode = models.ImageField(upload_to="images/", blank=True)
+    country_id = models.CharField(max_length=1, null=True)
+    manufacturer_id = models.CharField(max_length=6, null=True)
+    number_id = models.CharField(max_length=5, null=True)
+
     # TODO add later
-    # barcode
     # qr_code
     added_by = models.ForeignKey(
         "users.User", on_delete=models.SET_NULL, null=True, blank=True
@@ -20,3 +28,14 @@ class Product(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        EAN = barcode.get_barcode_class("ean13")
+        ean = EAN(
+            f"{self.country_id}{self.manufacturer_id}{self.number_id}",
+            writer=ImageWriter(),
+        )
+        buffer = BytesIO()
+        ean.write(buffer)
+        self.barcode.save("barcode.png", File(buffer), save=False)
+        return super().save(*args, **kwargs)
