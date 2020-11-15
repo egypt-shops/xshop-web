@@ -1,4 +1,3 @@
-from barcode.isxn import ISBN13
 from django.db import models
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
