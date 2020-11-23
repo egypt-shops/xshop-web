@@ -195,7 +195,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # Login Redirection
-LOGIN_REDIRECT_URL = "pages:home"
+LOGIN_REDIRECT_URL = "users:redirection"
 LOGOUT_REDIRECT_URL = "pages:home"
 
 # sentry
@@ -209,7 +209,7 @@ if DEPLOY and DEPLOY not in ("LOCAL", "TESTING"):
         send_default_pii=True,
     )
 
-# TODO update later
+# TODO update later NOTE, this is to be deprecated if separated dashboard is done correctly
 DASHBOARD_MODULES = []
 
 # django-money
