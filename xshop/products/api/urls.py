@@ -10,5 +10,9 @@ urlpatterns = [
         views.ProductDetailPatchApi.as_view(),
         name="product_detail_patch",
     ),
-    path("", views.ProductListCreateApi.as_view(), name="product_list_create",),
+    path(
+        "",
+        views.ProductListCreateApi.as_view(),
+        name="product_list_create",
+    ),
 ]

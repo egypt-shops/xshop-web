@@ -36,7 +36,8 @@ class user_create_test(TestCase):
         )
         # user without name
         self.assertEqual(
-            self.user1.__repr__(), f"<User {self.user1.id}: {str(self.user1)}>",
+            self.user1.__repr__(),
+            f"<User {self.user1.id}: {str(self.user1)}>",
         )
 
     def test_token_created_on_user_creation(self):
