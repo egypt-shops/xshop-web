@@ -14,7 +14,11 @@ class InvoiceApiTests(APITestCase):
         return reverse("invoices_api:invoice_detail_patch", args=[invoice_id])
 
     def setUp(self) -> None:
-        self.user = baker.make(User, mobile="01011698551", name="Ziad Mohamed Nabil",)
+        self.user = baker.make(
+            User,
+            mobile="01011698551",
+            name="Ziad Mohamed Nabil",
+        )
         self.user.set_password("test")
         self.user.save()
         self.shop1 = baker.make(Shop, mobile=self.user.mobile, name="shop1")

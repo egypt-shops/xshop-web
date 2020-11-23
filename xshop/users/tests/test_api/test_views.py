@@ -8,7 +8,11 @@ from xshop.users.models import User
 
 class TokenApiTests(APITestCase):
     def setUp(self):
-        self.user = baker.make(User, mobile="01010092181", name="Ahmed Loay Shahwan",)
+        self.user = baker.make(
+            User,
+            mobile="01010092181",
+            name="Ahmed Loay Shahwan",
+        )
         self.user.set_password("test")
         self.user.save()
         self.client = APIClient()

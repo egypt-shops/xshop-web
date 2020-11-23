@@ -12,7 +12,11 @@ class ShopsApiTests(APITestCase):
         return reverse("shops_api:shop_detail", args=[shop_id])
 
     def setUp(self) -> None:
-        self.user = baker.make(User, mobile="01010092181", name="Ahmed Loay Shahwan",)
+        self.user = baker.make(
+            User,
+            mobile="01010092181",
+            name="Ahmed Loay Shahwan",
+        )
         self.shop1 = baker.make(Shop, mobile=self.user.mobile, name="shop1")
         self.shop2 = baker.make(Shop, mobile=self.user.mobile, name="shop2")
         self.client = APIClient()
