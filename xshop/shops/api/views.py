@@ -41,7 +41,7 @@ class ShopDetailApi(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-class ShopProductListAPI(generics.ListAPIView):
+class ShopProductListApi(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
