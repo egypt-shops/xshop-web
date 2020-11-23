@@ -10,7 +10,8 @@ class InvoiceListCreateApi(APIView):
     serializer_class = InvoiceSerializer
 
     @swagger_auto_schema(
-        operation_description="List all invoices", responses={200: "Invoices list"},
+        operation_description="List all invoices",
+        responses={200: "Invoices list"},
     )
     def get(self, request):
         invoices = Invoice.objects.all()
@@ -18,7 +19,8 @@ class InvoiceListCreateApi(APIView):
         return Response(serializer.data)
 
     @swagger_auto_schema(
-        operation_description="Create new invoice", request_body=InvoiceSerializer,
+        operation_description="Create new invoice",
+        request_body=InvoiceSerializer,
     )
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
