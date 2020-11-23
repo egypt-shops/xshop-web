@@ -116,12 +116,7 @@ class CustomerAdmin(CustomUserPermissionsMixin, UserAdmin):
             None,
             {
                 "classes": ("wide",),
-                "fields": (
-                    "mobile",
-                    "password1",
-                    "password2",
-                    "is_active",
-                ),
+                "fields": ("mobile", "password1", "password2", "is_active",),
             },
         ),
     )
