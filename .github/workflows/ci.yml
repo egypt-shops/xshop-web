@@ -43,7 +43,10 @@ jobs:
       - name: psycopg2 prerequisites
         run: sudo apt-get install python-dev libpq-dev
       - name: Install Poetry
-        uses: Gr1N/setup-poetry@v3
+        uses: snok/install-poetry@v1.1.1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
       - name: Install dependencies
         run: poetry install
       - name: collect static files
