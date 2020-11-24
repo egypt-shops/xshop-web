@@ -1,8 +1,10 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import filters, generics
 from drf_yasg2.utils import swagger_auto_schema
 from drf_yasg2 import openapi
+
 
 from ..models import Product
 from .serializers import ProductSerializer
@@ -16,7 +18,7 @@ shop_id = openapi.Parameter(
 )
 
 
-class ProductListCreateApi(APIView):
+class ProductListCreateApi(generics.ListAPIView):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
@@ -27,16 +29,20 @@ class ProductListCreateApi(APIView):
             query_set = query_set.filter(shop=shop_id)
         return query_set
 
-    @swagger_auto_schema(
-        operation_description="List all products in specific shop",
-        manual_parameters=[shop_id],
-        responses={200: "List of products"},
-    )
-    def get(self, request):
-        products = self.get_queryset()
+    # @swagger_auto_schema(
+    #     operation_description="List all products in specific shop",
+    #     manual_parameters=[shop_id],
+    #     responses={200: "List of products"},
+    # )
+    # def get(self, request):
+    #     products = self.get_queryset()
 
-        serializer = self.serializer_class(products, many=True)
-        return Response(serializer.data)
+    #     serializer = self.serializer_class(products, many=True)
+    #     return Response(serializer.data)
+
+    queryset = Product.objects.all()
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["name", "barcode"]
 
     @swagger_auto_schema(
         operation_description="Create new product in specific shop",
