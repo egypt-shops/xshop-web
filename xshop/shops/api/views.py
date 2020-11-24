@@ -2,12 +2,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from drf_yasg2.utils import swagger_auto_schema
-from rest_framework import filters, generics
-
 
 from ..models import Shop
-from .serializers import ShopSerializer, ProductSerializer
-from xshop.products.models import Product
+from .serializers import ShopSerializer
 
 
 class ShopListApi(APIView):
@@ -39,16 +36,3 @@ class ShopDetailApi(APIView):
             return Response(serializer.data)
         except Shop.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-class ShopProductListAPI(generics.ListAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ["name", "barcode"]
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        new_product = serializer.save()
-        return Response(self.serializer_class(new_product).data)

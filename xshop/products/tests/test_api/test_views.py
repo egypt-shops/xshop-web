@@ -28,6 +28,7 @@ class ProductApiTests(APITestCase):
         self.product1 = baker.make(
             Product,
             name="Prod1",
+            barcode="12345",
             stock=15,
             price=12,
             added_by=self.user,
@@ -36,6 +37,7 @@ class ProductApiTests(APITestCase):
         self.product2 = baker.make(
             Product,
             name="Prod2",
+            barcode="4352135",
             stock=10,
             price=41,
             added_by=self.user,
@@ -70,7 +72,7 @@ class ProductApiTests(APITestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(len(resp.data), 0)
 
-    def test_list_shop_ot_found_products(self):
+    def test_list_shop_not_found_products(self):
         url = "{url}?{filter}={value}".format(
             url=reverse("products_api:product_list_create"),
             filter="shop_id",
@@ -158,3 +160,21 @@ class ProductApiTests(APITestCase):
         resp = self.client.patch(self.detail_patch_url(self.product1.id), product_price)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertTrue(resp.data["name"], str(product_price["price"]))
+
+    def test_retrieve_searched_product_by_name(self):
+        url = "{url}?{filter}={value}".format(
+            url=reverse("products_api:product_list_create"),
+            filter="search",
+            value=self.product1.name,
+        )
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+    def test_retrieve_searched_product_by_barcode(self):
+        url = "{url}?{filter}={value}".format(
+            url=reverse("products_api:product_list_create"),
+            filter="search",
+            value=self.product1.barcode,
+        )
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
