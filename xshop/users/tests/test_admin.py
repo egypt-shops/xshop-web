@@ -83,7 +83,8 @@ class UserAdminTests(TestCase):
 
     def test_superuser_list_filter(self):
         self.assertEqual(
-            self.model_admin.get_list_filter(self.request), self.superuser_list_filter,
+            self.model_admin.get_list_filter(self.request),
+            self.superuser_list_filter,
         )
 
     def test_superuser_search_fields(self):
@@ -183,7 +184,8 @@ class CustomerAdminTests(TestCase):
 
     def test_superuser_list_filter(self):
         self.assertEqual(
-            self.model_admin.get_list_filter(self.request), self.superuser_list_filter,
+            self.model_admin.get_list_filter(self.request),
+            self.superuser_list_filter,
         )
 
     def test_superuser_search_fields(self):

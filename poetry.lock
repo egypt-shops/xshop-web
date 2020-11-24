@@ -426,7 +426,7 @@ django = ">=2.2"
 
 [[package]]
 name = "docker"
-version = "4.3.1"
+version = "4.4.0"
 description = "A Python library for the Docker Engine API."
 category = "dev"
 optional = false
@@ -1050,6 +1050,17 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
+name = "python-barcode"
+version = "0.13.1"
+description = "Create standard barcodes with Python. No external modules needed. (optional Pillow support included)."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+images = ["pillow"]
+
+[[package]]
 name = "python-dotenv"
 version = "0.15.0"
 description = "Add .env support to your django/flask apps in development and deployments"
@@ -1331,7 +1342,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.6"
-content-hash = "d17be62e6d046177f75135540d5dd6118b8114b0ba1dabe337d40dfd85b46843"
+content-hash = "23a249429bc994d785c21f65b50fe31f2ae39089fb14ce77a2c503e67fe5cf17"
 
 [metadata.files]
 appdirs = [
@@ -1540,8 +1551,8 @@ djangorestframework = [
     {file = "djangorestframework-3.12.1.tar.gz", hash = "sha256:d54452aedebb4b650254ca092f9f4f5df947cb1de6ab245d817b08b4f4156249"},
 ]
 docker = [
-    {file = "docker-4.3.1-py2.py3-none-any.whl", hash = "sha256:13966471e8bc23b36bfb3a6fb4ab75043a5ef1dac86516274777576bed3b9828"},
-    {file = "docker-4.3.1.tar.gz", hash = "sha256:bad94b8dd001a8a4af19ce4becc17f41b09f228173ffe6a4e0355389eef142f2"},
+    {file = "docker-4.4.0-py2.py3-none-any.whl", hash = "sha256:317e95a48c32de8c1aac92a48066a5b73e218ed096e03758bcdd799a7130a1a1"},
+    {file = "docker-4.4.0.tar.gz", hash = "sha256:cffc771d4ea1389fc66bc95cb72d304aa41d1a1563482a9a000fba3a84ed5071"},
 ]
 docker-compose = [
     {file = "docker-compose-1.27.4.tar.gz", hash = "sha256:5a5690f24c27d4b43dcbe6b3fae91ba680713208e99ee863352b3bae37bcaa83"},
@@ -1865,6 +1876,10 @@ pyphen = [
 ]
 pyrsistent = [
     {file = "pyrsistent-0.17.3.tar.gz", hash = "sha256:2e636185d9eb976a18a8a8e96efce62f2905fea90041958d8cc2a189756ebf3e"},
+]
+python-barcode = [
+    {file = "python-barcode-0.13.1.tar.gz", hash = "sha256:fafba4aa24e9d969777be521c294ff18f6c2b36ad63b5fc2f2108d972e23b252"},
+    {file = "python_barcode-0.13.1-py3-none-any.whl", hash = "sha256:daa32fb999a843812fbb1c75ff909638811af7c465f0a991e9e41d26d2a44a24"},
 ]
 python-dotenv = [
     {file = "python-dotenv-0.15.0.tar.gz", hash = "sha256:587825ed60b1711daea4832cf37524dfd404325b7db5e25ebe88c495c9f807a0"},
