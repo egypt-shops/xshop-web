@@ -1,3 +1,13 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 
-# Create your views here.
+
+def manager(request):
+    return render(request, "dashboard/manager.html")
+
+
+def cashier(request):
+    return render(request, "dashboard/cashier.html")
+
+
+def data_entry(request):
+    return render(request, "dashboard/data_entry.html")
