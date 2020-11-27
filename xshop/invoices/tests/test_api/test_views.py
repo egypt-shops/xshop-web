@@ -28,29 +28,29 @@ class InvoiceApiTests(APITestCase):
         self.url = reverse("invoices_api:invoice_list_create")
 
     def test_api_can_create_invoice(self):
-        invoice_data = {"user": 1, "order": 1}
+        invoice_data = {"user": self.user.pk, "order": self.order1.pk}
         resp = self.client.post(self.url, invoice_data)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(resp.data["user"], invoice_data["user"])
         self.assertEqual(resp.data["order"], invoice_data["order"])
 
     def test_invoice_api_nonexistent_user(self):
-        invoice_data = {"user": 2, "order": 1}
+        invoice_data = {"user": 2, "order": self.order1.pk}
         resp = self.client.post(self.url, invoice_data)
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_invoice_api_nonexistent_order(self):
-        invoice_data = {"user": 1, "order": 2}
+        invoice_data = {"user": self.user.pk, "order": 1324}
         resp = self.client.post(self.url, invoice_data)
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_invoice_api_string_user(self):
-        invoice_data = {"user": "1", "order": 1}
+        invoice_data = {"user": "invalid", "order": self.order1.pk}
         resp = self.client.post(self.url, invoice_data)
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_invoice_api_string_order(self):
-        invoice_data = {"user": 1, "order": "1"}
+        invoice_data = {"user": self.user.pk, "order": "invalid"}
         resp = self.client.post(self.url, invoice_data)
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
