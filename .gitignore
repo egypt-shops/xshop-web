@@ -145,3 +145,6 @@ media/
 
 # vscode
 .vscode/
+
+# Pipfile keeps showing up
+Pipfile

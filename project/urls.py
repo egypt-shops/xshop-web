@@ -30,6 +30,7 @@ api_urlpatterns = [
     path("shops/", include("xshop.shops.api.urls", namespace="shops_api")),
     path("", include("xshop.pages.api.urls", namespace="pages_api")),
 ]
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("baton/", include("baton.urls")),

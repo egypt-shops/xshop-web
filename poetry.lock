@@ -216,6 +216,17 @@ python-versions = "*"
 jinja2 = "*"
 
 [[package]]
+name = "crispy-tailwind"
+version = "0.2.0"
+description = "A tailwind package for Django Crispy Forms"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.dependencies]
+django-crispy-forms = ">=1.9.0"
+
+[[package]]
 name = "cryptography"
 version = "3.2.1"
 description = "cryptography is a package which provides cryptographic recipes and primitives to Python developers."
@@ -1342,7 +1353,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.6"
-content-hash = "23a249429bc994d785c21f65b50fe31f2ae39089fb14ce77a2c503e67fe5cf17"
+content-hash = "908b6cda194808b269ce3e35a23df5ffdb30bd474b9fd7b9ac4586884aad46e5"
 
 [metadata.files]
 appdirs = [
@@ -1457,6 +1468,10 @@ coreapi = [
 coreschema = [
     {file = "coreschema-0.0.4-py2-none-any.whl", hash = "sha256:5e6ef7bf38c1525d5e55a895934ab4273548629f16aed5c0a6caa74ebf45551f"},
     {file = "coreschema-0.0.4.tar.gz", hash = "sha256:9503506007d482ab0867ba14724b93c18a33b22b6d19fb419ef2d239dd4a1607"},
+]
+crispy-tailwind = [
+    {file = "crispy-tailwind-0.2.0.tar.gz", hash = "sha256:780434efbd3a63064b7c19c36dc722ac01e6bbb8a7e53a6f4f39daf310ae7388"},
+    {file = "crispy_tailwind-0.2.0-py3-none-any.whl", hash = "sha256:874d2777e9bc323b0af920be4346a8ed971954c2055ba636790808ad0c188421"},
 ]
 cryptography = [
     {file = "cryptography-3.2.1-cp27-cp27m-macosx_10_10_x86_64.whl", hash = "sha256:6dc59630ecce8c1f558277ceb212c751d6730bd12c80ea96b4ac65637c4f55e7"},

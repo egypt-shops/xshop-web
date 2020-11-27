@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "multiselectfield",
     "crispy_forms",
+    "crispy_tailwind",
     "djmoney",
     "drf_yasg2",
     # Local
@@ -192,7 +193,8 @@ AUTH_USER_MODEL = "users.User"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # django-crispy-forms
-CRISPY_TEMPLATE_PACK = "bootstrap4"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 # Login Redirection
 LOGIN_REDIRECT_URL = "users:redirection"
