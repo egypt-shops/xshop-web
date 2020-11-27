@@ -196,7 +196,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
 
-# Login Redirection
+# Login & Redirection
+LOGIN_URL = "users:login"
 LOGIN_REDIRECT_URL = "users:redirection"
 LOGOUT_REDIRECT_URL = "pages:home"
 
