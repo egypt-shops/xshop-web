@@ -9,7 +9,7 @@ def redirection(request):
     user = request.user
 
     if "MANAGER" in user.type:
-        return redirect(reverse("dashboard:manager"))
+        return redirect(reverse("dashboard:general_manager"))
     elif "CASHIER" in user.type:
         return redirect(reverse("dashboard:cashier"))
     elif "DATA_ENTRY_CLERK" in user.type:

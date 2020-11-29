@@ -43,7 +43,7 @@ class RedirectionTests(TestCase):
         user = baker.make(User, mobile="01559788591", type=["MANAGER"], shop=self.shop)
         self.client.force_login(user)
         resp = self.client.get(self.url)
-        self.assertRedirects(resp, reverse("dashboard:manager"), 302)
+        self.assertRedirects(resp, reverse("dashboard:general_manager"), 302)
 
     def test_cashier_redirected_to_cashier_page(self):
         user = baker.make(User, mobile="01559788591", type=["CASHIER"], shop=self.shop)

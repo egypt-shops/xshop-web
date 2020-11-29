@@ -6,9 +6,9 @@ from xshop.dashboard.decorators import allowed_users
 
 
 @login_required
-@allowed_users([UserRoles.MANAGER])
-def manager(request):
-    return render(request, "dashboard/manager.html")
+@allowed_users([UserRoles.GENERAL_MANAGER])
+def general_manager(request):
+    return render(request, "dashboard/general_manager.html")
 
 
 def cashier(request):

@@ -9,7 +9,7 @@ from xshop.users.models import User
 @tag("managerview")
 class ManagerTests(TestCase):
     def setUp(self) -> None:
-        self.url = reverse("dashboard:manager")
+        self.url = reverse("dashboard:general_manager")
         self.client = Client()
 
     def test_manager_can_view(self):
@@ -22,7 +22,8 @@ class ManagerTests(TestCase):
     def test_manager_page_requires_login(self):
         resp = self.client.get(self.url)
         self.assertRedirects(
-            resp, f"{reverse('users:login')}?next={reverse('dashboard:manager')}"
+            resp,
+            f"{reverse('users:login')}?next={reverse('dashboard:general_manager')}",
         )
 
     def test_manager_page_allowed_only_for_managers(self):
