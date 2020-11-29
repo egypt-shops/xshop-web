@@ -7,7 +7,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
-from multiselectfield import MultiSelectField
 from phonenumber_field.modelfields import PhoneNumberField
 from rest_framework.authtoken.models import Token
 
@@ -46,15 +45,6 @@ class UserManager(BaseUserManager):
 
 # =========================================== User Model
 class User(AbstractUser, TimeStampedModel):
-    class Types(models.TextChoices):
-        """User types in our system"""
-
-        CUSTOMER = "CUSTOMER", "Customer"
-        CASHIER = "CASHIER", "Cashier"
-        DATA_ENTRY_CLERK = "DATA_ENTRY_CLERK", "Data Entry Clerk"
-        MANAGER = "MANAGER", "Manager"
-        SUB_MANAGER = "SUB_MANAGER", "Sub Manager"
-
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
@@ -68,17 +58,27 @@ class User(AbstractUser, TimeStampedModel):
     name = models.CharField(max_length=255, blank=True)
     mobile = PhoneNumberField(unique=True)
 
-    # optional
-    type = MultiSelectField(choices=Types.choices, null=True, blank=True)
-
+    # Settings
     USERNAME_FIELD = "mobile"
     REQUIRED_FIELDS = []
 
+    # Model Managers
     objects = UserManager()
 
+    # Relations
     shop = models.ForeignKey(
         "shops.Shop", on_delete=models.SET_NULL, null=True, blank=True
     )
+
+    # Calculated Properties
+    @property
+    def roles(self):
+        return list(self.groups.all())
+
+    @property
+    def type(self):
+        """Backward compatible alternative to `type` field"""
+        return self.roles
 
     def __str__(self) -> str:
         return self.mobile.as_national.replace(" ", "")

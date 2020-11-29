@@ -17,14 +17,14 @@ class UserAdmin(auth.admin.UserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
 
-    list_display = ("id", "mobile", "email", "name", "type", "is_staff", "is_active")
+    list_display = ("id", "mobile", "email", "name", "roles", "is_staff", "is_active")
     list_display_links = ("id", "mobile")
     list_filter = ("is_staff", "is_active")
     search_fields = ("mobile", "email", "name")
     ordering = ("-id",)
 
     fieldsets = (
-        (None, {"fields": ("mobile", "email", "name", "password", "type", "shop")}),
+        (None, {"fields": ("mobile", "email", "name", "password", "shop")}),  # "roles",
         ("Permissions", {"fields": ("is_staff", "is_active")}),
     )
 
@@ -41,7 +41,7 @@ class UserAdmin(auth.admin.UserAdmin):
                     "password2",
                     "is_staff",
                     "is_active",
-                    "type",
+                    # "roles",
                     "shop",
                 ),
             },
