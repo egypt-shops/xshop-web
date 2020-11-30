@@ -1,15 +1,23 @@
 from django.contrib import admin, auth
+from django.contrib.auth.models import Group
+
+# from rest_framework.authtoken.models import Token, TokenProxy
 
 from .forms import UserChangeForm, UserCreationForm
 from .models import Cashier, Customer, DataEntryClerk, GeneralManager, Manager, User
 from .mixins import SuperuserPermissionsMixin
 
-# from rest_framework.authtoken.models import Token, TokenProxy
 
+admin.site.unregister(Group)
 
 # class TokenAdminInline(admin.StackedInline):
 #     model = TokenProxy
 #     readonly_fields = ("key",)
+
+
+@admin.register(Group)
+class GroupAdmin(auth.admin.GroupAdmin):
+    readonly_fields = ("name",)
 
 
 @admin.register(User)
@@ -51,7 +59,7 @@ class UserAdmin(SuperuserPermissionsMixin, auth.admin.UserAdmin):
         ),
     )
 
-    # inlines = (TokenAdminInline,)
+    # inlines = (GroupAdminInline,)  # TokenAdminInline,)
 
 
 @admin.register(Customer)
@@ -72,10 +80,6 @@ class CustomerAdmin(UserAdmin):
             },
         ),
     )
-
-    def has_add_permission(self, request, obj=None):
-        if request.user.is_authenticated and request.user.is_superuser:
-            return True
 
 
 @admin.register(Cashier)
