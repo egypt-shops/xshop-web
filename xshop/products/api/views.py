@@ -1,10 +1,8 @@
-from rest_framework import status
+from drf_yasg2 import openapi
+from drf_yasg2.utils import swagger_auto_schema
+from rest_framework import filters, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import filters, generics
-from drf_yasg2.utils import swagger_auto_schema
-from drf_yasg2 import openapi
-
 
 from ..models import Product
 from .serializers import ProductSerializer

@@ -1,30 +1,81 @@
-from django.contrib import admin
-from django.contrib import auth
-
-from .forms import UserChangeForm, UserCreationForm
-from .models import Cashier, Customer, DataEntryClerk, Manager, SubManager, User
+from django import forms
+from django.contrib import admin, auth
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.contrib.auth.models import Group
 
 # from rest_framework.authtoken.models import Token, TokenProxy
 
+from .forms import UserChangeForm, UserCreationForm
+from .models import Cashier, Customer, DataEntryClerk, GeneralManager, Manager, User
+from .mixins import SuperuserPermissionsMixin
+
+
+admin.site.unregister(Group)
 
 # class TokenAdminInline(admin.StackedInline):
 #     model = TokenProxy
 #     readonly_fields = ("key",)
 
 
+# Create ModelForm based on the Group model.
+class GroupAdminForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        exclude = []
+
+    # Add the users field.
+    users = forms.ModelMultipleChoiceField(
+        queryset=User.objects.all(),
+        required=False,
+        # Use the pretty 'filter_horizontal widget'.
+        widget=FilteredSelectMultiple("users", False),
+    )
+
+    def __init__(self, *args, **kwargs):
+        # Do the normal form initialisation.
+        super(GroupAdminForm, self).__init__(*args, **kwargs)
+        # If it is an existing group (saved objects have a pk).
+        if self.instance.pk:
+            # Populate the users field with the current Group users.
+            self.fields["users"].initial = self.instance.user_set.all()
+
+    def save_m2m(self):
+        # Add the users to the Group.
+        self.instance.user_set.set(self.cleaned_data["users"])
+
+    def save(self, *args, **kwargs):
+        # Default save
+        instance = super(GroupAdminForm, self).save()
+        # Save many-to-many data
+        self.save_m2m()
+        return instance
+
+
+@admin.register(Group)
+class GroupAdmin(auth.admin.GroupAdmin):
+    # Use our custom form.
+    form = GroupAdminForm
+    # Filter permissions horizontal as well.
+    filter_horizontal = ["permissions"]
+    readonly_fields = ("name",)
+
+
 @admin.register(User)
-class UserAdmin(auth.admin.UserAdmin):
+class UserAdmin(SuperuserPermissionsMixin, auth.admin.UserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
 
-    list_display = ("id", "mobile", "email", "name", "type", "is_staff", "is_active")
+    list_display = ("id", "mobile", "email", "name", "roles", "is_staff", "is_active")
     list_display_links = ("id", "mobile")
     list_filter = ("is_staff", "is_active")
     search_fields = ("mobile", "email", "name")
     ordering = ("-id",)
 
     fieldsets = (
-        (None, {"fields": ("mobile", "email", "name", "password", "type", "shop")}),
+        (
+            None,
+            {"fields": ("mobile", "email", "name", "password", "shop")},
+        ),  # "roles",
         ("Permissions", {"fields": ("is_staff", "is_active")}),
     )
 
@@ -41,74 +92,18 @@ class UserAdmin(auth.admin.UserAdmin):
                     "password2",
                     "is_staff",
                     "is_active",
-                    "type",
+                    # "roles",
                     "shop",
                 ),
             },
         ),
     )
 
-    # inlines = (TokenAdminInline,)
-
-    # custom permissions
-    # Superuser only has the permissions for the Users Module
-    def has_module_permission(self, request):
-        if request.user.is_authenticated and request.user.is_superuser:
-            return True
-
-    def has_view_permission(self, request, obj=None):
-        if request.user.is_authenticated and request.user.is_superuser:
-            return True
-
-    def has_change_permission(self, request, obj=None):
-        if request.user.is_authenticated and request.user.is_superuser:
-            return True
-
-    def has_delete_permission(self, request, obj=None):
-        if request.user.is_authenticated and request.user.is_superuser:
-            return True
-
-    def has_add_permission(self, request, obj=None):
-        if request.user.is_authenticated and request.user.is_superuser:
-            return True
-
-
-class CustomUserPermissionsMixin:
-    # Superuser only has the permissions for the Users Module
-    def has_module_permission(self, request):
-        if request.user.is_authenticated and (
-            request.user.is_superuser or request.user.type == [User.Types.MANAGER]
-        ):
-            return True
-
-    def has_view_permission(self, request, obj=None):
-        if request.user.is_authenticated and (
-            request.user.is_superuser or request.user.type == [User.Types.MANAGER]
-        ):
-            return True
-
-    def has_change_permission(self, request, obj=None):
-        if request.user.is_authenticated and (
-            request.user.is_superuser or request.user.type == [User.Types.MANAGER]
-        ):
-            return True
-
-    def has_delete_permission(self, request, obj=None):
-        if request.user.is_authenticated and (
-            request.user.is_superuser or request.user.type == [User.Types.MANAGER]
-        ):
-            return True
-
-    def has_add_permission(self, request, obj=None):
-        if request.user.is_authenticated and (
-            request.user.is_superuser or request.user.type == [User.Types.MANAGER]
-        ):
-            return True
+    # inlines = (GroupAdminInline,)  # TokenAdminInline,)
 
 
 @admin.register(Customer)
-class CustomerAdmin(CustomUserPermissionsMixin, UserAdmin):
-    readonly_fields = ("type",)
+class CustomerAdmin(UserAdmin):
     fieldsets = None
     fields = ("mobile", "email", "name", "password")
     add_fieldsets = (
@@ -126,26 +121,22 @@ class CustomerAdmin(CustomUserPermissionsMixin, UserAdmin):
         ),
     )
 
-    def has_add_permission(self, request, obj=None):
-        if request.user.is_authenticated and request.user.is_superuser:
-            return True
-
 
 @admin.register(Cashier)
-class CashierAdmin(CustomUserPermissionsMixin, UserAdmin):
-    readonly_fields = ("type",)
+class CashierAdmin(UserAdmin):
+    ...
 
 
 @admin.register(DataEntryClerk)
-class DataEntryClerkAdmin(CustomUserPermissionsMixin, UserAdmin):
-    readonly_fields = ("type",)
-
-
-@admin.register(SubManager)
-class SubManagerAdmin(CustomUserPermissionsMixin, UserAdmin):
-    readonly_fields = ("type",)
+class DataEntryClerkAdmin(UserAdmin):
+    ...
 
 
 @admin.register(Manager)
 class ManagerAdmin(UserAdmin):
-    readonly_fields = ("type",)
+    ...
+
+
+@admin.register(GeneralManager)
+class GeneralManagerAdmin(UserAdmin):
+    ...
