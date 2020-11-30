@@ -266,14 +266,14 @@ BATON = {
             "children": [
                 {
                     "type": "model",
-                    "label": "Managers",
-                    "name": "manager",
+                    "label": "General Managers",
+                    "name": "generalmanager",
                     "app": "users",
                 },
                 {
                     "type": "model",
-                    "label": "Sub Managers",
-                    "name": "submanager",
+                    "label": "Managers",
+                    "name": "manager",
                     "app": "users",
                 },
                 {

@@ -1,14 +1,11 @@
-from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
-from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 from phonenumber_field.modelfields import PhoneNumberField
-from rest_framework.authtoken.models import Token
+
+from xshop.core.utils import UserGroup
 
 
 # =========================================== User ModelManager
@@ -99,75 +96,38 @@ class User(AbstractUser, TimeStampedModel):
 
     # validating that manager have a shop
     def clean(self, *args, **kwargs):
-        if self.type and "MANAGER" in self.type and not self.shop:
-            raise ValidationError(_("Manager must have a shop."))
-        super(User, self).clean(*args, **kwargs)
+        # custom validations here
+        super().clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         self.full_clean()
-        super(User, self).save(*args, **kwargs)
-
-    # def has_module_permission(self) -> bool:
-    #     """Customize permission based on user's type"""
-
-    # if self.type:
-    #     if self.type in ("MANAGER", "SUB_MANAGER"):
-    #         return
-    #     if self.type in ("CUSTOMER",):
-    #         return False
-
-
-# Create auth_token upon user creation
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
+        super().save(*args, **kwargs)
 
 
 # =========================================== Other Users ModelManagers
 class CustomerManager(UserManager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=[User.Types.CUSTOMER])
-
-    def create(self, **kwargs):
-        kwargs.update({"type": [User.Types.CUSTOMER]})
-        return super().create(**kwargs)
+        return super().get_queryset().filter(groups__name=UserGroup.CUSTOMER)
 
 
 class CashierManager(UserManager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=[User.Types.CASHIER])
-
-    def create(self, **kwargs):
-        kwargs.update({"type": [User.Types.CASHIER]})
-        return super().create(**kwargs)
+        return super().get_queryset().filter(groups__name=UserGroup.CASHIER)
 
 
 class DataEntryClerkManager(UserManager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=[User.Types.DATA_ENTRY_CLERK])
-
-    def create(self, **kwargs):
-        kwargs.update({"type": [User.Types.DATA_ENTRY_CLERK]})
-        return super().create(**kwargs)
-
-
-class SubManagerManager(UserManager):
-    def get_queryset(self):
-        return super().get_queryset().filter(type=[User.Types.SUB_MANAGER])
-
-    def create(self, **kwargs):
-        kwargs.update({"type": [User.Types.SUB_MANAGER]})
-        return super().create(**kwargs)
+        return super().get_queryset().filter(groups__name=UserGroup.DATA_ENTRY_CLERK)
 
 
 class ManagerManager(UserManager):
     def get_queryset(self):
-        return super().get_queryset().filter(type=[User.Types.MANAGER])
+        return super().get_queryset().filter(groups__name=UserGroup.MANAGER)
 
-    def create(self, **kwargs):
-        kwargs.update({"type": [User.Types.MANAGER]})
-        return super().create(**kwargs)
+
+class GeneralManagerManager(UserManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(groups__name=UserGroup.GENERAL_MANAGER)
 
 
 # =========================================== Other Users Models
@@ -201,21 +161,21 @@ class DataEntryClerk(User):
     verbose_name_plural = "Data Entry Clerks"
 
 
-class SubManager(User):
-    class Meta:
-        proxy = True
-
-    objects = SubManagerManager()
-
-    verbose_name = "Sub Manger"
-    verbose_name_plural = "Sub Managers"
-
-
 class Manager(User):
     class Meta:
         proxy = True
 
     objects = ManagerManager()
+
+    verbose_name = "Sub Manger"
+    verbose_name_plural = "Sub Managers"
+
+
+class GeneralManager(User):
+    class Meta:
+        proxy = True
+
+    objects = GeneralManagerManager()
 
     verbose_name = "Manger"
     verbose_name_plural = "Managers"

@@ -43,7 +43,7 @@ class UserAdminTests(TestCase):
             "mobile",
             "email",
             "name",
-            "type",
+            "groups",
             "is_staff",
             "is_active",
         )

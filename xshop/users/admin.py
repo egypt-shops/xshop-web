@@ -1,8 +1,7 @@
-from django.contrib import admin
-from django.contrib import auth
+from django.contrib import admin, auth
 
 from .forms import UserChangeForm, UserCreationForm
-from .models import Cashier, Customer, DataEntryClerk, Manager, SubManager, User
+from .models import Cashier, Customer, DataEntryClerk, GeneralManager, Manager, User
 
 # from rest_framework.authtoken.models import Token, TokenProxy
 
@@ -17,14 +16,17 @@ class UserAdmin(auth.admin.UserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
 
-    list_display = ("id", "mobile", "email", "name", "roles", "is_staff", "is_active")
+    list_display = ("id", "mobile", "email", "name", "groups", "is_staff", "is_active")
     list_display_links = ("id", "mobile")
     list_filter = ("is_staff", "is_active")
     search_fields = ("mobile", "email", "name")
     ordering = ("-id",)
 
     fieldsets = (
-        (None, {"fields": ("mobile", "email", "name", "password", "shop")}),  # "roles",
+        (
+            None,
+            {"fields": ("mobile", "email", "name", "password", "shop")},
+        ),  # "groups",
         ("Permissions", {"fields": ("is_staff", "is_active")}),
     )
 
@@ -41,12 +43,15 @@ class UserAdmin(auth.admin.UserAdmin):
                     "password2",
                     "is_staff",
                     "is_active",
-                    # "roles",
+                    # "groups",
                     "shop",
                 ),
             },
         ),
     )
+
+    def groups(obj=None):
+        return ",".join(obj.groups.all())
 
     # inlines = (TokenAdminInline,)
 
@@ -108,7 +113,6 @@ class CustomUserPermissionsMixin:
 
 @admin.register(Customer)
 class CustomerAdmin(CustomUserPermissionsMixin, UserAdmin):
-    readonly_fields = ("type",)
     fieldsets = None
     fields = ("mobile", "email", "name", "password")
     add_fieldsets = (
@@ -133,19 +137,19 @@ class CustomerAdmin(CustomUserPermissionsMixin, UserAdmin):
 
 @admin.register(Cashier)
 class CashierAdmin(CustomUserPermissionsMixin, UserAdmin):
-    readonly_fields = ("type",)
+    ...
 
 
 @admin.register(DataEntryClerk)
 class DataEntryClerkAdmin(CustomUserPermissionsMixin, UserAdmin):
-    readonly_fields = ("type",)
-
-
-@admin.register(SubManager)
-class SubManagerAdmin(CustomUserPermissionsMixin, UserAdmin):
-    readonly_fields = ("type",)
+    ...
 
 
 @admin.register(Manager)
-class ManagerAdmin(UserAdmin):
-    readonly_fields = ("type",)
+class ManagerAdmin(CustomUserPermissionsMixin, UserAdmin):
+    ...
+
+
+@admin.register(GeneralManager)
+class GeneralManagerAdmin(UserAdmin):
+    ...
