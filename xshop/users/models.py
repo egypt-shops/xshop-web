@@ -70,7 +70,8 @@ class User(AbstractUser, TimeStampedModel):
     # Calculated Properties
     @property
     def roles(self):
-        return list(self.groups.all())
+        """To be used in admin and serializers without overriding the `groups` M2M field"""
+        return [name for name in self.groups.values_list("name", flat=True)]
 
     @property
     def type(self):

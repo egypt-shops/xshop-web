@@ -1,9 +1,9 @@
-from django.test import TestCase, Client, tag
+from django.test import Client, TestCase, tag
 from django.urls import reverse
 from model_bakery import baker
 
-from xshop.users.models import User
 from xshop.shops.models import Shop
+from xshop.users.models import Cashier, DataEntryClerk, GeneralManager, User
 
 
 @tag("login")
@@ -39,22 +39,21 @@ class RedirectionTests(TestCase):
         self.assertTrue(user.is_superuser)
         self.assertRedirects(resp, reverse("admin:index"), 302, 302)
 
-    def test_manager_redirected_to_manager_page(self):
-        user = baker.make(User, mobile="01559788591", type=["MANAGER"], shop=self.shop)
+    @tag("current")
+    def test_gm_redirected_to_gm_page(self):
+        user = baker.make(GeneralManager, mobile="01559788591", shop=self.shop)
         self.client.force_login(user)
         resp = self.client.get(self.url)
         self.assertRedirects(resp, reverse("dashboard:general_manager"), 302)
 
     def test_cashier_redirected_to_cashier_page(self):
-        user = baker.make(User, mobile="01559788591", type=["CASHIER"], shop=self.shop)
+        user = baker.make(Cashier, mobile="01559788591", shop=self.shop)
         self.client.force_login(user)
         resp = self.client.get(self.url)
         self.assertRedirects(resp, reverse("dashboard:cashier"), 302)
 
     def test_dec_redirected_to_data_entry_page(self):
-        user = baker.make(
-            User, mobile="01559788591", type=["DATA_ENTRY_CLERK"], shop=self.shop
-        )
+        user = baker.make(DataEntryClerk, mobile="01559788591", shop=self.shop)
         self.client.force_login(user)
         resp = self.client.get(self.url)
         self.assertRedirects(resp, reverse("dashboard:data_entry"), 302)

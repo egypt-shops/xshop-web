@@ -4,9 +4,9 @@ from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
 from xshop.invoices.models import Invoice
+from xshop.orders.models import Order
 from xshop.shops.models import Shop
 from xshop.users.models import User
-from xshop.orders.models import Order
 
 
 class InvoiceApiTests(APITestCase):

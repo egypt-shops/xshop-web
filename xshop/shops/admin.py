@@ -2,8 +2,8 @@ from django.contrib import admin
 
 from xshop.products.admin import ProductInline
 
-from .models import PricingPlan, Shop
 from ..users.mixins import ManagerFullPermissionMixin
+from .models import PricingPlan, Shop
 
 
 class PricingPlanInline(admin.TabularInline):

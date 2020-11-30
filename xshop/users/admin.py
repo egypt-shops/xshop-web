@@ -16,7 +16,7 @@ class UserAdmin(auth.admin.UserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
 
-    list_display = ("id", "mobile", "email", "name", "groups", "is_staff", "is_active")
+    list_display = ("id", "mobile", "email", "name", "roles", "is_staff", "is_active")
     list_display_links = ("id", "mobile")
     list_filter = ("is_staff", "is_active")
     search_fields = ("mobile", "email", "name")
@@ -26,7 +26,7 @@ class UserAdmin(auth.admin.UserAdmin):
         (
             None,
             {"fields": ("mobile", "email", "name", "password", "shop")},
-        ),  # "groups",
+        ),  # "roles",
         ("Permissions", {"fields": ("is_staff", "is_active")}),
     )
 
@@ -43,15 +43,12 @@ class UserAdmin(auth.admin.UserAdmin):
                     "password2",
                     "is_staff",
                     "is_active",
-                    # "groups",
+                    # "roles",
                     "shop",
                 ),
             },
         ),
     )
-
-    def groups(obj=None):
-        return ",".join(obj.groups.all())
 
     # inlines = (TokenAdminInline,)
 
