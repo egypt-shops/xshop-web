@@ -1,9 +1,9 @@
+from django.test import Client, TestCase, tag
 from django.urls import reverse
-from django.test import TestCase, Client, tag
-
 from model_bakery import baker
+
 from xshop.shops.models import Shop
-from xshop.users.models import User
+from xshop.users.models import Cashier, GeneralManager
 
 
 @tag("managerview")
@@ -14,7 +14,7 @@ class ManagerTests(TestCase):
 
     def test_manager_can_view(self):
         shop = baker.make(Shop, mobile="01559788591")
-        user = baker.make(User, mobile="01559788591", type=["MANAGER"], shop=shop)
+        user = baker.make(GeneralManager, mobile="01559788591", shop=shop)
         self.client.force_login(user)
         resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 200)
@@ -27,7 +27,7 @@ class ManagerTests(TestCase):
         )
 
     def test_manager_page_allowed_only_for_managers(self):
-        user = baker.make(User, mobile="01559788591", type=["CASHIER"])
+        user = baker.make(Cashier, mobile="01559788591")
         self.client.force_login(user)
         resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 403)

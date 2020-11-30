@@ -1,12 +1,12 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 
-from xshop.core.utils.user_roles import UserRoles
-from xshop.dashboard.decorators import allowed_users
+from xshop.core.utils import UserGroup
+from xshop.dashboard.decorators import allowed_groups
 
 
 @login_required
-@allowed_users([UserRoles.GENERAL_MANAGER])
+@allowed_groups([UserGroup.GENERAL_MANAGER])
 def general_manager(request):
     return render(request, "dashboard/general_manager.html")
 
