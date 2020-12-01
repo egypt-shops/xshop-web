@@ -312,16 +312,17 @@ python-versions = "*"
 
 [[package]]
 name = "django-baton"
-version = "1.12.1"
+version = "1.12.6"
 description = "A cool, modern and responsive django admin application"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-google-api-python-client = "1.5.5"
-google-auth = "1.22.1"
-google-auth-httplib2 = "0.0.4"
+google-api-python-client = "*"
+google-auth = "*"
+google-auth-httplib2 = "*"
+requests = "*"
 
 [[package]]
 name = "django-crispy-forms"
@@ -1352,7 +1353,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.6"
-content-hash = "908b6cda194808b269ce3e35a23df5ffdb30bd474b9fd7b9ac4586884aad46e5"
+content-hash = "5b59b128dea8388767172fc7a4c9964526575131458d5e7df0f624a0436fc1b9"
 
 [metadata.files]
 appdirs = [
@@ -1519,8 +1520,8 @@ django-admin-list-filter-dropdown = [
     {file = "django_admin_list_filter_dropdown-1.0.3-py3-none-any.whl", hash = "sha256:bf1b48bab9772dad79db71efef17e78782d4f2421444d5e49bb10e0da71cd6bb"},
 ]
 django-baton = [
-    {file = "django-baton-1.12.1.tar.gz", hash = "sha256:c5a76b218601c094d0a112ef081492ccf9d61b7a27a7c67db76f736700d03621"},
-    {file = "django_baton-1.12.1-py3-none-any.whl", hash = "sha256:9663161c6376cbbea32c7b9292a75aa6f464d917571e0bd7422fd02815a58474"},
+    {file = "django-baton-1.12.6.tar.gz", hash = "sha256:22cfbf8e4cdae9e39b406774409328f9ccd9045f40d149989945e672ad2f23cb"},
+    {file = "django_baton-1.12.6-py3-none-any.whl", hash = "sha256:e0f54c639d478afb83fdee61e0acd679d808d6339d31840e277f5b92d221d736"},
 ]
 django-crispy-forms = [
     {file = "django-crispy-forms-1.9.2.tar.gz", hash = "sha256:f2f1e0fbb458851636447cfb6be1a611b40c8ac9e41a74ba923011378670b43b"},
