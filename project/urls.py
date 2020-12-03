@@ -30,6 +30,7 @@ api_urlpatterns = [
     path("shops/", include("xshop.shops.api.urls", namespace="shops_api")),
     path("", include("xshop.pages.api.urls", namespace="pages_api")),
 ]
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("baton/", include("baton.urls")),
@@ -37,6 +38,7 @@ urlpatterns = [
     path("users/", include("django.contrib.auth.urls")),
     path("invoices/", include("xshop.invoices.urls", namespace="invoices")),
     path("core/", include("xshop.core.urls", namespace="core")),
+    path("dashboard/", include("xshop.dashboard.urls", namespace="dashboard")),
     path("api/", include(api_urlpatterns)),  # API urls from above
     path("", include("xshop.pages.urls", namespace="pages")),
     # for testing error alerts

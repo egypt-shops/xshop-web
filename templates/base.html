@@ -4,17 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Egypt Shops</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  {% block extra_head %}{% endblock extra_head %}
+  <title>{% block title %}Egypt Shops{% endblock title %}</title>
 </head>
 
 <body>
+  {% block content %}
   <h1>Hello world!</h1>
   {% if user.is_authenticated %}
   Hi {{ user.email }}
   {% else %}
   <p> You are not logged in</p>
-  <a href="{% url 'login' %}">Login</a>
+  <a href="{% url 'users:login' %}">Login</a>
   {% endif %}
+  {% endblock content %}
+
+  {% block script %}
+  {% endblock script %}
 </body>
 
 </html>

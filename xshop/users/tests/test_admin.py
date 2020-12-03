@@ -43,7 +43,7 @@ class UserAdminTests(TestCase):
             "mobile",
             "email",
             "name",
-            "type",
+            "roles",
             "is_staff",
             "is_active",
         )
@@ -130,9 +130,7 @@ class CustomerAdminTests(TestCase):
 
         # users
         self.superuser = baker.make(User, mobile="01010092181", is_superuser=True)
-        self.customer = baker.make(
-            Customer, mobile="01010092182", type=User.Types.CUSTOMER
-        )
+        self.customer = baker.make(Customer, mobile="01010092182")
 
         # request
         self.request = MockRequest()
@@ -144,12 +142,12 @@ class CustomerAdminTests(TestCase):
             "mobile",
             "email",
             "name",
-            "type",
+            "roles",
             "is_staff",
             "is_active",
         )
         self.superuser_list_filter = ("is_staff", "is_active")
-        self.readonly_fields = ("type",)
+        self.readonly_fields = tuple()
 
     def test_superuser_user_admin_str(self):
         self.assertEqual(str(self.model_admin), "users.CustomerAdmin")

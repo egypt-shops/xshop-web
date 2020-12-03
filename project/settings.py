@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "multiselectfield",
     "crispy_forms",
+    "crispy_tailwind",
     "djmoney",
     "drf_yasg2",
     # Local
@@ -192,10 +193,12 @@ AUTH_USER_MODEL = "users.User"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # django-crispy-forms
-CRISPY_TEMPLATE_PACK = "bootstrap4"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"
 
-# Login Redirection
-LOGIN_REDIRECT_URL = "pages:home"
+# Login & Redirection
+LOGIN_URL = "users:login"
+LOGIN_REDIRECT_URL = "users:redirection"
 LOGOUT_REDIRECT_URL = "pages:home"
 
 # sentry
@@ -209,7 +212,7 @@ if DEPLOY and DEPLOY not in ("LOCAL", "TESTING"):
         send_default_pii=True,
     )
 
-# TODO update later
+# TODO update later NOTE, this is to be deprecated if separated dashboard is done correctly
 DASHBOARD_MODULES = []
 
 # django-money
@@ -263,14 +266,14 @@ BATON = {
             "children": [
                 {
                     "type": "model",
-                    "label": "Managers",
-                    "name": "manager",
+                    "label": "General Managers",
+                    "name": "generalmanager",
                     "app": "users",
                 },
                 {
                     "type": "model",
-                    "label": "Sub Managers",
-                    "name": "submanager",
+                    "label": "Managers",
+                    "name": "manager",
                     "app": "users",
                 },
                 {

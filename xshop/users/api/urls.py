@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from xshop.users.api import views
 
 app_name = "users_api"
 
