@@ -1,10 +1,11 @@
-from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse
-from django.template.loader import render_to_string
 import weasyprint
-from .models import Invoice
+from django.contrib.admin.views.decorators import staff_member_required
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render
+from django.template.loader import render_to_string
+
 from ..orders.models import OrderItem
+from .models import Invoice
 
 
 # Custom administrarion

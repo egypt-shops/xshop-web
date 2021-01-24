@@ -3,8 +3,8 @@ from model_bakery import baker
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
-from xshop.users.models import User
 from xshop.shops.models import Shop
+from xshop.users.models import User
 
 
 class ShopsApiTests(APITestCase):

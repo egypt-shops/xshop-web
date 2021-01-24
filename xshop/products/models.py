@@ -1,11 +1,12 @@
+from io import BytesIO
+
+import barcode
+from barcode.writer import ImageWriter
+from django.core.files import File
 from django.db import models
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 from model_utils.models import TimeStampedModel
-import barcode
-from barcode.writer import ImageWriter
-from io import BytesIO
-from django.core.files import File
 
 
 class Product(TimeStampedModel):

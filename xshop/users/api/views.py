@@ -1,6 +1,6 @@
+from drf_yasg2.utils import swagger_auto_schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from drf_yasg2.utils import swagger_auto_schema
 
 from .serializers import TokenApiSerializer, TokenResponseSerializer
 
