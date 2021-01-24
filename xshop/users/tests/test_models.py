@@ -106,7 +106,7 @@ class CashierTests(TestCase):
     def test_created_cashier_attrs(self):
         self.assertEqual(self.cashier.mobile, "+201010092181")
         self.assertTrue(self.cashier.is_active)
-        self.assertFalse(self.cashier.is_staff)
+        self.assertTrue(self.cashier.is_staff)
         self.assertFalse(self.cashier.is_superuser)
         self.assertIsNone(self.cashier.username)
         self.assertEqual(Cashier.objects.count(), 1)
@@ -124,7 +124,7 @@ class DataEntryClerkTests(TestCase):
     def test_create_dec(self):
         self.assertEqual(self.dec.mobile, "+201010092181")
         self.assertTrue(self.dec.is_active)
-        self.assertFalse(self.dec.is_staff)
+        self.assertTrue(self.dec.is_staff)
         self.assertFalse(self.dec.is_superuser)
         self.assertIsNone(self.dec.username)
         self.assertEqual(DataEntryClerk.objects.count(), 1)
@@ -142,7 +142,7 @@ class ManagerTests(TestCase):
     def test_create_manager(self):
         self.assertEqual(self.manager.mobile, "+201010092181")
         self.assertTrue(self.manager.is_active)
-        self.assertFalse(self.manager.is_staff)
+        self.assertTrue(self.manager.is_staff)
         self.assertFalse(self.manager.is_superuser)
         self.assertIsNone(self.manager.username)
         self.assertEqual(Manager.objects.count(), 1)
@@ -161,7 +161,7 @@ class GeneralManagerTests(TestCase):
     def test_created_general_manager_attrs(self):
         self.assertEqual(self.gm.mobile, "+201010092181")
         self.assertTrue(self.gm.is_active)
-        self.assertFalse(self.gm.is_staff)
+        self.assertTrue(self.gm.is_staff)
         self.assertFalse(self.gm.is_superuser)
         self.assertIsNone(self.gm.username)
         self.assertEqual(GeneralManager.objects.count(), 1)
