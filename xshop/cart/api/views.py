@@ -2,76 +2,58 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.shortcuts import get_object_or_404
 from drf_yasg2.utils import swagger_auto_schema
 
 
-from xshop.products.models import Product
-from .serializers import AddToCartSerializer
+from .serializers import CartSerializer
 from ..cart import Cart
 
 
-class AddToCartApi(APIView):
-    serializer_class = AddToCartSerializer
+class CartApi(APIView):
+    serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
         operation_description="Add product to cart",
-        request_body=AddToCartSerializer,
+        request_body=CartSerializer,
         responses={
-            200: AddToCartSerializer,
-            400: "product_id Not found or Invalid quantity",
+            200: CartSerializer,
+            400: [{"product_id": "Not found"}, {"quantity": "Invalid"}],
         },
     )
     def post(self, request):
         cart = Cart(request)
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
+        action = serializer.validated_data.get("actions")
 
-        product = serializer.validated_data.get("product")
+        if action == "add":
+            product = serializer.validated_data.get("product")
+            cart.add(product=product)
+            return Response(cart)
 
-        cart.add(
-            product=product,
-            quantity=serializer.validated_data.get("quantity"),
-            override_quantity=serializer.validated_data.get("override_quantity"),
-        )
-        return Response(cart)
+        elif action == "patch":
+            product = serializer.validated_data.get("product")
+
+            cart.update(
+                product=product,
+                quantity=serializer.validated_data.get("quantity"),
+            )
+            return Response(cart)
+
+        elif action == "remove":
+            product_id = serializer.validated_data.get("product_id")
+            cart.remove(product_id)
+            return Response(cart, status=status.HTTP_200_OK)
+
+        elif action == "clear":
+            cart.clear()
+            return Response(status.HTTP_200_OK)
 
     @swagger_auto_schema(
-        operation_description="get cart's product",
-        responses={
-            200: AddToCartSerializer,
-            404: "Cart's product not found",
-        },
+        operation_description="get cart's product", responses={200: CartSerializer}
     )
     def get(self, request):
         cart = Cart(request)
 
         return Response(cart)
-
-    @swagger_auto_schema(
-        operation_description="delete cart from session",
-        responses={
-            200: "Cart removed from session",
-            404: "Cart not found",
-        },
-    )
-    def delete(self, request):
-        cart = Cart(request)
-        cart.clear()
-        return Response(status.HTTP_200_OK)
-
-
-class RemoveFromCartApi(APIView):
-    serializer_class = AddToCartSerializer
-    permission_classes = [IsAuthenticated]
-
-    @swagger_auto_schema(
-        operation_description="Remove product from cart",
-        responses={200: "Product removed", 404: "Product not found"},
-    )
-    def delete(self, request, product_id):
-        cart = Cart(request)
-        product = get_object_or_404(Product, id=product_id)
-        cart.remove(product.id)
-        return Response(cart, status=status.HTTP_200_OK)

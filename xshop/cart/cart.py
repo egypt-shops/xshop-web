@@ -15,24 +15,24 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def add(self, product, quantity=1, override_quantity=False):
+    def add(self, product):
         """Add a product to the cart or update its quantity.
 
         Args:
-            product ([type]): [The product instance to add or update in the cart.]
-            quantity (int, optional): [An optional integer with the product quantity, Defaults to 1.]
-            override_quantity (bool, optional): [This is a Boolean that indicates whether the quantity
-                        needs to be overridden with the given quantity ( True ), or whether the new
-                        quantity has to be added to the existing quantity ( False ), Defaults to False.]
+            product ([object]): [The product instance to add or update in the cart.]
         """
         product_id = str(product["id"])
         if product_id not in self.cart:
-            self.cart[product_id] = {"quantity": 0, "price": product["price"]}
+            self.cart[product_id] = {"quantity": 1, "price": product["price"]}
+        self.save()
 
-        if override_quantity:
+    def update(self, product, quantity):
+        """
+        update product quantity
+        """
+        product_id = str(product["id"])
+        if product_id in self.cart:
             self.cart[product_id]["quantity"] = quantity
-        else:
-            self.cart[product_id]["quantity"] += quantity
         self.save()
 
     def save(self):
