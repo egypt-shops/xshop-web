@@ -31,7 +31,7 @@ class CartSerializer(serializers.Serializer):
             raise ValidationError({"product_id": "Not found"})
         if action == "patch" and quantity is None:
             raise ValidationError({"quantity": "invalid, must provide quantity"})
-        if action in ["patch", "add"] and product.stock < quantity:
+        if action == "patch" and product.stock < quantity:
             raise ValidationError(
                 {"quantity": f"Invalid. available stock {product.stock}"}
             )
