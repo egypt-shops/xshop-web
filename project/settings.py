@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     "xshop.products.apps.ProductsConfig",
     "xshop.orders.apps.OrdersConfig",
     "xshop.invoices.apps.InvoicesConfig",
+    "xshop.cart.apps.CartConfig",
     # Third party
     "baton.autodiscover",
 ]
@@ -200,6 +201,9 @@ CRISPY_TEMPLATE_PACK = "tailwind"
 LOGIN_URL = "users:login"
 LOGIN_REDIRECT_URL = "users:redirection"
 LOGOUT_REDIRECT_URL = "pages:home"
+
+# Cart Session ID
+CART_SESSION_ID = "cart"
 
 # sentry
 if DEPLOY and DEPLOY not in ("LOCAL", "TESTING"):
