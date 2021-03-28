@@ -13,7 +13,7 @@ class Product(TimeStampedModel):
     name = models.CharField(max_length=255)
     price = MoneyField(max_digits=14, decimal_places=2, default=Money(0, "EGP"))
     stock = models.PositiveIntegerField()
-    barcode = models.ImageField(upload_to="images/", blank=True)
+    barcode = models.ImageField(upload_to="images/", blank=True, null=True)
     country_id = models.CharField(max_length=1, null=True)
     manufacturer_id = models.CharField(max_length=6, null=True)
     number_id = models.CharField(max_length=5, null=True)
