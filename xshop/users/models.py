@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -97,7 +98,8 @@ class User(AbstractUser, TimeStampedModel):
 
     # validating that manager have a shop
     def clean(self, *args, **kwargs):
-        # custom validations here
+        # if self.type==UserGroup.MANAGER and not self.shop:
+        #     raise ValidationError(_("Manager must have a shop."))
         super().clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
