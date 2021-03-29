@@ -77,7 +77,6 @@ class UserTests(TestCase):
         )
 
     def test_token_created_on_user_creation(self):
-        breakpoint()
         self.assertIsNotNone(self.user.auth_token)
 
 

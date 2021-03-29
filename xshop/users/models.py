@@ -98,8 +98,7 @@ class User(AbstractUser, TimeStampedModel):
 
     # validating that manager have a shop
     def clean(self, *args, **kwargs):
-        # if self.type==UserGroup.MANAGER and not self.shop:
-        #     raise ValidationError(_("Manager must have a shop."))
+        # custom validations here
         super().clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
@@ -153,6 +152,11 @@ class Cashier(User):
     verbose_name = "Cashier"
     verbose_name_plural = "Cashiers"
 
+    def clean(self, *args, **kwargs):
+        if not self.shop:
+            raise ValidationError(_("Cashier must have a shop."))
+        super().clean(*args, **kwargs)
+
 
 class DataEntryClerk(User):
     class Meta:
@@ -162,6 +166,11 @@ class DataEntryClerk(User):
 
     verbose_name = "Data Entry Clerk"
     verbose_name_plural = "Data Entry Clerks"
+
+    def clean(self, *args, **kwargs):
+        if not self.shop:
+            raise ValidationError(_("Data Entry Clerk must have a shop."))
+        super().clean(*args, **kwargs)
 
 
 class Manager(User):
@@ -173,6 +182,11 @@ class Manager(User):
     verbose_name = "Sub Manger"
     verbose_name_plural = "Sub Managers"
 
+    def clean(self, *args, **kwargs):
+        if not self.shop:
+            raise ValidationError(_("Manager must have a shop."))
+        super().clean(*args, **kwargs)
+
 
 class GeneralManager(User):
     class Meta:
@@ -182,3 +196,8 @@ class GeneralManager(User):
 
     verbose_name = "Manger"
     verbose_name_plural = "Managers"
+
+    def clean(self, *args, **kwargs):
+        if not self.shop:
+            raise ValidationError(_("General Manager must have a shop."))
+        super().clean(*args, **kwargs)
