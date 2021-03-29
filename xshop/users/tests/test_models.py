@@ -102,8 +102,7 @@ class CustomerTests(TestCase):
 class CashierTests(TestCase):
     def setUp(self) -> None:
         self.shop = baker.make(Shop, mobile="+201010092181")
-        self.cashier = baker.make(Cashier, mobile="+201010092181",
-                                  shop=self.shop)
+        self.cashier = baker.make(Cashier, mobile="+201010092181", shop=self.shop)
 
     def test_created_cashier_attrs(self):
         self.assertEqual(self.cashier.mobile, "+201010092181")
@@ -127,8 +126,7 @@ class CashierTests(TestCase):
 class DataEntryClerkTests(TestCase):
     def setUp(self) -> None:
         self.shop = baker.make(Shop, mobile="+201010092181")
-        self.dec = baker.make(DataEntryClerk, mobile="+201010092181",
-                              shop=self.shop)
+        self.dec = baker.make(DataEntryClerk, mobile="+201010092181", shop=self.shop)
 
     def test_create_dec(self):
         self.assertEqual(self.dec.mobile, "+201010092181")
@@ -138,7 +136,7 @@ class DataEntryClerkTests(TestCase):
         self.assertEqual(self.dec.shop, self.shop)
         self.assertIsNone(self.dec.username)
         self.assertEqual(DataEntryClerk.objects.count(), 1)
-    
+
     def test_valid_err_if_noshop_with_DEC(self):
         with self.assertRaises(ValidationError):
             self.user1 = baker.make(DataEntryClerk, mobile="+201010092182")
@@ -152,8 +150,7 @@ class DataEntryClerkTests(TestCase):
 class ManagerTests(TestCase):
     def setUp(self) -> None:
         self.shop = baker.make(Shop, mobile="+201010092181")
-        self.manager = baker.make(Manager, mobile="+201010092181",
-                                  shop=self.shop)
+        self.manager = baker.make(Manager, mobile="+201010092181", shop=self.shop)
 
     def test_create_manager(self):
         self.assertEqual(self.manager.mobile, "+201010092181")
@@ -163,7 +160,7 @@ class ManagerTests(TestCase):
         self.assertEqual(self.manager.shop, self.shop)
         self.assertIsNone(self.manager.username)
         self.assertEqual(Manager.objects.count(), 1)
-    
+
     def test_valid_err_if_noshop_with_manager(self):
         with self.assertRaises(ValidationError):
             self.user1 = baker.make(Manager, mobile="+201010092182")
@@ -187,7 +184,7 @@ class GeneralManagerTests(TestCase):
         self.assertFalse(self.gm.is_superuser)
         self.assertIsNone(self.gm.username)
         self.assertEqual(GeneralManager.objects.count(), 1)
-    
+
     def test_valid_err_if_noshop_with_gm(self):
         with self.assertRaises(ValidationError):
             self.user1 = baker.make(GeneralManager, mobile="+201010092182")
