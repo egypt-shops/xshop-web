@@ -29,6 +29,7 @@ api_urlpatterns = [
     path("orders/", include("xshop.orders.api.urls", namespace="orders_api")),
     path("invoices/", include("xshop.invoices.api.urls", namespace="invoices_api")),
     path("shops/", include("xshop.shops.api.urls", namespace="shops_api")),
+    path("cart/", include("xshop.cart.api.urls", namespace="cart_api")),
     path("", include("xshop.pages.api.urls", namespace="pages_api")),
 ]
 
@@ -39,6 +40,7 @@ urlpatterns = [
     path("users/", include("django.contrib.auth.urls")),
     path("invoices/", include("xshop.invoices.urls", namespace="invoices")),
     path("core/", include("xshop.core.urls", namespace="core")),
+    path("cart/", include("xshop.cart.urls", namespace="cart")),
     path("dashboard/", include("xshop.dashboard.urls", namespace="dashboard")),
     path("api/", include(api_urlpatterns)),  # API urls from above
     path("", include("xshop.pages.urls", namespace="pages")),
