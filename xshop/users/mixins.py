@@ -25,7 +25,7 @@ class SuperuserPermissionsMixin:
             return True
 
 
-class CleaningMixin(object):
+class ShopRequiredMixin(object):
     """
     Making sure that Manager, GM, DEC, Cashier are connected to shop when created
     """

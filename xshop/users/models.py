@@ -6,7 +6,7 @@ from model_utils.models import TimeStampedModel
 from phonenumber_field.modelfields import PhoneNumberField
 
 from xshop.core.utils import UserGroup
-from .mixins import CleaningMixin
+from .mixins import ShopRequiredMixin
 
 
 # =========================================== User ModelManager
@@ -143,7 +143,7 @@ class Customer(User):
     verbose_name_plural = "Customers"
 
 
-class Cashier(CleaningMixin, User):
+class Cashier(ShopRequiredMixin, User):
     class Meta:
         proxy = True
 
@@ -153,7 +153,7 @@ class Cashier(CleaningMixin, User):
     verbose_name_plural = "Cashiers"
 
 
-class DataEntryClerk(CleaningMixin, User):
+class DataEntryClerk(ShopRequiredMixin, User):
     class Meta:
         proxy = True
 
@@ -163,7 +163,7 @@ class DataEntryClerk(CleaningMixin, User):
     verbose_name_plural = "Data Entry Clerks"
 
 
-class Manager(CleaningMixin, User):
+class Manager(ShopRequiredMixin, User):
     class Meta:
         proxy = True
 
@@ -173,7 +173,7 @@ class Manager(CleaningMixin, User):
     verbose_name_plural = "Sub Managers"
 
 
-class GeneralManager(CleaningMixin, User):
+class GeneralManager(ShopRequiredMixin, User):
     class Meta:
         proxy = True
 
