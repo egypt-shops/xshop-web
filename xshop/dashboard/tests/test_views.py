@@ -27,7 +27,8 @@ class ManagerTests(TestCase):
         )
 
     def test_manager_page_allowed_only_for_managers(self):
-        user = baker.make(Cashier, mobile="01559788591")
+        self.shop = baker.make(Shop, mobile="01559788591")
+        user = baker.make(Cashier, mobile="01559788591", shop=self.shop)
         self.client.force_login(user)
         resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 403)
