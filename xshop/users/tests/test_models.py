@@ -114,7 +114,7 @@ class CashierTests(TestCase):
         self.assertEqual(Cashier.objects.count(), 1)
 
     def test_valid_err_if_noshop_with_Cashier(self):
-        with self.assertRaises(ValidationError):
+        with self.assertRaisesMessage(ValidationError, "Cashier must have a shop."):
             self.user1 = baker.make(Cashier, mobile="+201010092182")
 
     def test_cashier_added_to_cashier_group(self):
@@ -138,7 +138,9 @@ class DataEntryClerkTests(TestCase):
         self.assertEqual(DataEntryClerk.objects.count(), 1)
 
     def test_valid_err_if_noshop_with_DEC(self):
-        with self.assertRaises(ValidationError):
+        with self.assertRaisesMessage(
+            ValidationError, "Data Entry Clerk must have a shop."
+        ):
             self.user1 = baker.make(DataEntryClerk, mobile="+201010092182")
 
     def test_dec_added_to_dec_group(self):
@@ -162,7 +164,7 @@ class ManagerTests(TestCase):
         self.assertEqual(Manager.objects.count(), 1)
 
     def test_valid_err_if_noshop_with_manager(self):
-        with self.assertRaises(ValidationError):
+        with self.assertRaisesMessage(ValidationError, "Sub Manger must have a shop."):
             self.user1 = baker.make(Manager, mobile="+201010092182")
 
     def test_manager_added_to_manager_group(self):
@@ -186,7 +188,7 @@ class GeneralManagerTests(TestCase):
         self.assertEqual(GeneralManager.objects.count(), 1)
 
     def test_valid_err_if_noshop_with_gm(self):
-        with self.assertRaises(ValidationError):
+        with self.assertRaisesMessage(ValidationError, "Manger must have a shop."):
             self.user1 = baker.make(GeneralManager, mobile="+201010092182")
 
     def test_gm_added_to_gm_group(self):

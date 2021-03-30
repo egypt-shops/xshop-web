@@ -1,4 +1,3 @@
-from django.core.exceptions import ValidationError
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -7,6 +6,7 @@ from model_utils.models import TimeStampedModel
 from phonenumber_field.modelfields import PhoneNumberField
 
 from xshop.core.utils import UserGroup
+from .mixins import CleaningMixin
 
 
 # =========================================== User ModelManager
@@ -143,7 +143,7 @@ class Customer(User):
     verbose_name_plural = "Customers"
 
 
-class Cashier(User):
+class Cashier(CleaningMixin, User):
     class Meta:
         proxy = True
 
@@ -152,13 +152,8 @@ class Cashier(User):
     verbose_name = "Cashier"
     verbose_name_plural = "Cashiers"
 
-    def clean(self, *args, **kwargs):
-        if not self.shop:
-            raise ValidationError(_("Cashier must have a shop."))
-        super().clean(*args, **kwargs)
 
-
-class DataEntryClerk(User):
+class DataEntryClerk(CleaningMixin, User):
     class Meta:
         proxy = True
 
@@ -167,13 +162,8 @@ class DataEntryClerk(User):
     verbose_name = "Data Entry Clerk"
     verbose_name_plural = "Data Entry Clerks"
 
-    def clean(self, *args, **kwargs):
-        if not self.shop:
-            raise ValidationError(_("Data Entry Clerk must have a shop."))
-        super().clean(*args, **kwargs)
 
-
-class Manager(User):
+class Manager(CleaningMixin, User):
     class Meta:
         proxy = True
 
@@ -182,13 +172,8 @@ class Manager(User):
     verbose_name = "Sub Manger"
     verbose_name_plural = "Sub Managers"
 
-    def clean(self, *args, **kwargs):
-        if not self.shop:
-            raise ValidationError(_("Manager must have a shop."))
-        super().clean(*args, **kwargs)
 
-
-class GeneralManager(User):
+class GeneralManager(CleaningMixin, User):
     class Meta:
         proxy = True
 
@@ -196,8 +181,3 @@ class GeneralManager(User):
 
     verbose_name = "Manger"
     verbose_name_plural = "Managers"
-
-    def clean(self, *args, **kwargs):
-        if not self.shop:
-            raise ValidationError(_("General Manager must have a shop."))
-        super().clean(*args, **kwargs)
