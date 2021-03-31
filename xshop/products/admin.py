@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.http import HttpResponse
 
 from .models import Product
+from ..shops.models import Shop
 
 
 @admin.register(Product)
@@ -15,6 +16,14 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ("name",)
     ordering = ("-id",)
 
+    def get_queryset(self, request):
+        if request.user.is_superuser:
+            return Product.objects.all()
+        try:
+            return Product.objects.filter(shop=Shop.objects.get(mobile=request.user.mobile))
+        except:
+            return Product.objects.filter(shop_id=0)
+
     def export_as_csv(self, request, queryset):
         meta = self.model._meta
         field_names = [field.name for field in meta.fields]
@@ -25,10 +34,6 @@ class ProductAdmin(admin.ModelAdmin):
 
         writer.writerow(field_names)
         for obj in queryset:
-            if (
-                request.user.mobile != obj.shop.mobile
-            ) and not request.user.is_superuser:
-                continue
             writer.writerow([getattr(obj, field) for field in field_names])
 
         return response
