@@ -1,6 +1,7 @@
 from drf_yasg2.utils import swagger_auto_schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import status
 
 from .serializers import TokenApiSerializer, TokenResponseSerializer
 
@@ -36,3 +37,10 @@ class TokenApi(APIView):
         resp_serializer = TokenResponseSerializer(data=resp_data)
         resp_serializer.is_valid()
         return Response(resp_serializer.data)
+
+
+class Logout(APIView):
+    def get(self, request, format=None):
+        if request.user.is_authenticated:
+            request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
