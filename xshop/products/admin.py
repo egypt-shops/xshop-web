@@ -25,6 +25,10 @@ class ProductAdmin(admin.ModelAdmin):
 
         writer.writerow(field_names)
         for obj in queryset:
+            if (
+                request.user.mobile != obj.shop.mobile
+            ) and not request.user.is_superuser:
+                continue
             writer.writerow([getattr(obj, field) for field in field_names])
 
         return response
