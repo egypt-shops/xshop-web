@@ -101,15 +101,21 @@ class CustomerTests(TestCase):
 @tag("cashiermodel")
 class CashierTests(TestCase):
     def setUp(self) -> None:
-        self.cashier = baker.make(Cashier, mobile="+201010092181")
+        self.shop = baker.make(Shop, mobile="+201010092181")
+        self.cashier = baker.make(Cashier, mobile="+201010092181", shop=self.shop)
 
     def test_created_cashier_attrs(self):
         self.assertEqual(self.cashier.mobile, "+201010092181")
         self.assertTrue(self.cashier.is_active)
         self.assertTrue(self.cashier.is_staff)
         self.assertFalse(self.cashier.is_superuser)
+        self.assertEqual(self.cashier.shop, self.shop)
         self.assertIsNone(self.cashier.username)
         self.assertEqual(Cashier.objects.count(), 1)
+
+    def test_valid_err_if_noshop_with_Cashier(self):
+        with self.assertRaisesMessage(ValidationError, "Cashier must have a shop."):
+            self.user1 = baker.make(Cashier, mobile="+201010092182")
 
     def test_cashier_added_to_cashier_group(self):
         self.assertEqual(self.cashier.groups.count(), 1)
@@ -119,15 +125,23 @@ class CashierTests(TestCase):
 @tag("decmodel")
 class DataEntryClerkTests(TestCase):
     def setUp(self) -> None:
-        self.dec = baker.make(DataEntryClerk, mobile="+201010092181")
+        self.shop = baker.make(Shop, mobile="+201010092181")
+        self.dec = baker.make(DataEntryClerk, mobile="+201010092181", shop=self.shop)
 
     def test_create_dec(self):
         self.assertEqual(self.dec.mobile, "+201010092181")
         self.assertTrue(self.dec.is_active)
         self.assertTrue(self.dec.is_staff)
         self.assertFalse(self.dec.is_superuser)
+        self.assertEqual(self.dec.shop, self.shop)
         self.assertIsNone(self.dec.username)
         self.assertEqual(DataEntryClerk.objects.count(), 1)
+
+    def test_valid_err_if_noshop_with_DEC(self):
+        with self.assertRaisesMessage(
+            ValidationError, "Data Entry Clerk must have a shop."
+        ):
+            self.user1 = baker.make(DataEntryClerk, mobile="+201010092182")
 
     def test_dec_added_to_dec_group(self):
         self.assertEqual(self.dec.groups.count(), 1)
@@ -137,15 +151,21 @@ class DataEntryClerkTests(TestCase):
 @tag("managermodel")
 class ManagerTests(TestCase):
     def setUp(self) -> None:
-        self.manager = baker.make(Manager, mobile="+201010092181")
+        self.shop = baker.make(Shop, mobile="+201010092181")
+        self.manager = baker.make(Manager, mobile="+201010092181", shop=self.shop)
 
     def test_create_manager(self):
         self.assertEqual(self.manager.mobile, "+201010092181")
         self.assertTrue(self.manager.is_active)
         self.assertTrue(self.manager.is_staff)
         self.assertFalse(self.manager.is_superuser)
+        self.assertEqual(self.manager.shop, self.shop)
         self.assertIsNone(self.manager.username)
         self.assertEqual(Manager.objects.count(), 1)
+
+    def test_valid_err_if_noshop_with_manager(self):
+        with self.assertRaisesMessage(ValidationError, "Sub Manger must have a shop."):
+            self.user1 = baker.make(Manager, mobile="+201010092182")
 
     def test_manager_added_to_manager_group(self):
         self.assertEqual(self.manager.groups.count(), 1)
@@ -162,9 +182,14 @@ class GeneralManagerTests(TestCase):
         self.assertEqual(self.gm.mobile, "+201010092181")
         self.assertTrue(self.gm.is_active)
         self.assertTrue(self.gm.is_staff)
+        self.assertEqual(self.gm.shop, self.shop)
         self.assertFalse(self.gm.is_superuser)
         self.assertIsNone(self.gm.username)
         self.assertEqual(GeneralManager.objects.count(), 1)
+
+    def test_valid_err_if_noshop_with_gm(self):
+        with self.assertRaisesMessage(ValidationError, "Manger must have a shop."):
+            self.user1 = baker.make(GeneralManager, mobile="+201010092182")
 
     def test_gm_added_to_gm_group(self):
         self.assertEqual(self.gm.groups.count(), 1)
