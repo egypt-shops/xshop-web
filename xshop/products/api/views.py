@@ -71,7 +71,7 @@ class ListProductsPerShop(APIView):
 
     @extend_schema(
         description="List products per shop",
-        responses={200: ProductSerializer, 404: "Product not found"},
+        responses={200: ProductSerializer, 404: "Shop not found"},
     )
     def get(self, request, shop_id):
         try:
