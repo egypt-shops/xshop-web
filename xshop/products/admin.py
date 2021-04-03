@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.http import HttpResponse
 
 from .models import Product
+from ..shops.models import Shop
 
 
 @admin.register(Product)
@@ -19,7 +20,11 @@ class ProductAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
             return Product.objects.all()
-        return qs.filter(shop__in=[request.user.shop])
+        try:
+            shop = Shop.objects.get(mobile=request.user.mobile)
+            return qs.filter(shop__in=[shop])
+        except Shop.DoesNotExist:
+            return Product.objects.filter(id=0)
 
     def export_as_csv(self, request, queryset):
         meta = self.model._meta

@@ -25,7 +25,7 @@ request = MockRequest()
 request.user = MockSuperUser()
 
 
-class UserAdminTests(TestCase):
+class ProductAdminTests(TestCase):
     def setUp(self) -> None:
         self.site = AdminSite()
         self.model_admin = ProductAdmin(Product, self.site)
@@ -36,12 +36,12 @@ class UserAdminTests(TestCase):
         self.shop1 = baker.make(Shop, mobile="01010092184")
 
         # product
-        self.product_test = baker.make(Product, name="apple", shop=self.shop_test)
-        self.product = baker.make(Product, name="banana", shop=self.shop)
+        self.product_test = baker.make(Product, name="superuser_p", shop=self.shop_test)
+        self.product = baker.make(Product, name="manager_p", shop=self.shop)
 
         # users
         self.superuser = baker.make(User, mobile="01010092181", is_superuser=True)
-        self.manager = baker.make(Manager, mobile="01010092182", shop=self.shop)
+        self.manager = baker.make(Manager, mobile="01010092183", shop=self.shop)
         self.manager1 = baker.make(Manager, mobile="01010092184", shop=self.shop1)
 
         # requests
