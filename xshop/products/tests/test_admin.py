@@ -2,7 +2,7 @@ from django.contrib.admin.sites import AdminSite
 from django.test import RequestFactory, TestCase
 from model_bakery import baker
 
-from ...users.models import Manager, User
+from ...users.models import GeneralManager, User
 from ...shops.models import Shop
 from ..admin import ProductAdmin
 from ..models import Product
@@ -41,8 +41,10 @@ class ProductAdminTests(TestCase):
 
         # users
         self.superuser = baker.make(User, mobile="01010092181", is_superuser=True)
-        self.manager = baker.make(Manager, mobile="01010092183", shop=self.shop)
-        self.manager1 = baker.make(Manager, mobile="01010092184", shop=self.shop1)
+        self.manager = baker.make(GeneralManager, mobile="01010092183", shop=self.shop)
+        self.manager1 = baker.make(
+            GeneralManager, mobile="01010092184", shop=self.shop1
+        )
 
         # requests
         self.request_super = MockRequest()
