@@ -20,7 +20,7 @@ class ProductAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return Product.objects.all()
         try:
-            return Product.objects.filter(shop=Shop.objects.get(mobile=request.user.mobile))
+            return Product.objects.filter(shop=request.user.shop)
         except:
             return Product.objects.filter(shop_id=0)
 

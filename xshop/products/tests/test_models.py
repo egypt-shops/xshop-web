@@ -1,0 +1,67 @@
+from django.contrib.admin.sites import AdminSite
+from django.test import RequestFactory, TestCase
+from model_bakery import baker
+
+from ...users.admin import CustomerAdmin, UserAdmin
+from ...users.forms import UserChangeForm
+from ...users.models import Manager, User
+from ...shops.models import Shop
+from ..admin import ProductAdmin
+from ..models import Product
+
+
+class MockRequest:
+    GET = ""
+
+    def get(self):
+        request_factory = RequestFactory()
+        return request_factory.get("/admin")
+
+
+class MockSuperUser:
+    def has_perm(self, perm, obj=None):
+        return True
+
+
+request = MockRequest()
+request.user = MockSuperUser()
+
+
+class UserAdminTests(TestCase):
+    def setUp(self) -> None:
+        self.site = AdminSite()
+        self.model_admin = ProductAdmin(Product, self.site)
+
+        # shops
+        self.shop_test = baker.make(Shop, mobile="01010092182")
+        self.shop = baker.make(Shop, mobile="01010092183")
+
+        # product
+        self.product_test = baker.make(Product, name='apple',
+                                            shop=self.shop_test)
+        self.product = baker.make(Product, name='banana', shop=self.shop)
+
+        # users
+        self.superuser = baker.make(User, mobile="01010092181", is_superuser=True)
+        self.manager = baker.make(Manager, mobile="01010092182", shop=self.shop)
+
+        # request
+        self.request_super = MockRequest()
+        self.request_super.user = self.superuser
+
+        self.request_manager = MockRequest()
+        self.request_manager.user = self.manager
+
+        # attr values
+
+    def test_superuser_product_queryset(self):
+        self.assertEqual(
+            list(self.model_admin.get_queryset(self.request_super).order_by("-id")),
+            list(Product.objects.all().order_by("-id")),
+        )
+
+    def test_manager_product_queryset(self):
+        self.assertEqual(
+            list(self.model_admin.get_queryset(self.request_manager).order_by("-id")),
+            list(Product.objects.filter(shop=self.shop).order_by("-id")),
+        )
