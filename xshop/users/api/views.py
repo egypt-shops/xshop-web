@@ -2,6 +2,9 @@ from drf_yasg2.utils import swagger_auto_schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth import logout
 
 from .serializers import TokenApiSerializer, TokenResponseSerializer
 
@@ -39,8 +42,10 @@ class TokenApi(APIView):
         return Response(resp_serializer.data)
 
 
-class Logout(APIView):
+class Logout(LoginRequiredMixin, APIView):
     def get(self, request, format=None):
         if request.user.is_authenticated:
             request.user.auth_token.delete()
+            auth_logout(request.user)
+            logout(request)
         return Response(status=status.HTTP_200_OK)

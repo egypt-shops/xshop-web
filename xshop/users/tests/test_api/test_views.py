@@ -50,3 +50,35 @@ class TokenApiTests(APITestCase):
 
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(resp.json().get("password")[0], "Invalid")
+
+
+class LoginLogoutTests(APITestCase):
+    def setUp(self):
+        self.user = baker.make(
+            User,
+            mobile="01010092181",
+            name="Ahmed Loay Shahwan",
+        )
+        self.user.set_password("test")
+        self.user.save()
+        self.client = APIClient()
+        self.url = reverse("users_api:token")
+
+    def test_login(self):
+        self.client.login(mobile=self.user.mobile, password=self.user.password)
+        self.assertEqual(self.user.mobile, "01010092181")
+        # test if login request index.html
+        self.assertTrue(self.client.get("main_page.index.html"))
+        # test login with valid credentials
+        self.assertTrue(self.client.login(mobile="01010092181", password="test"))
+        # test login with invalid credentials
+        self.assertFalse(self.client.login(mobile="01010092181", password="password"))
+
+    def test_user_logs_out(self):
+        self.client.logout()
+        # test authentication
+        self.assertTrue(self.user.is_authenticated)
+        self.assertFalse(self.user.is_anonymous)
+
+        resp = self.client.get("/")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
