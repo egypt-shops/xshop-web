@@ -18,7 +18,7 @@ class ProductAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         if request.user.is_superuser:
             return Product.objects.all()
-        if request.user.type == ["General Manager"]:
+        if "General Manager" in request.user.type:
             return Product.objects.filter(shop=request.user.shop)
         return Product.objects.filter(id=0)
 
