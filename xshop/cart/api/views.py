@@ -2,7 +2,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from drf_yasg2.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 
 
 from .serializers import CartSerializer
@@ -13,9 +13,9 @@ class CartApi(APIView):
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
 
-    @swagger_auto_schema(
-        operation_description="Add product to cart",
-        request_body=CartSerializer,
+    @extend_schema(
+        description="Add, Update or remove product to cart or Delete the cart itself",
+        request=CartSerializer,
         responses={
             200: CartSerializer,
             400: [{"product_id": "Not found"}, {"quantity": "Invalid"}],
@@ -50,8 +50,9 @@ class CartApi(APIView):
             cart.clear()
             return Response(status.HTTP_200_OK)
 
-    @swagger_auto_schema(
-        operation_description="get cart's product", responses={200: CartSerializer}
+    @extend_schema(
+        description="get cart's product",
+        responses={200: CartSerializer},
     )
     def get(self, request):
         cart = Cart(request)
