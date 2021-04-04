@@ -83,6 +83,6 @@ class ProductAdminTests(TestCase):
 
     def test_manager_permission_denied_product_queryset(self):
         with self.assertRaisesMessage(
-            PermissionDenied, "You have no access to the data."
+            PermissionDenied, "You have no access to this data."
         ):
             self.model_admin.get_queryset(self.request_test_user)
