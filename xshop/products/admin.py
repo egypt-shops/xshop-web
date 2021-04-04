@@ -2,6 +2,8 @@ import csv
 
 from django.contrib import admin
 from django.http import HttpResponse
+from django.core.exceptions import PermissionDenied
+from django.utils.translation import ugettext_lazy as _
 
 from .models import Product
 
@@ -20,7 +22,7 @@ class ProductAdmin(admin.ModelAdmin):
             return Product.objects.all()
         if "General Manager" in request.user.type:
             return Product.objects.filter(shop=request.user.shop)
-        return Product.objects.filter(id=0)
+        raise PermissionDenied(_("You have no access to this data."))
 
     def export_as_csv(self, request, queryset):
         meta = self.model._meta

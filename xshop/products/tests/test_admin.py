@@ -1,5 +1,6 @@
 from django.contrib.admin.sites import AdminSite
 from django.test import RequestFactory, TestCase
+from django.core.exceptions import PermissionDenied
 from model_bakery import baker
 
 from ...users.models import GeneralManager, User
@@ -45,6 +46,7 @@ class ProductAdminTests(TestCase):
         self.manager1 = baker.make(
             GeneralManager, mobile="01010092184", shop=self.shop1
         )
+        self.test_user = baker.make(User, mobile="01010092185")
 
         # requests
         self.request_super = MockRequest()
@@ -55,6 +57,9 @@ class ProductAdminTests(TestCase):
 
         self.request_no_product = MockRequest()
         self.request_no_product.user = self.manager1
+
+        self.request_test_user = MockRequest()
+        self.request_test_user.user = self.test_user
 
         # attr values
 
@@ -72,8 +77,12 @@ class ProductAdminTests(TestCase):
 
     def test_manager_no_product_queryset(self):
         self.assertEqual(
-            list(
-                self.model_admin.get_queryset(self.request_no_product).order_by("-id")
-            ),
-            list(Product.objects.filter(id=0).order_by("-id")),
+            list(self.model_admin.get_queryset(self.request_no_product)),
+            list(Product.objects.filter(id=0)),
         )
+
+    def test_manager_permission_denied_product_queryset(self):
+        with self.assertRaisesMessage(
+            PermissionDenied, "You have no access to the data."
+        ):
+            self.model_admin.get_queryset(self.request_test_user)
