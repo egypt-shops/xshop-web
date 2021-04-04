@@ -3,7 +3,7 @@ from django.test import RequestFactory, TestCase
 from django.core.exceptions import PermissionDenied
 from model_bakery import baker
 
-from ...users.models import GeneralManager, User
+from xshop.users.models import GeneralManager, User
 from ...shops.models import Shop
 from ..admin import ProductAdmin
 from ..models import Product
