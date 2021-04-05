@@ -63,6 +63,7 @@ class LoginLogoutTests(APITestCase):
         self.user.save()
         self.client = APIClient()
         self.url = reverse("users_api:token")
+        self.logout_url = reverse("users_api:logout")
 
     def test_login(self):
         self.client.login(mobile=self.user.mobile, password=self.user.password)
@@ -75,10 +76,13 @@ class LoginLogoutTests(APITestCase):
         self.assertFalse(self.client.login(mobile="01010092181", password="password"))
 
     def test_user_logs_out(self):
-        self.client.logout()
-        # test authentication
-        self.assertTrue(self.user.is_authenticated)
-        self.assertFalse(self.user.is_anonymous)
-
-        resp = self.client.get("/")
+        # First, login
+        self.client.login(mobile=self.user.mobile, password=self.user.password)
+        
+        # Then try to logout
+        resp = self.client.get(self.logout_url)
+        
+        # Do the checks
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertFalse(self.user.auth_token)
+        self.assertFalse(self.user.is_authenticated)
