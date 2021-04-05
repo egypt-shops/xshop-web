@@ -43,7 +43,6 @@ class TokenApi(APIView):
 
 class Logout(LoginRequiredMixin, APIView):
     def get(self, request, format=None):
-        if request.user.is_authenticated:
-            request.user.auth_token.delete()
-            auth_logout(request.user)
+        request.user.auth_token.delete()
+        auth_logout(request.user)
         return Response(status=status.HTTP_200_OK)
