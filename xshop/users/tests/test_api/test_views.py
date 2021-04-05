@@ -62,26 +62,13 @@ class LoginLogoutTests(APITestCase):
         self.user.set_password("test")
         self.user.save()
         self.client = APIClient()
-        self.url = reverse("users_api:token")
-        self.logout_url = reverse("users_api:logout")
-
-    def test_login(self):
-        self.client.login(mobile=self.user.mobile, password=self.user.password)
-        self.assertEqual(self.user.mobile, "01010092181")
-        # test if login request index.html
-        self.assertTrue(self.client.get("main_page.index.html"))
-        # test login with valid credentials
-        self.assertTrue(self.client.login(mobile="01010092181", password="test"))
-        # test login with invalid credentials
-        self.assertFalse(self.client.login(mobile="01010092181", password="password"))
+        self.url = reverse("users_api:logout")
 
     def test_user_logs_out(self):
         # First, login
-        self.client.login(mobile=self.user.mobile, password=self.user.password)
-        
+        self.client.force_login(self.user)
         # Then try to logout
-        resp = self.client.get(self.logout_url)
-        
+        resp = self.client.get(self.url)
         # Do the checks
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertFalse(self.user.auth_token)
