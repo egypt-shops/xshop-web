@@ -71,5 +71,9 @@ class LoginLogoutTests(APITestCase):
         resp = self.client.get(self.url)
         # Do the checks
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        self.assertFalse(self.user.auth_token)
-        self.assertFalse(self.user.is_authenticated)
+        self.user.refresh_from_db()
+        with self.assertRaisesMessage(
+            User.auth_token.RelatedObjectDoesNotExist,
+            "User has no auth_token.",
+        ):
+            self.user.auth_token
