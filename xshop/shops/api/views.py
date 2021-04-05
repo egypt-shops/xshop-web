@@ -1,4 +1,4 @@
-from drf_yasg2.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,8 +10,8 @@ from .serializers import ShopSerializer
 class ShopListApi(APIView):
     serializer_class = ShopSerializer
 
-    @swagger_auto_schema(
-        operation_description="List all shops that exists in the DB",
+    @extend_schema(
+        description="List all shops that exists in the DB",
         responses={200: "[List of shops]"},
     )
     def get(self, request):
@@ -24,8 +24,8 @@ class ShopListApi(APIView):
 class ShopDetailApi(APIView):
     serializer_class = ShopSerializer
 
-    @swagger_auto_schema(
-        operation_description="Get specific shop's data",
+    @extend_schema(
+        description="Get specific shop's data",
         responses={200: ShopSerializer, 404: "Shop not found"},
     )
     def get(self, request, shop_id):
