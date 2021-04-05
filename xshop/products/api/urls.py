@@ -15,4 +15,9 @@ urlpatterns = [
         views.ProductListCreateApi.as_view(),
         name="product_list_create",
     ),
+    path(
+        "shop/<int:shop_id>/",
+        views.ListProductsPerShop.as_view(),
+        name="list_products_per_shop",
+    ),
 ]

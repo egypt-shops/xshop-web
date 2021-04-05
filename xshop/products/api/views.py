@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 
 from ..models import Product
 from .serializers import ProductSerializer
+from xshop.shops.models import Shop
 
 
 class ProductListCreateApi(generics.ListAPIView):
@@ -62,4 +63,22 @@ class ProductDetailPatchApi(APIView):
             updated_product = serializer.save()
             return Response(self.serializer_class(updated_product).data)
         except Product.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class ListProductsPerShop(APIView):
+    serializer_class = ProductSerializer
+
+    @extend_schema(
+        description="List products per shop",
+        responses={200: ProductSerializer, 404: "Shop not found"},
+    )
+    def get(self, request, shop_id):
+        try:
+            Shop.objects.get(id=shop_id)
+            products = Product.objects.filter(shop_id=shop_id)
+
+            serializer = self.serializer_class(products, many=True)
+            return Response(serializer.data)
+        except Shop.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
