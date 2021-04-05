@@ -4,7 +4,6 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth import logout
 
 from .serializers import TokenApiSerializer, TokenResponseSerializer
 
@@ -47,5 +46,4 @@ class Logout(LoginRequiredMixin, APIView):
         if request.user.is_authenticated:
             request.user.auth_token.delete()
             auth_logout(request.user)
-            logout(request)
         return Response(status=status.HTTP_200_OK)
