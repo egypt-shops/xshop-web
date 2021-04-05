@@ -1,4 +1,4 @@
-from drf_yasg2.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -13,9 +13,9 @@ class TokenApi(APIView):
 
     serializer_class = TokenApiSerializer
 
-    @swagger_auto_schema(
-        operation_description="Generate new token for user",
-        request_body=TokenApiSerializer,
+    @extend_schema(
+        description="Generate new token for user",
+        request=TokenApiSerializer,
         responses={
             200: TokenResponseSerializer,
             400: "Invalid mobile number/password or both",

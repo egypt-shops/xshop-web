@@ -1,4 +1,4 @@
-from drf_yasg2.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,8 +10,8 @@ from .serializers import InvoiceSerializer
 class InvoiceListCreateApi(APIView):
     serializer_class = InvoiceSerializer
 
-    @swagger_auto_schema(
-        operation_description="List all invoices",
+    @extend_schema(
+        description="List all invoices",
         responses={200: "Invoices list"},
     )
     def get(self, request):
@@ -19,9 +19,9 @@ class InvoiceListCreateApi(APIView):
         serializer = self.serializer_class(invoices, many=True)
         return Response(serializer.data)
 
-    @swagger_auto_schema(
-        operation_description="Create new invoice",
-        request_body=InvoiceSerializer,
+    @extend_schema(
+        description="Create new invoice",
+        request=InvoiceSerializer,
     )
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -33,8 +33,8 @@ class InvoiceListCreateApi(APIView):
 class InvoiceDetailPatchApi(APIView):
     serializer_class = InvoiceSerializer
 
-    @swagger_auto_schema(
-        operation_description="Get invoice details",
+    @extend_schema(
+        description="Get invoice details",
         responses={200: InvoiceSerializer, 404: "Invoice not found"},
     )
     def get(self, request, invoice_id):
@@ -46,9 +46,9 @@ class InvoiceDetailPatchApi(APIView):
         except Invoice.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-    @swagger_auto_schema(
-        operation_description="Patch existing invoice",
-        request_body=InvoiceSerializer,
+    @extend_schema(
+        description="Patch existing invoice",
+        request=InvoiceSerializer,
         responses={404: "Invoice does not exist"},
     )
     def patch(self, request, invoice_id):

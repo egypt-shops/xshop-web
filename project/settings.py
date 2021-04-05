@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_tailwind",
     "djmoney",
-    "drf_yasg2",
+    "drf_spectacular",
     # Local
     "xshop.users.apps.UsersConfig",
     "xshop.pages.apps.PagesConfig",
@@ -89,7 +89,8 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
-    ]
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 MIDDLEWARE = [
@@ -229,6 +230,20 @@ CURRENCY_DECIMAL_PLACES = 2
 
 # All URLs end with '/'
 APPEND_SLASH = True
+
+# https://drf-spectacular.readthedocs.io/en/latest/settings.html#django-rest-framework-settings
+SPECTACULAR_SETTINGS = {
+    "TITLE": "XShop Web API",
+    "DESCRIPTION": "API for XShop web to be integrated with mobile application and website",
+    "VERSION": "1.0.0",
+    "DISABLE_ERRORS_AND_WARNINGS": True,
+    # A regex specifying the common denominator for all operation paths. If
+    # SCHEMA_PATH_PREFIX is set to None, drf-spectacular will attempt to estimate
+    # a common prefix. use '' to disable.
+    # Mainly used for tag extraction, where paths like '/api/v1/albums' with
+    # a SCHEMA_PATH_PREFIX regex '/api/v[0-9]' would yield the tag 'albums'.
+    "SCHEMA_PATH_PREFIX": "api/",
+}
 
 # Django admin customization with Baton
 BATON = {
