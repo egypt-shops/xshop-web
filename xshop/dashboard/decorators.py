@@ -6,6 +6,9 @@ def allowed_groups(groups: list = []):
 
     def decorator(view_func):
         def wrapper(request, *args, **kwargs):
+            if request.user.is_superuser:
+                return view_func(request, *args, **kwargs)
+
             for role in groups:
                 if request.user.groups.filter(name=role).exists():
                     return view_func(request, *args, **kwargs)

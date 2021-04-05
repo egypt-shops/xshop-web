@@ -50,3 +50,30 @@ class TokenApiTests(APITestCase):
 
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(resp.json().get("password")[0], "Invalid")
+
+
+class LoginLogoutTests(APITestCase):
+    def setUp(self):
+        self.user = baker.make(
+            User,
+            mobile="01010092181",
+            name="Ahmed Loay Shahwan",
+        )
+        self.user.set_password("test")
+        self.user.save()
+        self.client = APIClient()
+        self.url = reverse("users_api:logout")
+
+    def test_user_logs_out(self):
+        # First, login
+        self.client.force_login(self.user)
+        # Then try to logout
+        resp = self.client.get(self.url)
+        # Do the checks
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.user.refresh_from_db()
+        with self.assertRaisesMessage(
+            User.auth_token.RelatedObjectDoesNotExist,
+            "User has no auth_token.",
+        ):
+            self.user.auth_token
