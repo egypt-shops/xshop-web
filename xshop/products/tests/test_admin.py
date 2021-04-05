@@ -77,8 +77,10 @@ class ProductAdminTests(TestCase):
 
     def test_manager_no_product_queryset(self):
         self.assertEqual(
-            list(self.model_admin.get_queryset(self.request_no_product)),
-            list(Product.objects.filter(id=0)),
+            list(
+                self.model_admin.get_queryset(self.request_no_product).order_by("-id")
+            ),
+            list(Product.objects.filter(shop=self.shop1).order_by("-id")),
         )
 
     def test_manager_permission_denied_product_queryset(self):
