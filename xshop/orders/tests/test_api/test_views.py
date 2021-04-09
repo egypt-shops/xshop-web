@@ -6,6 +6,7 @@ from rest_framework.test import APIClient, APITestCase
 from xshop.orders.models import Order
 from xshop.shops.models import Shop
 from xshop.users.models import User
+from xshop.products.models import Product
 
 
 class OrderApiTests(APITestCase):
@@ -59,3 +60,36 @@ class OrderApiTests(APITestCase):
         resp = self.client.get(self.detail_patch_url(102))
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(resp.data, None)
+
+
+class CheckoutApiTests(APITestCase):
+    def detail_patch_url(self, order_id):
+        return reverse("orders_api:checkout_operations", args=[order_id])
+
+    def setUp(self) -> None:
+        self.user = baker.make(User, mobile="01010101010", name="Test User")
+        self.password = "testpass123"
+        self.user.set_password(self.password)
+        self.user.save()
+
+        self.shop1 = baker.make(Shop, mobile=self.user.mobile, name="shop1")
+        self.product = baker.make(Product, shop=self.shop1, stock=10)
+
+        self.payload = {"product_id": self.product.id, "quantity": 1, "actions": "add"}
+
+        self.client = APIClient()
+        self.cart_url = reverse("cart_api:cart_operations")
+
+        self.client.login(mobile=self.user.mobile, password=self.password)
+        self.client.post(self.cart_url, data=self.payload)
+
+        self.url = reverse("orders_api:checkout_operations")
+
+    def test_api_can_checkout(self):
+        order_data = {"address": "zagazig"}
+        resp = self.client.post(self.url, order_data)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(resp.data["order_data"]["user_pk"], self.user.pk)
+        self.assertEqual(resp.data["order_data"]["shop_pk"], self.shop1.pk)
+        self.assertEqual(resp.data["order_data"]["item_count"], 1)
+        self.assertEqual(resp.data["address"], "zagazig")
