@@ -74,18 +74,18 @@ class CheckoutApi(APIView):
     )
     def post(self, request):
         cart = request.session.get("cart")
-
+        #############
         # getting the cart details to make an order
         quantities = []
         product_ids = []
         for key in cart:
             product_ids.append(cart[key]["product"]["id"])
             quantities.append(cart[key]["quantity"])
-
+        #############
         products = Product.objects.filter(id__in=product_ids)
-
+        #############
         order = Order.objects.create(user=request.user, shop=products[0].shop)
-
+        #############
         # making orderItem for every product
         for i in range(len(quantities)):
             OrderItem.objects.create(
