@@ -31,21 +31,21 @@ class OrderSerializerTest(TestCase):
         self.assertFalse(serializer.validated_data.get("paid"))
 
     def test_order_shop_not_found(self):
-        self.payload["shop"] = 10
+        self.payload["shop"] = None
         serializer = OrderSerializer(data=self.payload)
         self.assertRaisesMessage(
             ValidationError,
-            "object does not exist",
+            "shop",
             serializer.is_valid,
             raise_exception=True,
         )
 
     def test_order_user_not_found(self):
-        self.payload["user"] = 10
+        self.payload["user"] = None
         serializer = OrderSerializer(data=self.payload)
         self.assertRaisesMessage(
             ValidationError,
-            "object does not exist",
+            "user",
             serializer.is_valid,
             raise_exception=True,
         )
