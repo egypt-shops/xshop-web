@@ -1,0 +1,37 @@
+body{
+	font-family:'Source Sans Pro',
+	sans-serif;
+	font-size:18px;
+	background: url("/static/css/shop.jpg") no-repeat;
+	background-size: cover;
+	height: 100%;
+	}
+header{
+
+	margin-bottom:1rem;
+	display:flex;
+	}
+header h1 a{
+	color:red;
+	text-decoration:none;
+	}
+.nav-left{
+	margin-right:auto;}
+div.container{
+
+  padding: 2rem;
+  background: rgba(0,0,0,0.5);
+  /*width: 100vw;*/
+  /*display: flex;*/
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #ccc;
+
+}
+.latestoffer{
+	float:right;
+}
+div .email{
+	width: 400px;
+}

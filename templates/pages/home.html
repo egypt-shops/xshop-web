@@ -1,22 +1,25 @@
-<!doctype html>
-{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no">
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/\bootstrap.min.css"
-		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81i\uXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link href="{% static 'css/home.css' %}" rel="stylesheet">
-	<title>Egypt Shops | Home</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<base href="/">
+	<title>HomePage0.html</title>
+	<link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+	<link rel="stylesheet" href="../../static/fonts/font-awesome.min.css">
+	<link rel="stylesheet" href="../../static/fonts/ionicons.min.css">
+	<link rel="stylesheet" href="../../static/css/Footer-Basic.css">
+	<link rel="stylesheet" href="../../static/css/Footer-Dark.css">
+	<link rel="stylesheet" href="../../static/css/Header-Blue.css">
+	<link rel="stylesheet" href="../../static/css/Projects-Clean.css">
+	<link rel="stylesheet" href="../../static/css/styles.css">
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-		<a class="navbar-brand" href="#"><strong>Egypt Shops</strong> </a>
-
-		<div class="collapse navbar-collapse" id="navbarCollapse">
+	<header class="header-blue">
+		<nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
 			{% if user.is_authenticated %}
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
@@ -33,44 +36,74 @@
 					</div>
 				</li>
 			</ul>
-			{% else %}
-			<form class="form-inline ml-auto">
-				<a href="{% url 'users:login' %}" class="btn btn-outline-secondary">Log In</a>
-				{% comment %} <a href="#" class="btn btn-primary ml-2">Sign up</a> {% endcomment %}
-			</form>
-			{% endif %}
-		</div>
-	</nav>
+			<div class="container-fluid"><a class="navbar-brand" href="#">X-Shop</a><button data-toggle="collapse"
+					class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+						class="navbar-toggler-icon"></span></button>
+				<div class="collapse navbar-collapse" id="navcol-1">
+					<ul class="navbar-nav"></ul>
+					<form class="form-inline ml-auto" target="_self">
+						<div class="form-group mb-0" style="width: 236.9px;"><label for="search-field"><i
+									class="fa fa-search"></i></label><input class="form-control search-field" type="search"
+								id="search-field" placeholder="Search For Shops.."
+								style="font-size: 19.49px;color: var(--white);filter: blur(0px) brightness(123%) contrast(109%) grayscale(24%) hue-rotate(53deg) saturate(200%);">
+						</div>
+					</form>
+					{% else %}
+					<div class="container-fluid"><a class="navbar-brand" href="#">X-Shop</a><button data-toggle="collapse"
+							class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+								class="navbar-toggler-icon"></span></button>
+						<div class="collapse navbar-collapse" id="navcol-1">
+							<ul class="navbar-nav"></ul>
+							<form class="form-inline ml-auto" target="_self">
 
-	<div class="container ">
-		<div>
-			<h1 class="display-4">Egypt Shops</h1>
-			<p>Best digital experience for Egyptian shops
-				<!-- <a href="#"><strong>Latest Offers</strong></a> -->
-			</p>
-			<br>
-			<!-- <div>
-				<p>
-					<a data-testid="buttonElement" class="btn btn-primary btn-lg">
-						<span class="">Notify Me</span>
-					</a>
-				</p>
-			</div> -->
-		</div>
-	</div>
-	</div>
-
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha383-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4\YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-		</script>
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/\1.14.3/umd/popper.min.js"
-		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbB\JiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
-		</script>
-
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/\js/bootstrap.min.js"
-		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ\6OW/JmZQ5stwEULTy" crossorigin="anonymous">
-		</script>
+							</form>
+							<span class="navbar-text"> <a class="login" href="{% url 'users:login' %}">Log In</a></span><a
+								class="btn btn-light action-button" role="button" href="#">Sign Up</a>
+						</div>
+						{% endif %}
+					</div>
+		</nav>
+		{% if user.is_authenticated %}
+		<section class="projects-clean">
+			<div class="container">
+				<div class="intro">
+					<h2 class="text-center">SHOPS</h2>
+					<form class="form-inline mr-auto" target="_self">
+						<div class="form-group mb-0"><label for="search-field"></label></div>
+					</form>
+				</div>
+			</div>
+			<div class="container">
+				<div class="intro"></div>
+				<div class="row projects">
+					{% for shop in shops %}
+					<div class="col-sm-6 col-lg-4 item"><a class="img-fluid" href="{}"></a><img class="img-fluid"
+							src="../../static/img/desk.jpg"></a>
+						<h3 class="name">{{ shop.name }}</h3>
+						<p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in
+							tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+		{% endif %}
+		<footer class="footer-basic">
+			<div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i
+						class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a
+					href="#"><i class="icon ion-social-facebook"></i></a></div>
+			<ul class="list-inline">
+				<li class="list-inline-item"><a href="#">Home</a></li>
+				<li class="list-inline-item"><a href="#">Services</a></li>
+				<li class="list-inline-item"><a href="#">About</a></li>
+				<li class="list-inline-item"><a href="#">Terms</a></li>
+				<li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+			</ul>
+			<p class="copyright">Company Name © 2017</p>
+		</footer>
+	</header>
+	<script src="../../static/js/jquery.min.js"></script>
+	<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>
