@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>cart edit</title>
+    assets/css/styles.css
+    <link rel="stylesheet" href="../../static/css/cart_css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aclonica">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="../../static/css/cart_css/css/styles.css">
+</head>
+
+<body style="background: rgb(255,255,255);">
+    <nav class="navbar navbar-dark navbar-expand-md" id="nav_height" style="background: #022534;border-color: var(--red);color: var(--blue);/*height: 75;*/padding: 0;">
+        <div class="container-fluid"><a class="navbar-brand" href="#" style="/*background: rgb(1,56,115);*//*font-size: 30;*/font-family: 'Open Sans', sans-serif;color: rgb(0,0,0);padding: 0;"><img src="assets/img/logo%20resized.jpg"></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1" style="color: rgba(255,255,255,0);"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon" style="color: var(--light);"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#" style="color: rgb(255,255,255);">First Item</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#" style="color: rgb(255,255,255);">Second Item</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#" style="color: rgb(255,255,255);">Third Item</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h1 class="text-center" style="margin: 5px;color: #08546c;background: #a0bacc;"><strong>Shoping Cart</strong></h1>
+    <div id="table_cart" class="table" style="background: rgba(23,162,184,0);margin: 0;">
+        <div class="row d-md-flex justify-content-xl-center" style="background: rgba(160,186,204,0.26);/*border-radius: 0;*/margin: 5px;">
+            <div class="col-md-2 col-lg-2 col-xl-2 offset-md-0" style="margin: 5px;">
+                <div class="row">
+                    <div class="col d-flex d-sm-flex d-md-flex justify-content-center justify-content-sm-center justify-content-md-center"><label class="col-form-label d-lg-flex justify-content-lg-center" style="padding: 0;"><strong>Product</strong></label></div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><img></div>
+                </div>
+            </div>
+            <div class="col-md-2" style="margin: 5px;">
+                <div class="row">
+                    <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center"><label class="col-form-label d-lg-flex justify-content-lg-center" style="padding: 0;"><strong>Description</strong></label></div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center">
+                        <p style="margin: 5px;"><span style="text-decoration: underline;">Product Info</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-lg-1" style="margin: 5px;">
+                <div class="row d-md-flex justify-content-md-center" style="margin: 10;">
+                    <div class="col-md-11 d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><label class="col-form-label" style="padding: 0;"><strong>Quantity</strong></label></div>
+                </div>
+                <div class="row" id="quantity_row_margin">
+                    <div class="col d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><input class="form-control-lg" type="number" id="quantity_input" min="1" max="5" step="1" placeholder="1" style="text-align: center;"></div>
+                </div>
+            </div>
+            <div class="col-md-1 col-lg-1 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center"><button class="btn btn-primary d-md-flex" type="button" style="margin: 5px;background: #08546c;"><strong>Update</strong></button></div>
+            <div class="col-md-2 col-lg-1 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center" style="margin: 5px;"><button class="btn btn-primary d-md-flex" type="button" style="margin: 5px;background: rgb(171,10,10);width: 80;"><strong>Remove</strong></button></div>
+            <div class="col-md-1 col-lg-2 col-xl-2" style="margin: 5px;">
+                <div class="row mb-auto">
+                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><label class="col-form-label text-center" style="padding: 0;font-size: 14;"><strong>Unit Price</strong></label></div>
+                </div>
+                <div class="row" id="rowtopmargin">
+                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><span>Text</span></div>
+                </div>
+            </div>
+            <div class="col-md-1 col-lg-2 col-xl-2" style="margin: 5px;">
+                <div class="row mb-auto">
+                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><label class="col-form-label text-center" style="padding: 0;font-size: 14;"><strong>Unit Price</strong></label></div>
+                </div>
+                <div class="row" id="rowtopmargin">
+                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><span>Text</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-md-flex justify-content-xl-center" style="background: rgba(160,186,204,0.26);/*border-radius: 0;*/margin: 5px;">
+            <div class="col-md-2 col-lg-2 col-xl-2 offset-md-0" style="margin: 5px;">
+                <div class="row">
+                    <div class="col d-flex d-sm-flex d-md-flex justify-content-center justify-content-sm-center justify-content-md-center"><label class="col-form-label d-lg-flex justify-content-lg-center" style="padding: 0;"><strong>Product</strong></label></div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><img></div>
+                </div>
+            </div>
+            <div class="col-md-2" style="margin: 5px;">
+                <div class="row">
+                    <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center"><label class="col-form-label d-lg-flex justify-content-lg-center" style="padding: 0;"><strong>Description</strong></label></div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center">
+                        <p style="margin: 5px;"><span style="text-decoration: underline;">Product Info</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-lg-1" style="margin: 5px;">
+                <div class="row d-md-flex justify-content-md-center" style="margin: 10;">
+                    <div class="col-md-11 d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><label class="col-form-label" style="padding: 0;"><strong>Quantity</strong></label></div>
+                </div>
+                <div class="row" id="quantity_row_margin">
+                    <div class="col d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><input class="form-control-lg" type="number" id="quantity_input" min="1" max="5" step="1" placeholder="1" style="text-align: center;"></div>
+                </div>
+            </div>
+            <div class="col-md-1 col-lg-1 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center"><button class="btn btn-primary d-md-flex" type="button" style="margin: 5px;background: #08546c;"><strong>Update</strong></button></div>
+            <div class="col-md-2 col-lg-1 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center" style="margin: 5px;"><button class="btn btn-primary d-md-flex" type="button" style="margin: 5px;background: rgb(171,10,10);width: 80;"><strong>Remove</strong></button></div>
+            <div class="col-md-1 col-lg-2 col-xl-2" style="margin: 5px;">
+                <div class="row mb-auto">
+                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><label class="col-form-label text-center" style="padding: 0;font-size: 14;"><strong>Unit Price</strong></label></div>
+                </div>
+                <div class="row" id="rowtopmargin">
+                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><span>Text</span></div>
+                </div>
+            </div>
+            <div class="col-md-1 col-lg-2 col-xl-2" style="margin: 5px;">
+                <div class="row mb-auto">
+                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><label class="col-form-label text-center" style="padding: 0;font-size: 14;"><strong>Unit Price</strong></label></div>
+                </div>
+                <div class="row" id="rowtopmargin">
+                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><span>Text</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-md-flex justify-content-xl-center" style="background: rgba(160,186,204,0.26);/*border-radius: 0;*/margin: 5px;">
+            <div class="col-md-2 col-lg-2 col-xl-2 offset-md-0" style="margin: 5px;">
+                <div class="row">
+                    <div class="col d-flex d-sm-flex d-md-flex justify-content-center justify-content-sm-center justify-content-md-center"><label class="col-form-label d-lg-flex justify-content-lg-center" style="padding: 0;"><strong>Product</strong></label></div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><img></div>
+                </div>
+            </div>
+            <div class="col-md-2" style="margin: 5px;">
+                <div class="row">
+                    <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center"><label class="col-form-label d-lg-flex justify-content-lg-center" style="padding: 0;"><strong>Description</strong></label></div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center">
+                        <p style="margin: 5px;"><span style="text-decoration: underline;">Product Info</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-lg-1" style="margin: 5px;">
+                <div class="row d-md-flex justify-content-md-center" style="margin: 10;">
+                    <div class="col-md-11 d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><label class="col-form-label" style="padding: 0;"><strong>Quantity</strong></label></div>
+                </div>
+                <div class="row" id="quantity_row_margin">
+                    <div class="col d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><input class="form-control-lg" type="number" id="quantity_input" min="1" max="5" step="1" placeholder="1" style="text-align: center;"></div>
+                </div>
+            </div>
+            <div class="col-md-1 col-lg-1 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center" style="/*margin: 5px;*/"><button class="btn btn-primary d-md-flex" type="button" style="margin: 5px;background: #08546c;"><strong>Update</strong></button></div>
+            <div class="col-md-2 col-lg-1 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center" style="margin: 5px;"><button class="btn btn-primary d-md-flex" id="remove_btn" type="button" style="margin: 5px;background: rgb(171,10,10);width: 80;"><strong>Remove</strong></button></div>
+            <div class="col-md-1 col-lg-2 col-xl-2" style="margin: 5px;">
+                <div class="row mb-auto">
+                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><label class="col-form-label text-center" style="padding: 0;font-size: 14;"><strong>Unit Price</strong></label></div>
+                </div>
+                <div class="row" id="rowtopmargin">
+                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><span>Text</span></div>
+                </div>
+            </div>
+            <div class="col-md-1 col-lg-2 col-xl-2" style="margin: 5px;">
+                <div class="row mb-auto">
+                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><label class="col-form-label text-center" style="padding: 0;font-size: 14;"><strong>Unit Price</strong></label></div>
+                </div>
+                <div class="row" id="rowtopmargin">
+                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><span>Text</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="row text-right" style="margin: 5px;background: rgba(160,186,204,0.26);">
+            <div class="col"><label class="col-form-label">Total :</label></div>
+            <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center"><label class="col-form-label text-right">TotalPrice</label></div>
+        </div>
+        <div class="row" style="margin: 5px;background: rgba(160,186,204,0.26);">
+            <div class="col">
+                <div class="row">
+                    <div class="col d-xl-flex justify-content-xl-start"><button class="btn btn-primary text-left d-xl-flex" type="button" style="margin: 10px;background: rgb(255,255,255);color: rgb(0,0,0);"><strong>Back To Shop</strong></button></div>
+                    <div class="col d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end"><button class="btn btn-primary" type="button" style="margin: 10px;background: #08546c;"><strong>Check out</strong></button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+#quantity_input {
+  width: 70px;
+  height: 30px;
+}
+
+#table_cart {
+  margin: 5px;
+}
+
+#nav_height {
+  height: 75px;
+}
+
+@media (min-width: 768px) {
+  #rowtopmargin {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-brand {
+    margin-left: 15px;
+  }
+}
+
+#quantity_row_margin {
+  margin-top: 7px;
+}
+
+h1 {
+  padding-bottom: 5px;
+}
+
+#remove_btn {
+}
+
