@@ -83,7 +83,7 @@ class CheckoutApiTests(APITestCase):
         self.client.login(mobile=self.user.mobile, password=self.password)
         self.client.post(self.cart_url, data=self.payload)
 
-        self.url = reverse("orders_api:checkout_operations")
+        self.url = reverse("orders_api:checkout")
 
     def test_api_can_checkout(self):
         order_data = {"address": "zagazig"}
