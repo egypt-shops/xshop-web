@@ -107,7 +107,7 @@ class CashierTests(TestCase):
     def test_created_cashier_attrs(self):
         self.assertEqual(self.cashier.mobile, "+201010092181")
         self.assertTrue(self.cashier.is_active)
-        self.assertFalse(self.cashier.is_staff)
+        self.assertTrue(self.cashier.is_staff)
         self.assertFalse(self.cashier.is_superuser)
         self.assertEqual(self.cashier.shop, self.shop)
         self.assertIsNone(self.cashier.username)
@@ -131,7 +131,7 @@ class DataEntryClerkTests(TestCase):
     def test_create_dec(self):
         self.assertEqual(self.dec.mobile, "+201010092181")
         self.assertTrue(self.dec.is_active)
-        self.assertFalse(self.dec.is_staff)
+        self.assertTrue(self.dec.is_staff)
         self.assertFalse(self.dec.is_superuser)
         self.assertEqual(self.dec.shop, self.shop)
         self.assertIsNone(self.dec.username)
@@ -157,7 +157,7 @@ class ManagerTests(TestCase):
     def test_create_manager(self):
         self.assertEqual(self.manager.mobile, "+201010092181")
         self.assertTrue(self.manager.is_active)
-        self.assertFalse(self.manager.is_staff)
+        self.assertTrue(self.manager.is_staff)
         self.assertFalse(self.manager.is_superuser)
         self.assertEqual(self.manager.shop, self.shop)
         self.assertIsNone(self.manager.username)
@@ -181,7 +181,7 @@ class GeneralManagerTests(TestCase):
     def test_created_general_manager_attrs(self):
         self.assertEqual(self.gm.mobile, "+201010092181")
         self.assertTrue(self.gm.is_active)
-        self.assertFalse(self.gm.is_staff)
+        self.assertTrue(self.gm.is_staff)
         self.assertEqual(self.gm.shop, self.shop)
         self.assertFalse(self.gm.is_superuser)
         self.assertIsNone(self.gm.username)
