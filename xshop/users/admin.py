@@ -5,10 +5,16 @@ from django.contrib.auth.models import Group
 
 # from rest_framework.authtoken.models import Token, TokenProxy
 
-from .forms import UserChangeForm, UserCreationForm
-from .models import Cashier, Customer, DataEntryClerk, GeneralManager, Manager, User
-from .mixins import SuperuserPermissionsMixin
-
+from xshop.users.forms import UserChangeForm, UserCreationForm
+from xshop.users.models import (
+    Cashier,
+    Customer,
+    DataEntryClerk,
+    GeneralManager,
+    Manager,
+    User,
+)
+from xshop.users.mixins import SuperuserPermissionsMixin
 
 admin.site.unregister(Group)
 

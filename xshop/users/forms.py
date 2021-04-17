@@ -1,7 +1,7 @@
 from django.contrib.auth import forms
 from phonenumber_field.formfields import PhoneNumberField
 
-from .models import User
+from xshop.users.models import User
 
 
 class UserCreationForm(forms.UserCreationForm):

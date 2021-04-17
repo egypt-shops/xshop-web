@@ -11,6 +11,7 @@ from xshop.users.models import User
 def redirection(request):
     user: User = request.user
 
+    # FIXME update redirection to the admin panel according to user type!
     if UserGroup.GENERAL_MANAGER in user.type:
         return redirect(reverse("dashboard:general_manager"))
     elif UserGroup.CASHIER in user.type:
