@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,15 +7,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 	<base href="/">
 	<title>HomePage0.html</title>
-	<link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-	<link rel="stylesheet" href="../../static/fonts/font-awesome.min.css">
-	<link rel="stylesheet" href="../../static/fonts/ionicons.min.css">
-	<link rel="stylesheet" href="../../static/css/Footer-Basic.css">
-	<link rel="stylesheet" href="../../static/css/Footer-Dark.css">
-	<link rel="stylesheet" href="../../static/css/Header-Blue.css">
-	<link rel="stylesheet" href="../../static/css/Projects-Clean.css">
-	<link rel="stylesheet" href="../../static/css/styles.css">
+	<link rel="stylesheet" href="{% static 'fonts/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'fonts/ionicons.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/Footer-Basic.css' %}">
+	<link rel="stylesheet" href="{% static 'css/Footer-Dark.css' %}">
+	<link rel="stylesheet" href="{% static 'css/Header-Blue.css' %}">
+	<link rel="stylesheet" href="{% static 'css/Projects-Clean.css' %}">
+	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
 <body>
@@ -102,8 +103,8 @@
 			<p class="copyright">Company Name © 2017</p>
 		</footer>
 	</header>
-	<script src="../../static/js/jquery.min.js"></script>
-	<script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 </body>
 
 </html>
