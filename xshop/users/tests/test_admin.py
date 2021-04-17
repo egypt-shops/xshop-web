@@ -2,9 +2,9 @@ from django.contrib.admin.sites import AdminSite
 from django.test import RequestFactory, TestCase
 from model_bakery import baker
 
-from ..admin import CustomerAdmin, UserAdmin
-from ..forms import UserChangeForm
-from ..models import Customer, User
+from xshop.users.admin import CustomerAdmin, UserAdmin
+from xshop.users.forms import UserChangeForm
+from xshop.users.models import Customer, User
 
 
 class MockRequest:
