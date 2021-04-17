@@ -217,7 +217,8 @@ if DEPLOY and DEPLOY not in ("LOCAL", "TESTING"):
         send_default_pii=True,
     )
 
-# TODO update later NOTE, this is to be deprecated if separated dashboard is done correctly
+# TODO update using existing models in all apps, or whatever suitable!
+# FIXME you might depend only on permissions and deprecate this w 5las!
 DASHBOARD_MODULES = []
 
 # django-money
