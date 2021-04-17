@@ -64,7 +64,8 @@
 						{% endif %}
 					</div>
 		</nav>
-		{% if user.is_authenticated %}
+
+		<!-- Show shop list -->
 		<section class="projects-clean">
 			<div class="container">
 				<div class="intro">
@@ -79,7 +80,7 @@
 				<div class="row projects">
 					{% for shop in shops %}
 					<div class="col-sm-6 col-lg-4 item"><a class="img-fluid" href="{}"></a><img class="img-fluid"
-							src="../../static/img/desk.jpg"></a>
+							src="{% static 'img/desk.jpg' %}"></a>
 						<h3 class="name">{{ shop.name }}</h3>
 						<p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in
 							tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
@@ -87,8 +88,8 @@
 					{% endfor %}
 				</div>
 			</div>
-		</section>
-		{% endif %}
+		</section> <!-- End sho shop list -->
+
 		<footer class="footer-basic">
 			<div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i
 						class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a
