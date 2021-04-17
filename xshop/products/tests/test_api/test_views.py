@@ -178,3 +178,23 @@ class ProductApiTests(APITestCase):
         )
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+    def test_list_products_per_shop(self):
+        resp = self.client.get(
+            reverse("products_api:list_products_per_shop", args=[self.shop1.id])
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(resp.data), 2)
+        self.assertEqual(resp.data[1]["id"], self.product1.id)
+        self.assertEqual(resp.data[0]["id"], self.product2.id)
+
+        resp = self.client.get(
+            reverse("products_api:list_products_per_shop", args=[self.shop2.id])
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(resp.data), 0)
+
+        resp = self.client.get(
+            reverse("products_api:list_products_per_shop", args=[10000])
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)

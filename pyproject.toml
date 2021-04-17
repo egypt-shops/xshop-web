@@ -6,7 +6,7 @@ authors = ["Ahmed Shahwan <ahmed@shahwan.me>"]
 
 [tool.poetry.dependencies]
 python = "3.8.6"
-django = "3.1.*"
+django = "3.2.*"
 django-phonenumber-field = {extras = ["phonenumbers"], version = "4.0.0"}
 model_bakery = "1.1.1"
 django-model-utils = "4.0.0"
@@ -27,12 +27,12 @@ Pygments = "2.7.2"
 django-filter = "2.4.0"
 django-crispy-forms = "1.9.2"
 django-admin-list-filter-dropdown = "1.0.3"
-drf-yasg2 = "1.19.3"
 WeasyPrint = "51"
 django-baton = "1.12.6"
 pyOpenSSL = "19.1.0"
 python-barcode = "0.13.1"
 crispy-tailwind = "^0.2.0"
+drf-spectacular = "^0.14.0"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"

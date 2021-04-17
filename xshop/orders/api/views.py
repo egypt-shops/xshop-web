@@ -1,4 +1,4 @@
-from drf_yasg2.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,8 +10,8 @@ from .serializers import OrderSerializer
 class OrderListCreateApi(APIView):
     serializer_class = OrderSerializer
 
-    @swagger_auto_schema(
-        operation_description="List all orders",
+    @extend_schema(
+        description="List all orders",
         responses={200: "orders list"},
     )
     def get(self, request):
@@ -19,9 +19,9 @@ class OrderListCreateApi(APIView):
         serializer = self.serializer_class(orders, many=True)
         return Response(serializer.data)
 
-    @swagger_auto_schema(
-        operation_description="Create new Order",
-        request_body=OrderSerializer,
+    @extend_schema(
+        description="Create new Order",
+        request=OrderSerializer,
     )
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -33,8 +33,8 @@ class OrderListCreateApi(APIView):
 class OrderDetailPatchApi(APIView):
     serializer_class = OrderSerializer
 
-    @swagger_auto_schema(
-        operation_description="Get Order details",
+    @extend_schema(
+        description="Get Order details",
         responses={200: OrderSerializer, 404: "Order not found"},
     )
     def get(self, request, order_id):
@@ -46,9 +46,9 @@ class OrderDetailPatchApi(APIView):
         except Order.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-    @swagger_auto_schema(
-        operation_description="Patch existing Order",
-        request_body=OrderSerializer,
+    @extend_schema(
+        description="Patch existing Order",
+        request=OrderSerializer,
         responses={404: "Order does not exist"},
     )
     def patch(self, request, order_id):
