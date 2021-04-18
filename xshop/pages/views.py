@@ -5,14 +5,10 @@ from xshop.shops.models import Shop
 
 class Home(TemplateView):
     def get(self, *args, **kwargs):
-        shops = []
-        num = Shop.objects.all().count()
-        for i in range(1, num + 1):
-            shops.append(Shop.objects.get(id=i))
-
         context = {
-            "shops": shops,
+            "shops": Shop.objects.all(),
         }
+        print(context)
         return render(self.request, "pages/home.html", context)
 
     template_name = "pages/home.html"
