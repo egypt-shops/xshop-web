@@ -1,10 +1,12 @@
+from rest_framework.permissions import IsAuthenticated
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..models import Order
-from .serializers import OrderSerializer
+from ..models import Order, OrderItem
+from .serializers import OrderSerializer, CheckoutSerializer
+from xshop.products.models import Product
 
 
 class OrderListCreateApi(APIView):
@@ -60,3 +62,48 @@ class OrderDetailPatchApi(APIView):
             return Response(self.serializer_class(updated_order).data)
         except Order.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class CheckoutApi(APIView):
+    serializer_class = CheckoutSerializer
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        description="Post checkout from Cart session",
+        responses={200: "checkout details"},
+    )
+    def post(self, request):
+        cart = request.session.get("cart")
+        # getting the cart details to make an order
+        quantities = []
+        product_ids = []
+        for key in cart:
+            product_ids.append(cart[key]["product"]["id"])
+            quantities.append(cart[key]["quantity"])
+        products = Product.objects.filter(id__in=product_ids)
+
+        order = Order.objects.create(user=request.user, shop=products[0].shop)
+
+        # making orderItem for every product
+        for i in range(len(quantities)):
+            OrderItem.objects.create(
+                order=order, product=products[i], quantity=quantities[i]
+            )
+
+        items = OrderItem.objects.filter(order=order)
+
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        data = {}
+        data["order_data"] = order.get_data
+        data["order_data"]["item_count"] = len(items)
+
+        full_price = 0
+        for item in items:
+            full_price += item.total_price
+
+        data["order_data"]["full_price"] = str(full_price)
+        data["address"] = serializer.validated_data.get("address")
+
+        return Response(data)

@@ -12,6 +12,10 @@ class Order(TimeStampedModel):
     )
     paid = models.BooleanField(default=False)
 
+    @property
+    def get_data(self):
+        return dict(zip(["shop_pk", "user_pk"], [self.shop.pk, self.user.pk]))
+
 
 class OrderItem(TimeStampedModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
