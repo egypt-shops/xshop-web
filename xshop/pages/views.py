@@ -8,7 +8,6 @@ class Home(TemplateView):
         context = {
             "shops": Shop.objects.all(),
         }
-        print(context)
         return render(self.request, "pages/home.html", context)
 
     template_name = "pages/home.html"
