@@ -74,12 +74,16 @@ class CheckoutApi(APIView):
     )
     def post(self, request):
         cart = request.session.get("cart")
+
         # getting the cart details to make an order
         quantities = []
         product_ids = []
-        for key in cart:
+        full_price = 0
+        for key in cart.keys():
             product_ids.append(cart[key]["product"]["id"])
             quantities.append(cart[key]["quantity"])
+            full_price += cart[key]["total_price"]
+
         products = Product.objects.filter(id__in=product_ids)
 
         order = Order.objects.create(user=request.user, shop=products[0].shop)
@@ -90,18 +94,12 @@ class CheckoutApi(APIView):
                 order=order, product=products[i], quantity=quantities[i]
             )
 
-        items = OrderItem.objects.filter(order=order)
-
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         data = {}
         data["order_data"] = order.get_data
-        data["order_data"]["item_count"] = len(items)
-
-        full_price = 0
-        for item in items:
-            full_price += item.total_price
+        data["order_data"]["item_count"] = len(cart)
 
         data["order_data"]["full_price"] = str(full_price)
         data["address"] = serializer.validated_data.get("address")

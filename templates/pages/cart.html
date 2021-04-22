@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +13,7 @@
 </head>
 
 <body style="background: rgb(255,255,255);">
+    {% block content %}
     <nav class="navbar navbar-dark navbar-expand-md" id="nav_height" style="background: #022534;border-color: var(--red);color: var(--blue);/*height: 75;*/padding: 0;">
         <div class="container-fluid"><a class="navbar-brand" href="#" style="/*background: rgb(1,56,115);*//*font-size: 30;*/font-family: 'Open Sans', sans-serif;color: rgb(0,0,0);padding: 0;"><img src="../../static/css/cart_css/img/logo%20resized.jpg"></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1" style="color: rgba(255,255,255,0);"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon" style="color: var(--light);"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
@@ -25,67 +27,125 @@
     </nav>
     <h1 class="text-center" style="margin: 5px;color: #08546c;background: #a0bacc;"><strong>Shoping Cart</strong></h1>
     <div id="table_cart" class="table" style="background: rgba(23,162,184,0);margin: 0;">
-        <div class="row d-md-flex justify-content-xl-center" style="background: rgba(160,186,204,0.26);/*border-radius: 0;*/margin: 5px;">
-            <div class="col-md-2 col-lg-2 col-xl-2 offset-md-0" style="margin: 5px;">
-                <div class="row">
-                    <div class="col d-flex d-sm-flex d-md-flex justify-content-center justify-content-sm-center justify-content-md-center"><label class="col-form-label d-lg-flex justify-content-lg-center" style="padding: 0;"><strong>Product</strong></label></div>
+        {% for item in cart %}
+            {% with product=item.product %}
+            <div class="row d-md-flex justify-content-xl-center product-item" data-index='{{ product.id }}' style="background: rgba(160,186,204,0.26);/*border-radius: 0;*/margin: 5px;">
+                <div class="col-md-2 col-lg-2 col-xl-2 offset-md-0" style="margin: 5px;">
+                    <div class="row">
+                        <div class="col d-flex d-sm-flex d-md-flex justify-content-center justify-content-sm-center justify-content-md-center"><label class="col-form-label d-lg-flex justify-content-lg-center" style="padding: 0;"><strong>{{ product.name }}</strong></label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><img></div>
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><img></div>
+                <!-- <div class="col-md-2" style="margin: 5px;">
+                    <div class="row">
+                        <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center"><label class="col-form-label d-lg-flex justify-content-lg-center" style="padding: 0;"><strong>Description</strong></label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center">
+                            <p style="margin: 5px;"><span style="text-decoration: underline;">Product Info</span></p>
+                        </div>
+                    </div>
+                </div> -->
+                <form action='{% url "cart:cart_ops" product.id %}' method="POST">
+                    <div class="col-md-2 col-lg-1" style="margin: 5px;">
+                        <div class="row d-md-flex justify-content-md-center" style="margin: 10;">
+                            <div class="col-md-11 d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><label class="col-form-label" style="padding: 0;"><strong>Quantity</strong></label></div>
+                        </div>
+                        <div class="row" id="quantity_row_margin">
+                            <div class="col d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center">
+                                <!-- <select id="id_customer" name="customer">
+                                    {% for x, y in item.update_quantity_form.fields.choices %}
+                                        <option value="{{ x }}"{% if form.fields.value == x %} selected{% endif %}>{{ y }}</option>
+                                    {% endfor %}
+                                </select> -->
+                                    
+                                {{ item.update_quantity_form.quantity }}
+                                {{ item.update_quantity_form.actions }}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-1 col-lg-1 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center">
+                        <input class="btn btn-primary d-md-flex update-button" value="Update" data-index='{{ product.id }}' type="submit" style="margin: 5px;background: #08546c;">
+                        {% csrf_token %}
+                        <!-- <strong>Update</strong>
+                        </button> -->
+                    </div>
+                </form>
+                <div class="col-md-2 col-lg-1 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center" style="margin: 5px;">
+                    <button class="btn btn-primary d-md-flex delete-button" data-index='{{ product.id }}' id='delete-button' value="{{product.id}}" type="button" style="margin: 5px;background: rgb(171,10,10);width: 80;">
+                        <strong>Remove</strong>
+                    </button>
                 </div>
-            </div>
-            <div class="col-md-2" style="margin: 5px;">
-                <div class="row">
-                    <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center"><label class="col-form-label d-lg-flex justify-content-lg-center" style="padding: 0;"><strong>Description</strong></label></div>
+
+                <div class="col-md-1 col-lg-2 col-xl-2" style="margin: 5px;">
+                    <div class="row mb-auto">
+                        <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><label class="col-form-label text-center" style="padding: 0;font-size: 14;"><strong>Unit Price</strong></label></div>
+                    </div>
+                    <div class="row" id="rowtopmargin">
+                        <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><span>{{ product.price }}</span></div>
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center">
-                        <p style="margin: 5px;"><span style="text-decoration: underline;">Product Info</span></p>
+                <div class="col-md-1 col-lg-2 col-xl-2" style="margin: 5px;">
+                    <div class="row mb-auto">
+                        <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><label class="col-form-label text-center" style="padding: 0;font-size: 14;"><strong>Price</strong></label></div>
+                    </div>
+                    <div class="row" id="rowtopmargin">
+                        <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><span>{{ item.total_price }}</span></div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 col-lg-1" style="margin: 5px;">
-                <div class="row d-md-flex justify-content-md-center" style="margin: 10;">
-                    <div class="col-md-11 d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><label class="col-form-label" style="padding: 0;"><strong>Quantity</strong></label></div>
-                </div>
-                <div class="row" id="quantity_row_margin">
-                    <div class="col d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><input class="form-control-lg" type="number" id="quantity_input" min="1" max="5" step="1" placeholder="1" style="text-align: center;"></div>
-                </div>
-            </div>
-            <div class="col-md-1 col-lg-1 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center"><button class="btn btn-primary d-md-flex" type="button" style="margin: 5px;background: #08546c;"><strong>Update</strong></button></div>
-            <div class="col-md-2 col-lg-1 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center" style="margin: 5px;"><button class="btn btn-primary d-md-flex" type="button" style="margin: 5px;background: rgb(171,10,10);width: 80;"><strong>Remove</strong></button></div>
-            <div class="col-md-1 col-lg-2 col-xl-2" style="margin: 5px;">
-                <div class="row mb-auto">
-                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><label class="col-form-label text-center" style="padding: 0;font-size: 14;"><strong>Unit Price</strong></label></div>
-                </div>
-                <div class="row" id="rowtopmargin">
-                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><span>Text</span></div>
-                </div>
-            </div>
-            <div class="col-md-1 col-lg-2 col-xl-2" style="margin: 5px;">
-                <div class="row mb-auto">
-                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><label class="col-form-label text-center" style="padding: 0;font-size: 14;"><strong>Amount</strong></label></div>
-                </div>
-                <div class="row" id="rowtopmargin">
-                    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center"><span>Text</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="row text-right" style="margin: 5px;background: rgba(160,186,204,0.26);">
-            <div class="col"><label class="col-form-label">Total :</label></div>
-            <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center"><label class="col-form-label text-right">TotalPrice</label></div>
+        {% endwith %}
+    {% endfor %}
+    <div class="row text-right" style="margin: 5px;background: rgba(160,186,204,0.26);">
+        <div class="col"><label class="col-form-label">Total :</label></div>
+            <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center"><label class="col-form-label text-right">{{ full_price }}</label></div>
         </div>
         <div class="row" style="margin: 5px;background: rgba(160,186,204,0.26);">
             <div class="col">
                 <div class="row">
-                    <div class="col d-xl-flex justify-content-xl-start"><button class="btn btn-primary text-left d-xl-flex" type="button" style="margin: 10px;background: rgb(255,255,255);color: rgb(0,0,0);"><strong>Back To Shop</strong></button></div>
-                    <div class="col d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end"><button class="btn btn-primary" type="button" style="margin: 10px;background: #08546c;"><strong>Check out</strong></button></div>
+                    <div class="col d-xl-flex justify-content-xl-start">
+                        <a href="{% url 'pages:home' %}">
+                            <button class="btn btn-primary text-left d-xl-flex" type="button" style="margin: 10px;background: rgb(255,255,255);color: rgb(0,0,0);">
+                                <strong>Back To Shop</strong>
+                            </button>
+                        </a>
+                    </div>
+                    <div class="col d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end">
+                        <button class="btn btn-primary" type="button" style="margin: 10px;background: #08546c;">
+                            <strong>Check out</strong>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <script>
+        $(document).on('click', '.delete-button', function(e){
+            e.preventDefault();
+            var remove_id = $(this).data('index')
+            $.ajax({
+                type: 'POST',
+                url: '{% url "cart:cart_delete" %}',
+                data: {
+                    productid: $(this).data('index'),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action:'delete'
+                },
+                success: function(json){
+                    location.reload();
+                },
+                error: function(xhr, errmsg, err) {}
+            })
+        })
+    </script>
     <script src="../../static/js/js/jquery.min.js"></script>
     <script src="../../static/css/cart_css/bootstrap/js/bootstrap.min.js"></script>
+    {% endblock %}
 </body>
 
 </html>
