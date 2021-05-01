@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aclonica">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="{% static 'css/cart_css/css/styles.css' %}">
+    <style>
+        form {
+          display: inline-flex;
+        }
+    </style>
 </head>
 
 <body style="background: rgb(255,255,255);">
@@ -26,6 +31,13 @@
             </div>
         </div>
     </nav>
+    <p>
+        {% if errors %}
+            {% for key, error_list in errors.items %} 
+                {{error_list}}
+            {% endfor %} 
+        {% endif %}
+    </p>
     <h1 class="text-center" style="margin: 5px;color: #08546c;background: #a0bacc;"><strong>Shoping Cart</strong></h1>
     <div id="table_cart" class="table" style="background: rgba(23,162,184,0);margin: 0;">
         <!-- cart item -->
@@ -40,16 +52,7 @@
                         <div class="col d-flex d-sm-flex d-md-flex d-lg-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center"><img></div>
                     </div>
                 </div>
-                <!-- <div class="col-md-2" style="margin: 5px;">
-                    <div class="row">
-                        <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center"><label class="col-form-label d-lg-flex justify-content-lg-center" style="padding: 0;"><strong>Description</strong></label></div>
-                    </div>
-                    <div class="row">
-                        <div class="col d-flex d-sm-flex justify-content-center justify-content-sm-center">
-                            <p style="margin: 5px;"><span style="text-decoration: underline;">Product Info</span></p>
-                        </div>
-                    </div>
-                </div> -->
+                <!-- the form -->
                 <form action='{% url "cart:cart_ops" %}' method="POST">
                     <div class="col-md-2 col-lg-1" style="margin: 5px;">
                         <div class="row d-md-flex justify-content-md-center" style="margin: 10;">
@@ -60,13 +63,13 @@
                                 {{ item.update_quantity_form.quantity }}
                                 {{ item.update_quantity_form.actions }}
                                 {{ item.update_quantity_form.product_id }}
+                                {% csrf_token %}
                             </div>
                         </div>
-                        
                     </div>
-                    <div class="col-md-1 col-lg-1 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center">
+                    <div class="col-md-1 col-lg-10 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center">
                         <input class="btn btn-primary d-md-flex update-button" value="Update" data-index='{{ product.id }}' type="submit" style="margin: 5px;background: #08546c;">
-                        {% csrf_token %}
+                        
                     </div>
                 </form>
                 <div class="col-md-2 col-lg-1 d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center" style="margin: 5px;">
@@ -125,7 +128,7 @@
             var remove_id = $(this).data('index')
             $.ajax({
                 type: 'POST',
-                url: '{% url "cart:cart_remove" %}',
+                url: '{% url "cart:cart_ops" %}',
                 data: {
                     productid: $(this).data('index'),
                     csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -137,6 +140,24 @@
                 error: function(xhr, errmsg, err) {}
             })
         })
+        // $(document).on('click', '.update-button', function(e){
+        //     e.preventDefault();
+        //     var update_id = $(this).data('index')
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: '{% url "cart:cart_ops" %}',
+        //         data: {
+        //             productid: $(this).data('index'),
+        //             quantity: '{{ item.update_quantity_form.quantity }}',
+        //             csrfmiddlewaretoken: '{{ csrf_token }}',
+        //             actions:'update'
+        //         },
+        //         success: function(json){
+        //             location.reload();
+        //         },
+        //         error: function(xhr, errmsg, err) {}
+        //     })
+        // })
     </script>
     <script src="{% static 'js/js/jquery.min.js' %}"></script>
     <script src="{% static 'css/cart_css/bootstrap/js/bootstrap.min.js' %}"></script>

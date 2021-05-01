@@ -5,7 +5,11 @@ from xshop.products.api.serializers import ProductSerializer
 
 
 class CartPostProductForm(forms.Form):
-    quantity = forms.IntegerField()
+    quantity = forms.IntegerField(
+        widget=forms.TextInput(
+            attrs={"class": "form-control-lg", "id": "quantity_input"}
+        )
+    )
     actions = forms.CharField(required=False, initial="add", widget=forms.HiddenInput)
     product_id = forms.IntegerField(required=True, widget=forms.HiddenInput)
 
