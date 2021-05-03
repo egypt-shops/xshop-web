@@ -13,7 +13,7 @@ def redirection(request):
 
     # FIXME update redirection to the admin panel according to user type!
     if UserGroup.GENERAL_MANAGER in user.type:
-        return redirect(reverse("dashboard:general_manager"))
+        return redirect(reverse("admin:index"))
     elif UserGroup.CASHIER in user.type:
         return redirect(reverse("dashboard:cashier"))
     elif UserGroup.DATA_ENTRY_CLERK in user.type:
