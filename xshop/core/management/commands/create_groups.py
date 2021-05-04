@@ -33,18 +33,21 @@ class Command(BaseCommand):
                 for action in ACTIONS:
                     name = "Can {} {}".format(action, model)
                     self.stdout.write("Creating {}".format(name))
+                    code_name = f"{app}.{action}_{model}"
 
-                    try:
-                        code_name = f"{app}.{action}_{model}"
-                        permission = Permission.objects.create(
-                            codename=code_name, content_type=ct
-                        )
-                    except Permission.DoesNotExist:
-                        logging.warning(
-                            "Permission not found with name '{}'.".format(name)
-                        )
+                    if Permission.objects.filter(codename=code_name):
                         continue
+                    else:
+                        try:
+                            permission = Permission.objects.create(
+                                codename=code_name, content_type=ct
+                            )
+                        except Permission.DoesNotExist:
+                            logging.warning(
+                                "Permission not found with name '{}'.".format(name)
+                            )
+                            continue
 
-                    for group in GROUPS:
-                        new_group, created = Group.objects.get_or_create(name=group)
-                        new_group.permissions.add(permission)
+                        for group in GROUPS:
+                            new_group, created = Group.objects.get_or_create(name=group)
+                            new_group.permissions.add(permission)
