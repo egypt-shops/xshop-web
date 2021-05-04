@@ -4,7 +4,7 @@ from xshop.products.models import Product
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class ProductView(LoginRequiredMixin, TemplateView):
+class ProductDetailView(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         product_id = kwargs["product_id"]
         product = Product.objects.get(id=product_id)

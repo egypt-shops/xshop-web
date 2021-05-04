@@ -6,8 +6,8 @@ from xshop.products.models import Product
 from xshop.users.models import User
 
 
-@tag("cartview")
-class CartTests(TestCase):
+@tag("productdetailview")
+class ProductDetailViewTests(TestCase):
     def setUp(self) -> None:
         self.user = baker.make(
             User,

@@ -6,11 +6,7 @@ from xshop.shops.models import Shop
 from xshop.products.models import Product
 
 
-class ShopView(LoginRequiredMixin, ListView):
-    def post(self, request, *args, **kwargs):  # class based view def post, def get
-
-        return render(request, "pages/shop_details.html")
-
+class ShopDetailView(LoginRequiredMixin, ListView):
     def get(self, request, *args, **kwargs):
         shop_id = kwargs["shop_id"]
         shop = Shop.objects.get(id=shop_id)
