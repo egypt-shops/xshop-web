@@ -25,29 +25,28 @@ ACTIONS = ["add", "change", "delete", "view"]
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        for group in GROUPS:
+            for app in APPS:
+                for model in APPS.get(app):
+                    ct = ContentType.objects.get(app_label=app, model=model)
 
-        for app in APPS:
-            for model in APPS.get(app):
-                ct = ContentType.objects.get(app_label=app, model=model)
+                    for action in ACTIONS:
+                        name = "Can {} {}".format(action, model)
+                        self.stdout.write("Creating {}".format(name))
+                        code_name = f"{app}.{action}_{model}"
 
-                for action in ACTIONS:
-                    name = "Can {} {}".format(action, model)
-                    self.stdout.write("Creating {}".format(name))
-                    code_name = f"{app}.{action}_{model}"
-
-                    if Permission.objects.filter(codename=code_name):
-                        continue
-                    else:
-                        try:
-                            permission = Permission.objects.create(
-                                codename=code_name, content_type=ct
-                            )
-                        except Permission.DoesNotExist:
-                            logging.warning(
-                                "Permission not found with name '{}'.".format(name)
-                            )
+                        if Permission.objects.filter(codename=code_name):
                             continue
+                        else:
+                            try:
+                                permission = Permission.objects.create(
+                                    codename=code_name, content_type=ct
+                                )
+                            except Permission.DoesNotExist:
+                                logging.warning(
+                                    "Permission not found with name '{}'.".format(name)
+                                )
+                                continue
 
-                        for group in GROUPS:
-                            new_group, created = Group.objects.get_or_create(name=group)
-                            new_group.permissions.add(permission)
+                        new_group = Group.objects.get_or_create(name=group)
+                        new_group.permissions.add(permission)
