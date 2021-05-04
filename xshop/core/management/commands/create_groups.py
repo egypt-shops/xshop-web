@@ -24,7 +24,7 @@ class Command(BaseCommand):
             for model in MODELS:
                 for permission in PERMISSIONS:
                     name = "Can {} {}".format(permission, model)
-                    print("Creating {}".format(name))
+                    self.stdout.write("Creating {}".format(name))
 
                     try:
                         model_add_perm = Permission.objects.get(name=name)
