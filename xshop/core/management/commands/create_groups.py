@@ -1,5 +1,6 @@
 import logging
 
+from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
 from xshop.core.utils import UserGroup
 from django.contrib.auth.models import Group
@@ -12,26 +13,38 @@ GROUPS = [
     UserGroup.GENERAL_MANAGER,
     UserGroup.MANAGER,
 ]
-MODELS = ["Invoice", "Order", "Shop", "Product"]
-PERMISSIONS = ["add", "change" "delete" "view"]
+APPS = {
+    "invoices": ["invoice"],
+    "orders": ["order", "orderitem"],
+    "products": ["product"],
+    "users": ["generalmanager", "manager", "dataentryclerk", "cashier"],
+    "shops": ["shop"],
+}
+ACTIONS = ["add", "change", "delete", "view"]
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
-        for group in GROUPS:
-            new_group, created = Group.objects.get_or_create(name=group)
-            for model in MODELS:
-                for permission in PERMISSIONS:
-                    name = "Can {} {}".format(permission, model)
+        for app in APPS:
+            for model in APPS.get(app):
+                ct = ContentType.objects.get(app_label=app, model=model)
+
+                for action in ACTIONS:
+                    name = "Can {} {}".format(action, model)
                     self.stdout.write("Creating {}".format(name))
 
                     try:
-                        model_add_perm = Permission.objects.get(name=name)
+                        code_name = f"{app}.{action}_{model}"
+                        permission = Permission.objects.create(
+                            codename=code_name, content_type=ct
+                        )
                     except Permission.DoesNotExist:
                         logging.warning(
                             "Permission not found with name '{}'.".format(name)
                         )
                         continue
 
-                    new_group.permissions.add(model_add_perm)
+                    for group in GROUPS:
+                        new_group, created = Group.objects.get_or_create(name=group)
+                        new_group.permissions.add(permission)
