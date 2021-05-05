@@ -24,7 +24,13 @@ class ShopDetailViewTests(TestCase):
     def test_get_shop_details_not_authenticated(self):
         resp = self.client.get(self.url)
 
-        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(
+            resp,
+            "/users/login/?next=/shop/{}".format(self.shop.id),
+            status_code=302,
+            target_status_code=200,
+            fetch_redirect_response=True,
+        )
 
     def test_get_shop_details(self):
         self.client.login(mobile=self.user.mobile, password=self.password)
