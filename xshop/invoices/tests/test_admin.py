@@ -27,7 +27,7 @@ request = MockRequest()
 request.user = MockSuperUser()
 
 
-class CashierInvoiceAdminTests(TestCase):
+class InvoiceAdminTests(TestCase):
     def setUp(self) -> None:
         self.site = AdminSite()
         self.model_admin = InvoiceAdmin(Invoice, self.site)
@@ -72,14 +72,14 @@ class CashierInvoiceAdminTests(TestCase):
             list(Invoice.objects.all().order_by("-id")),
         )
 
-    def test_manager_invoice_queryset(self):
+    def test_cashier_invoice_queryset(self):
         orders = Order.objects.filter(shop=self.shop)
         self.assertEqual(
             list(self.model_admin.get_queryset(self.request_cashier).order_by("-id")),
             list(Invoice.objects.filter(order__in=orders).order_by("-id")),
         )
 
-    def test_manager_no_invoice_queryset(self):
+    def test_cashier_no_invoice_queryset(self):
         orders = Order.objects.filter(shop=self.shop1)
         self.assertEqual(
             list(
@@ -88,7 +88,7 @@ class CashierInvoiceAdminTests(TestCase):
             list(Invoice.objects.filter(order__in=orders).order_by("-id")),
         )
 
-    def test_manager_permission_denied_invoice_queryset(self):
+    def test_cashier_permission_denied_invoice_queryset(self):
         with self.assertRaisesMessage(
             PermissionDenied, "You have no access to this data."
         ):
