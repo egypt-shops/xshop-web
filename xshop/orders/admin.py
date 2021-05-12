@@ -22,24 +22,31 @@ class OrderAdmin(admin.ModelAdmin):
     # readonly_fields = ('shop', )
 
     def save_model(self, request, obj, form, change):
-        obj.shop = request.user.shop
+        user: User = request.user
+        if UserGroup.CASHIER in user.type:
+            obj.shop = request.user.shop
         super().save_model(request, obj, form, change)
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        user: User = request.user
+        if UserGroup.CASHIER in user.type:
+            if db_field.name == "shop":
+                kwargs["queryset"] = Shop.objects.filter(id=request.user.shop.id)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(OrderAdmin, self).get_form(request, obj, **kwargs)
+        user: User = request.user
+        if UserGroup.CASHIER in user.type:
+            form.base_fields["shop"].initial = request.user.shop
+        return form
+
+    # permissions
     def has_module_permission(self, request):
         user: User = request.user
         if request.user.is_superuser or UserGroup.CASHIER in user.type:
             return True
         return False
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "shop":
-            kwargs["queryset"] = Shop.objects.filter(id=request.user.shop.id)
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-    def get_form(self, request, obj=None, **kwargs):
-        form = super(OrderAdmin, self).get_form(request, obj, **kwargs)
-        form.base_fields["shop"].initial = request.user.shop
-        return form
 
     def has_add_permission(self, request, obj=None):
         user: User = request.user
