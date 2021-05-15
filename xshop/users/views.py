@@ -15,7 +15,7 @@ def redirection(request):
     if UserGroup.GENERAL_MANAGER in user.type:
         return redirect(reverse("admin:index"))
     elif UserGroup.CASHIER in user.type:
-        return redirect(reverse("dashboard:cashier"))
+        return redirect(reverse("admin:orders_order_add"))
     elif UserGroup.DATA_ENTRY_CLERK in user.type:
         return redirect(reverse("dashboard:data_entry"))
     elif request.user.is_superuser:
