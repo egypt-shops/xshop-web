@@ -1,11 +1,12 @@
 import csv
-
 from django.contrib import admin
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext_lazy as _
 
 from .models import Product
+from xshop.core.utils import UserGroup
+from xshop.users.models import User
 
 
 @admin.register(Product)
@@ -18,10 +19,11 @@ class ProductAdmin(admin.ModelAdmin):
     ordering = ("-id",)
 
     def get_queryset(self, request):
-        if request.user.is_superuser:
+        user: User = request.user
+        if user.is_superuser:
             return Product.objects.all()
-        if "General Manager" in request.user.type:
-            return Product.objects.filter(shop=request.user.shop)
+        if user.type and user.type[0] == UserGroup.GENERAL_MANAGER.title():
+            return Product.objects.filter(shop=user.shop)
         raise PermissionDenied(_("You have no access to this data."))
 
     def export_as_csv(self, request, queryset):

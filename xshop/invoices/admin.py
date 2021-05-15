@@ -7,7 +7,6 @@ from django.utils.translation import ugettext_lazy as _
 from .models import Invoice
 from xshop.core.utils import UserGroup
 from xshop.users.models import User
-from xshop.orders.models import Order
 
 
 def invoice_detail(obj):
@@ -33,21 +32,27 @@ class InvoiceAdmin(admin.ModelAdmin):
 
     def has_view_permission(self, request, obj=None):
         user: User = request.user
-        if request.user.is_superuser or UserGroup.CASHIER in user.type:
-            return True
-        return False
+        return bool(
+            user.is_superuser
+            or user.type[0]
+            in [UserGroup.CASHIER.title(), UserGroup.GENERAL_MANAGER.title()]
+        )
 
     def has_module_permission(self, request):
         user: User = request.user
-        if request.user.is_superuser or UserGroup.CASHIER in user.type:
-            return True
-        return False
+        return bool(
+            user.is_superuser
+            or user.type[0]
+            in [UserGroup.CASHIER.title(), UserGroup.GENERAL_MANAGER.title()]
+        )
 
     def get_queryset(self, request):
-        if request.user.is_superuser:
-            return Invoice.objects.all()
         user: User = request.user
-        if UserGroup.CASHIER in user.type:
-            orders = Order.objects.filter(shop=request.user.shop)
-            return Invoice.objects.filter(order__in=orders)
+        if user.is_superuser:
+            return Invoice.objects.all()
+        if user.type and user.type[0] in [
+            UserGroup.CASHIER.title(),
+            UserGroup.GENERAL_MANAGER.title(),
+        ]:
+            return Invoice.objects.filter(order__shop=user.shop)
         raise PermissionDenied(_("You have no access to this data."))
