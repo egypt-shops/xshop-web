@@ -282,7 +282,7 @@ BATON = {
         {
             "type": "free",
             "label": "Users",
-            "apps": ("users", "shops"),
+            # "apps": ("users", "shops"),
             "default_open": False,
             "children": [
                 {
