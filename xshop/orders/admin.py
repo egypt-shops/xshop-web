@@ -36,7 +36,7 @@ class OrderAdmin(admin.ModelAdmin):
             in [UserGroup.CASHIER.title(), UserGroup.GENERAL_MANAGER.title()]
             and db_field.name == "shop"
         ):
-            kwargs["queryset"] = Shop.objects.filter(id=user.shop.id)
+            kwargs["queryset"] = user.shop
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def get_form(self, request, obj=None, **kwargs):
