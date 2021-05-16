@@ -3,7 +3,7 @@ from django.test import RequestFactory, TestCase
 from django.core.exceptions import PermissionDenied
 from model_bakery import baker
 
-from xshop.users.models import GeneralManager, User
+from xshop.users.models import GeneralManager, DataEntryClerk, User
 from ...shops.models import Shop
 from ..admin import ProductAdmin
 from ..models import Product
@@ -46,6 +46,10 @@ class ProductAdminTests(TestCase):
         self.manager1 = baker.make(
             GeneralManager, mobile="01010092184", shop=self.shop1
         )
+        self.data_entry = baker.make(
+            DataEntryClerk, mobile="01010092186", shop=self.shop
+        )
+
         self.test_user = baker.make(User, mobile="01010092185")
 
         # requests
@@ -57,6 +61,12 @@ class ProductAdminTests(TestCase):
 
         self.request_no_product = MockRequest()
         self.request_no_product.user = self.manager1
+
+        self.request_data_entry = MockRequest()
+        self.request_data_entry.user = self.data_entry
+
+        self.request_no_product1 = MockRequest()
+        self.request_no_product1.user = self.data_entry
 
         self.request_test_user = MockRequest()
         self.request_test_user.user = self.test_user
@@ -88,3 +98,19 @@ class ProductAdminTests(TestCase):
             PermissionDenied, "You have no access to this data."
         ):
             self.model_admin.get_queryset(self.request_test_user)
+
+    def test_data_entry_product_queryset(self):
+        self.assertEqual(
+            list(
+                self.model_admin.get_queryset(self.request_data_entry).order_by("-id")
+            ),
+            list(Product.objects.filter(shop=self.shop).order_by("-id")),
+        )
+
+    def test_data_entry_no_product_queryset(self):
+        self.assertEqual(
+            list(
+                self.model_admin.get_queryset(self.request_no_product1).order_by("-id")
+            ),
+            list(Product.objects.filter(shop=self.shop).order_by("-id")),
+        )
