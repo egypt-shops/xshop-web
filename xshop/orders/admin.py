@@ -22,7 +22,7 @@ class OrderAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         user: User = request.user
-        if user.type[0] in [
+        if user.type and user.type[0] in [
             UserGroup.CASHIER.title(),
             UserGroup.GENERAL_MANAGER.title(),
         ]:
@@ -32,17 +32,18 @@ class OrderAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user: User = request.user
         if (
-            user.type[0]
+            user.type
+            and user.type[0]
             in [UserGroup.CASHIER.title(), UserGroup.GENERAL_MANAGER.title()]
             and db_field.name == "shop"
         ):
-            kwargs["queryset"] = user.shop
+            kwargs["queryset"] = Shop.objects.filter(id=user.shop.id)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def get_form(self, request, obj=None, **kwargs):
         user: User = request.user
         form = super(OrderAdmin, self).get_form(request, obj, **kwargs)
-        if user.type[0] in [
+        if user.type and user.type[0] in [
             UserGroup.CASHIER.title(),
             UserGroup.GENERAL_MANAGER.title(),
         ]:

@@ -2,6 +2,8 @@ from django import forms
 from django.contrib import admin, auth
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import Group
+from django.core.exceptions import PermissionDenied
+from django.utils.translation import ugettext_lazy as _
 
 # from rest_framework.authtoken.models import Token, TokenProxy
 
@@ -15,6 +17,7 @@ from xshop.users.models import (
     User,
 )
 from xshop.users.mixins import SuperuserPermissionsMixin
+from xshop.core.utils import UserGroup
 
 admin.site.unregister(Group)
 
@@ -107,6 +110,27 @@ class UserAdmin(SuperuserPermissionsMixin, auth.admin.UserAdmin):
 
     # inlines = (GroupAdminInline,)  # TokenAdminInline,)
 
+    # permissions
+    def has_module_permission(self, request):
+        user: User = request.user
+        return bool(
+            user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
+        )
+
+    def has_view_permission(self, request, obj=None):
+        user: User = request.user
+        return bool(
+            user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
+        )
+
+    def get_queryset(self, request):
+        user: User = request.user
+        if user.is_superuser:
+            return User.objects.all()
+        if user.type and user.type[0] == UserGroup.GENERAL_MANAGER.title():
+            return User.objects.filter(shop=user.shop)
+        raise PermissionDenied(_("You have no access to this data."))
+
 
 @admin.register(Customer)
 class CustomerAdmin(UserAdmin):
@@ -127,22 +151,85 @@ class CustomerAdmin(UserAdmin):
         ),
     )
 
+    def has_view_permission(self, request, obj=None):
+        user: User = request.user
+        return bool(user.is_superuser)
+
+    def has_add_permission(self, request, obj=None):
+        user: User = request.user
+        return bool(user.is_superuser)
+
+    def get_queryset(self, request):
+        user: User = request.user
+        g = Group.objects.get(name=UserGroup.CUSTOMER.title())
+        if user.is_superuser:
+            return User.objects.filter(groups=g.id)
+        if user.type and user.type[0] == UserGroup.GENERAL_MANAGER.title():
+            return User.objects.filter(shop=user.shop, groups=g.id)
+        raise PermissionDenied(_("You have no access to this data."))
+
 
 @admin.register(Cashier)
 class CashierAdmin(UserAdmin):
-    ...
+    def has_add_permission(self, request, obj=None):
+        user: User = request.user
+        return bool(
+            user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
+        )
+
+    def get_queryset(self, request):
+        user: User = request.user
+        g = Group.objects.get(name=UserGroup.CASHIER.title())
+        if user.is_superuser:
+            return User.objects.filter(groups=g.id)
+        if user.type and user.type[0] == UserGroup.GENERAL_MANAGER.title():
+            return User.objects.filter(shop=user.shop, groups=g.id)
+        raise PermissionDenied(_("You have no access to this data."))
 
 
 @admin.register(DataEntryClerk)
 class DataEntryClerkAdmin(UserAdmin):
-    ...
+    def has_add_permission(self, request, obj=None):
+        user: User = request.user
+        return bool(
+            user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
+        )
+
+    def get_queryset(self, request):
+        user: User = request.user
+        g = Group.objects.get(name=UserGroup.DATA_ENTRY_CLERK.title())
+        if user.is_superuser:
+            return User.objects.filter(groups=g.id)
+        if user.type and user.type[0] == UserGroup.GENERAL_MANAGER.title():
+            return User.objects.filter(shop=user.shop, groups=g.id)
+        raise PermissionDenied(_("You have no access to this data."))
 
 
 @admin.register(Manager)
 class ManagerAdmin(UserAdmin):
-    ...
+    def has_add_permission(self, request, obj=None):
+        user: User = request.user
+        return bool(
+            user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
+        )
+
+    def get_queryset(self, request):
+        user: User = request.user
+        g = Group.objects.get(name=UserGroup.MANAGER.title())
+        if user.is_superuser:
+            return User.objects.filter(groups=g.id)
+        if user.type and user.type[0] == UserGroup.GENERAL_MANAGER.title():
+            return User.objects.filter(shop=user.shop, groups=g.id)
+        raise PermissionDenied(_("You have no access to this data."))
 
 
 @admin.register(GeneralManager)
 class GeneralManagerAdmin(UserAdmin):
-    ...
+    def get_queryset(self, request):
+        user: User = request.user
+        g = Group.objects.get(name=UserGroup.GENERAL_MANAGER.title())
+        if user.is_superuser:
+            return User.objects.filter(groups=g.id)
+        if user.type and user.type[0] == UserGroup.GENERAL_MANAGER.title():
+            return User.objects.filter(shop=user.shop, groups=g.id)
+        raise PermissionDenied(_("You have no access to this data."))
