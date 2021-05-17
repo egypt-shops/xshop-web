@@ -2,6 +2,8 @@ from django.contrib import admin
 from xshop.core.utils import UserGroup
 from xshop.users.models import User
 from xshop.shops.models import Shop
+from xshop.products.models import Product
+from xshop.invoices.models import Invoice
 
 
 from .models import Order, OrderItem
@@ -10,6 +12,17 @@ from .models import Order, OrderItem
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 2
+
+    def has_add_permission(self, request, obj=None):
+        user: User = request.user
+        return bool(request.user.is_superuser or UserGroup.CASHIER in user.type)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        user: User = request.user
+        if UserGroup.CASHIER in user.type:
+            if db_field.name == "product":
+                kwargs["queryset"] = Product.objects.filter(shop=request.user.shop)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 @admin.register(Order)
@@ -21,12 +34,20 @@ class OrderAdmin(admin.ModelAdmin):
     ordering = ("-id",)
     # readonly_fields = ('shop', )
 
+    # save methods
     def save_model(self, request, obj, form, change):
         user: User = request.user
         if UserGroup.CASHIER in user.type:
             obj.shop = request.user.shop
         super().save_model(request, obj, form, change)
+    
+    def response_add(self, request, obj, post_url_continue=None):
+        user: User = request.user
+        if UserGroup.CASHIER in user.type:
+            Invoice.objects.create(user=user, order=obj)
+        return super().response_add(request, obj, post_url_continue=post_url_continue)
 
+    # UI methods
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user: User = request.user
         if UserGroup.CASHIER in user.type:
