@@ -52,10 +52,10 @@ class OrderAdmin(admin.ModelAdmin):
         if UserGroup.CASHIER in user.type:
             if db_field.name == "shop":
                 kwargs["initial"] = user.shop
-                kwargs['disabled'] = True
+                kwargs["disabled"] = True
             if db_field.name == "user":
                 kwargs["initial"] = user
-                kwargs['disabled'] = True
+                kwargs["disabled"] = True
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     # def get_form(self, request, obj=None, **kwargs):
