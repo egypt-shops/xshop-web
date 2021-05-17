@@ -1,11 +1,10 @@
 from django.contrib import admin
+
 from xshop.core.utils import UserGroup
 from xshop.users.models import User
 from xshop.shops.models import Shop
 from xshop.products.models import Product
 from xshop.invoices.models import Invoice
-
-
 from .models import Order, OrderItem
 
 
@@ -40,7 +39,7 @@ class OrderAdmin(admin.ModelAdmin):
         if UserGroup.CASHIER in user.type:
             obj.shop = request.user.shop
         super().save_model(request, obj, form, change)
-    
+
     def response_add(self, request, obj, post_url_continue=None):
         user: User = request.user
         if UserGroup.CASHIER in user.type:
