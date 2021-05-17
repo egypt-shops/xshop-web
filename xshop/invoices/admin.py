@@ -8,7 +8,6 @@ from .models import Invoice
 from xshop.core.utils import UserGroup
 from xshop.users.models import User
 from xshop.orders.models import Order
-from xshop.shops.models import Shop
 
 
 def invoice_detail(obj):
