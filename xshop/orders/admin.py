@@ -2,7 +2,6 @@ from django.contrib import admin
 
 from xshop.core.utils import UserGroup
 from xshop.users.models import User
-from xshop.shops.models import Shop
 from xshop.products.models import Product
 from xshop.invoices.models import Invoice
 from .models import Order, OrderItem
@@ -48,19 +47,26 @@ class OrderAdmin(admin.ModelAdmin):
         return super().response_add(request, obj, post_url_continue=post_url_continue)
 
     # UI methods
-    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
-    #     user: User = request.user
-    #     if UserGroup.CASHIER in user.type:
-    #         if db_field.name == "shop":
-    #             kwargs["queryset"] = Shop.objects.filter(id=request.user.shop.id)
-    #     return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-    def get_form(self, request, obj=None, **kwargs):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user: User = request.user
         if UserGroup.CASHIER in user.type:
-            self.exclude = ('shop', 'user',)
-        form = super(OrderAdmin, self).get_form(request, obj, **kwargs)
-        return form
+            if db_field.name == "shop":
+                kwargs["initial"] = user.shop
+                kwargs['disabled'] = True
+            if db_field.name == "user":
+                kwargs["initial"] = user
+                kwargs['disabled'] = True
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    # def get_form(self, request, obj=None, **kwargs):
+    #     user: User = request.user
+    #     if UserGroup.CASHIER in user.type:
+    #         self.exclude = (
+    #             "shop",
+    #             "user",
+    #         )
+    #     form = super(OrderAdmin, self).get_form(request, obj, **kwargs)
+    #     return form
 
     # permissions
     def has_module_permission(self, request):
