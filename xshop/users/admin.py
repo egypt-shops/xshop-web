@@ -131,6 +131,14 @@ class UserAdmin(SuperuserPermissionsMixin, auth.admin.UserAdmin):
             return User.objects.filter(shop=user.shop)
         raise PermissionDenied(_("You have no access to this data."))
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        user: User = request.user
+        if UserGroup.GENERAL_MANAGER in user.type:
+            if db_field.name == "shop":
+                kwargs["initial"] = user.shop
+                kwargs["disabled"] = True
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 @admin.register(Customer)
 class CustomerAdmin(UserAdmin):
@@ -155,10 +163,6 @@ class CustomerAdmin(UserAdmin):
         user: User = request.user
         return bool(user.is_superuser)
 
-    def has_add_permission(self, request, obj=None):
-        user: User = request.user
-        return bool(user.is_superuser)
-
     def get_queryset(self, request):
         user: User = request.user
         g = Group.objects.get(name=UserGroup.CUSTOMER.title())
@@ -172,6 +176,12 @@ class CustomerAdmin(UserAdmin):
 @admin.register(Cashier)
 class CashierAdmin(UserAdmin):
     def has_add_permission(self, request, obj=None):
+        user: User = request.user
+        return bool(
+            user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
+        )
+
+    def has_change_permission(self, request, obj=None):
         user: User = request.user
         return bool(
             user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
@@ -195,6 +205,12 @@ class DataEntryClerkAdmin(UserAdmin):
             user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
         )
 
+    def has_change_permission(self, request, obj=None):
+        user: User = request.user
+        return bool(
+            user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
+        )
+
     def get_queryset(self, request):
         user: User = request.user
         g = Group.objects.get(name=UserGroup.DATA_ENTRY_CLERK.title())
@@ -208,6 +224,12 @@ class DataEntryClerkAdmin(UserAdmin):
 @admin.register(Manager)
 class ManagerAdmin(UserAdmin):
     def has_add_permission(self, request, obj=None):
+        user: User = request.user
+        return bool(
+            user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
+        )
+
+    def has_change_permission(self, request, obj=None):
         user: User = request.user
         return bool(
             user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()

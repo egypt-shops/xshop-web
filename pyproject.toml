@@ -40,6 +40,7 @@ flake8-black = "0.2.1"
 ipdb = "0.13.3"
 docker-compose = "1.27.4"
 flake9 = "3.8.3"
+pylint = "^2.8.2"
 
 [tool.black]
 line-length = 88

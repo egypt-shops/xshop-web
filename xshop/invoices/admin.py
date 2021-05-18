@@ -33,15 +33,9 @@ class InvoiceAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user: User = request.user
         if db_field.name == "user" and not user.is_superuser:
-            kwargs["queryset"] = User.objects.filter(shop=user.shop.id)
+            kwargs["initial"] = user
+            kwargs["disabled"] = True
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-    def get_form(self, request, obj=None, **kwargs):
-        user: User = request.user
-        form = super(InvoiceAdmin, self).get_form(request, obj, **kwargs)
-        if user.type and user.type[0] == UserGroup.CASHIER.title():
-            form.base_fields["user"].initial = user
-        return form
 
     def has_view_permission(self, request, obj=None):
         user: User = request.user
@@ -49,6 +43,21 @@ class InvoiceAdmin(admin.ModelAdmin):
             user.is_superuser
             or user.type[0]
             in [UserGroup.CASHIER.title(), UserGroup.GENERAL_MANAGER.title()]
+        )
+
+    def has_add_permission(self, request, obj=None):
+        user: User = request.user
+        return bool(
+            user.is_superuser
+            or user.type[0]
+            in [UserGroup.CASHIER.title(), UserGroup.GENERAL_MANAGER.title()]
+        )
+
+    def has_change_permission(self, request, obj=None):
+        user: User = request.user
+        # breakpoint()
+        return bool(
+            user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
         )
 
     def has_module_permission(self, request):

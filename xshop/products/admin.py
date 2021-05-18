@@ -41,6 +41,21 @@ class ProductAdmin(admin.ModelAdmin):
             ]
         )
 
+    def has_add_permission(self, request, obj=None):
+        user: User = request.user
+        return bool(
+            user.is_superuser
+            or user.type[0]
+            in [UserGroup.DATA_ENTRY_CLERK.title(), UserGroup.GENERAL_MANAGER.title()]
+        )
+
+    def has_change_permission(self, request, obj=None):
+        user: User = request.user
+        # breakpoint()
+        return bool(
+            user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
+        )
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user: User = request.user
         if user.type:
