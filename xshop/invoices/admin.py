@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from .models import Invoice
 from xshop.core.utils import UserGroup
 from xshop.users.models import User
+from xshop.orders.models import Order
 
 
 def invoice_detail(obj):
@@ -32,9 +33,14 @@ class InvoiceAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user: User = request.user
-        if db_field.name == "user" and not user.is_superuser:
-            kwargs["initial"] = user
-            kwargs["disabled"] = True
+        if not user.is_superuser:
+            if db_field.name == "user":
+                kwargs["initial"] = user
+                kwargs["disabled"] = True
+            if db_field.name == "order":
+                kwargs["queryset"] = Order.objects.filter(shop=user.shop).order_by(
+                    "-id"
+                )
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def has_view_permission(self, request, obj=None):

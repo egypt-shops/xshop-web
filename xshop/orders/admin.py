@@ -5,7 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from xshop.core.utils import UserGroup
 from xshop.users.models import User
-from xshop.shops.models import Shop
+from xshop.invoices.models import Invoice
+from xshop.products.models import Product
 from .models import Order, OrderItem
 
 
@@ -21,7 +22,9 @@ class OrderItemInline(admin.TabularInline):
         user: User = request.user
         if UserGroup.CASHIER in user.type:
             if db_field.name == "product":
-                kwargs["queryset"] = Product.objects.filter(shop=request.user.shop)
+                kwargs["queryset"] = Product.objects.filter(shop=user.shop).order_by(
+                    "-id"
+                )
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
@@ -32,7 +35,6 @@ class OrderAdmin(admin.ModelAdmin):
     list_display_links = ("id", "user")
     search_fields = ("user__name", "user__mobile", "shop__name", "shop__mobile")
     ordering = ("-id",)
-    # readonly_fields = ('shop', )
 
     # save methods
     def save_model(self, request, obj, form, change):
@@ -54,23 +56,17 @@ class OrderAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user: User = request.user
         if UserGroup.CASHIER in user.type:
-            if db_field.name == "shop":
-                kwargs["initial"] = user.shop
-                kwargs["disabled"] = True
             if db_field.name == "user":
                 kwargs["initial"] = user
                 kwargs["disabled"] = True
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    # def get_form(self, request, obj=None, **kwargs):
-    #     user: User = request.user
-    #     if UserGroup.CASHIER in user.type:
-    #         self.exclude = (
-    #             "shop",
-    #             "user",
-    #         )
-    #     form = super(OrderAdmin, self).get_form(request, obj, **kwargs)
-    #     return form
+    def get_form(self, request, obj=None, **kwargs):
+        user: User = request.user
+        if UserGroup.CASHIER in user.type:
+            self.exclude = ("shop",)
+        form = super(OrderAdmin, self).get_form(request, obj, **kwargs)
+        return form
 
     # permissions
     def has_module_permission(self, request):
