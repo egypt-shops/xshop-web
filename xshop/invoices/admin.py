@@ -42,7 +42,11 @@ class InvoiceAdmin(admin.ModelAdmin):
         return bool(
             user.is_superuser
             or user.type[0]
-            in [UserGroup.CASHIER.title(), UserGroup.GENERAL_MANAGER.title()]
+            in [
+                UserGroup.CASHIER.title(),
+                UserGroup.GENERAL_MANAGER.title(),
+                UserGroup.MANAGER.title(),
+            ]
         )
 
     def has_add_permission(self, request, obj=None):
@@ -65,7 +69,11 @@ class InvoiceAdmin(admin.ModelAdmin):
         return bool(
             user.is_superuser
             or user.type[0]
-            in [UserGroup.CASHIER.title(), UserGroup.GENERAL_MANAGER.title()]
+            in [
+                UserGroup.CASHIER.title(),
+                UserGroup.GENERAL_MANAGER.title(),
+                UserGroup.MANAGER.title(),
+            ]
         )
 
     # def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -91,6 +99,7 @@ class InvoiceAdmin(admin.ModelAdmin):
         if user.type and user.type[0] in [
             UserGroup.CASHIER.title(),
             UserGroup.GENERAL_MANAGER.title(),
+            UserGroup.MANAGER.title(),
         ]:
             return Invoice.objects.filter(order__shop=user.shop)
         raise PermissionDenied(_("You have no access to this data."))

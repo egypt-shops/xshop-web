@@ -62,6 +62,10 @@ class InvoiceAdminTests(TestCase):
 
         self.cashier1 = baker.make(Cashier, mobile="01010092184", shop=self.shop1)
         self.manager = baker.make(Manager, mobile="01010092186", shop=self.shop)
+        self.password_m = "testpass123456"
+        self.manager.set_password(self.password_m)
+        self.manager.save()
+
         self.manager1 = baker.make(Manager, mobile="01010092187", shop=self.shop1)
 
         self.test_user = baker.make(User, mobile="01010092185")
@@ -78,6 +82,7 @@ class InvoiceAdminTests(TestCase):
 
         self.request_manager = MockRequest()
         self.request_manager.user = self.manager
+
         self.request_gm = MockRequest()
         self.request_gm.user = self.gm
 
@@ -151,9 +156,9 @@ class InvoiceAdminTests(TestCase):
 
     def test_manager_invoice_queryset(self):
         orders = Order.objects.filter(shop=self.shop)
-        self.assertEqual(
-            list(self.model_admin.get_queryset(self.request_manager).order_by("-id")),
-            list(Invoice.objects.filter(order__in=orders).order_by("-id")),
+        self.assertQuerysetEqual(
+            self.model_admin.get_queryset(self.request_manager).order_by("-id"),
+            Invoice.objects.filter(order__in=orders).order_by("-id"),
         )
 
     def test_manager_no_invoice_queryset(self):
