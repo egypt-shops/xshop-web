@@ -5,7 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 from xshop.core.utils import UserGroup
 from xshop.users.models import User
 from xshop.shops.models import Shop
-from django.forms.widgets import HiddenInput
 
 
 from .models import Order, OrderItem
