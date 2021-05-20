@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from xshop.core.utils import UserGroup
 from xshop.users.models import User
 from xshop.shops.models import Shop
+from django.forms.widgets import HiddenInput
 
 
 from .models import Order, OrderItem
@@ -47,6 +48,7 @@ class OrderAdmin(admin.ModelAdmin):
             and db_field.name == "shop"
         ):
             kwargs["queryset"] = Shop.objects.filter(id=user.shop.id)
+
         if (
             user.type
             and user.type[0]
@@ -55,7 +57,7 @@ class OrderAdmin(admin.ModelAdmin):
                 UserGroup.GENERAL_MANAGER.title(),
                 UserGroup.MANAGER.title(),
             ]
-            and db_field.name == "name"
+            and db_field.name == "user"
         ):
             kwargs["queryset"] = User.objects.filter(mobile=request.user.mobile)
 
@@ -69,7 +71,9 @@ class OrderAdmin(admin.ModelAdmin):
             UserGroup.GENERAL_MANAGER.title(),
             UserGroup.MANAGER.title(),
         ]:
-            form.base_fields["shop"].initial = user.shop
+            self.exclude = ("shop",)
+            form.base_fields["user"].initial = user
+
         return form
 
     # permissions
