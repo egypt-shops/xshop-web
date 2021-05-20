@@ -5,7 +5,7 @@ from model_bakery import baker
 from django.urls import reverse
 from django.test import Client
 
-from xshop.users.models import Cashier, User, GeneralManager
+from xshop.users.models import Cashier, User, GeneralManager, Manager
 from xshop.shops.models import Shop
 from xshop.orders.models import Order
 from ..admin import InvoiceAdmin
@@ -61,6 +61,12 @@ class InvoiceAdminTests(TestCase):
         self.gm.save()
 
         self.cashier1 = baker.make(Cashier, mobile="01010092184", shop=self.shop1)
+        self.manager = baker.make(Manager, mobile="01010092186", shop=self.shop)
+        self.password_m = "testpass123456"
+        self.manager.set_password(self.password_m)
+        self.manager.save()
+
+        self.manager1 = baker.make(Manager, mobile="01010092187", shop=self.shop1)
 
         self.test_user = baker.make(User, mobile="01010092185")
         self.password_user = "testpass12345"
@@ -74,11 +80,17 @@ class InvoiceAdminTests(TestCase):
         self.request_cashier = MockRequest()
         self.request_cashier.user = self.cashier
 
+        self.request_manager = MockRequest()
+        self.request_manager.user = self.manager
+
         self.request_gm = MockRequest()
         self.request_gm.user = self.gm
 
         self.request_no_invoice = MockRequest()
         self.request_no_invoice.user = self.cashier1
+
+        self.request_no_invoice1 = MockRequest()
+        self.request_no_invoice1.user = self.manager1
 
         self.request_test_user = MockRequest()
         self.request_test_user.user = self.test_user
@@ -141,3 +153,19 @@ class InvoiceAdminTests(TestCase):
             PermissionDenied, "You have no access to this data."
         ):
             self.model_admin.get_queryset(self.request_test_user)
+
+    def test_manager_invoice_queryset(self):
+        orders = Order.objects.filter(shop=self.shop)
+        self.assertQuerysetEqual(
+            self.model_admin.get_queryset(self.request_manager).order_by("-id"),
+            Invoice.objects.filter(order__in=orders).order_by("-id"),
+        )
+
+    def test_manager_no_invoice_queryset(self):
+        orders = Order.objects.filter(shop=self.shop1)
+        self.assertEqual(
+            list(
+                self.model_admin.get_queryset(self.request_no_invoice1).order_by("-id")
+            ),
+            list(Invoice.objects.filter(order__in=orders).order_by("-id")),
+        )
