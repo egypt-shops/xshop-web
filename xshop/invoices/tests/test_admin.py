@@ -5,11 +5,7 @@ from model_bakery import baker
 from django.urls import reverse
 from django.test import Client
 
-<<<<<<< HEAD
-from xshop.users.models import Cashier, Manager, User
-=======
-from xshop.users.models import Cashier, User, GeneralManager
->>>>>>> develop
+from xshop.users.models import Cashier, User, GeneralManager, Manager
 from xshop.shops.models import Shop
 from xshop.orders.models import Order
 from ..admin import InvoiceAdmin
