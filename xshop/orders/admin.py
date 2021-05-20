@@ -29,6 +29,7 @@ class OrderAdmin(admin.ModelAdmin):
         if user.type and user.type[0] in [
             UserGroup.CASHIER.title(),
             UserGroup.GENERAL_MANAGER.title(),
+            UserGroup.MANAGER.title(),
         ]:
             obj.shop = user.shop
         super().save_model(request, obj, form, change)
@@ -66,6 +67,7 @@ class OrderAdmin(admin.ModelAdmin):
         if user.type and user.type[0] in [
             UserGroup.CASHIER.title(),
             UserGroup.GENERAL_MANAGER.title(),
+            UserGroup.MANAGER.title(),
         ]:
             form.base_fields["shop"].initial = user.shop
         return form
