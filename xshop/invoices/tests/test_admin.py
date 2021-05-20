@@ -2,8 +2,14 @@ from django.contrib.admin.sites import AdminSite
 from django.test import RequestFactory, TestCase
 from django.core.exceptions import PermissionDenied
 from model_bakery import baker
+from django.urls import reverse
+from django.test import Client
 
+<<<<<<< HEAD
 from xshop.users.models import Cashier, Manager, User
+=======
+from xshop.users.models import Cashier, User, GeneralManager
+>>>>>>> develop
 from xshop.shops.models import Shop
 from xshop.orders.models import Order
 from ..admin import InvoiceAdmin
@@ -47,11 +53,25 @@ class InvoiceAdminTests(TestCase):
 
         # users
         self.superuser = baker.make(User, mobile="01010092181", is_superuser=True)
-        self.cashier = baker.make(Cashier, mobile="01010092183", shop=self.shop)
+
+        self.cashier = baker.make(GeneralManager, mobile="01010092173", shop=self.shop)
+        self.password = "testpass123"
+        self.cashier.set_password(self.password)
+        self.cashier.save()
+
+        self.gm = baker.make(Cashier, mobile="01010092183", shop=self.shop)
+        self.password_gm = "testpass1234"
+        self.gm.set_password(self.password_gm)
+        self.gm.save()
+
         self.cashier1 = baker.make(Cashier, mobile="01010092184", shop=self.shop1)
         self.manager = baker.make(Manager, mobile="01010092186", shop=self.shop)
         self.manager1 = baker.make(Manager, mobile="01010092187", shop=self.shop1)
+
         self.test_user = baker.make(User, mobile="01010092185")
+        self.password_user = "testpass12345"
+        self.test_user.set_password(self.password_gm)
+        self.test_user.save()
 
         # requests
         self.request_super = MockRequest()
@@ -62,6 +82,8 @@ class InvoiceAdminTests(TestCase):
 
         self.request_manager = MockRequest()
         self.request_manager.user = self.manager
+        self.request_gm = MockRequest()
+        self.request_gm.user = self.gm
 
         self.request_no_invoice = MockRequest()
         self.request_no_invoice.user = self.cashier1
@@ -72,28 +94,57 @@ class InvoiceAdminTests(TestCase):
         self.request_test_user = MockRequest()
         self.request_test_user.user = self.test_user
 
+        # url
+        self.client = Client()
+        self.url = reverse("admin:invoices_invoice_add")
+
         # attr values
 
     def test_superuser_invoice_queryset(self):
-        self.assertEqual(
-            list(self.model_admin.get_queryset(self.request_super).order_by("-id")),
-            list(Invoice.objects.all().order_by("-id")),
+        self.assertQuerysetEqual(
+            self.model_admin.get_queryset(self.request_super).order_by("-id"),
+            Invoice.objects.all().order_by("-id"),
         )
+
+    def test_get_add_invoice_page_not_authenticated(self):
+        resp = self.client.get(self.url)
+
+        self.assertEqual(resp.status_code, 302)
+
+    def test_get_add_invoice_page_cashier(self):
+        self.client.login(mobile=self.cashier.mobile, password=self.password)
+        resp = self.client.get(self.url)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_get_add_invoice_page_gm(self):
+        self.client.login(mobile=self.gm.mobile, password=self.password_gm)
+        resp = self.client.get(self.url)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_get_add_invoice_page_user(self):
+        self.client.login(mobile=self.test_user.mobile, password=self.password_user)
+        resp = self.client.get(self.url)
+        self.assertEqual(resp.status_code, 302)
 
     def test_cashier_invoice_queryset(self):
         orders = Order.objects.filter(shop=self.shop)
-        self.assertEqual(
-            list(self.model_admin.get_queryset(self.request_cashier).order_by("-id")),
-            list(Invoice.objects.filter(order__in=orders).order_by("-id")),
+        self.assertQuerysetEqual(
+            self.model_admin.get_queryset(self.request_cashier).order_by("-id"),
+            Invoice.objects.filter(order__in=orders).order_by("-id"),
+        )
+
+    def test_gm_invoice_queryset(self):
+        orders = Order.objects.filter(shop=self.shop)
+        self.assertQuerysetEqual(
+            self.model_admin.get_queryset(self.request_gm).order_by("-id"),
+            Invoice.objects.filter(order__in=orders).order_by("-id"),
         )
 
     def test_cashier_no_invoice_queryset(self):
         orders = Order.objects.filter(shop=self.shop1)
-        self.assertEqual(
-            list(
-                self.model_admin.get_queryset(self.request_no_invoice).order_by("-id")
-            ),
-            list(Invoice.objects.filter(order__in=orders).order_by("-id")),
+        self.assertQuerysetEqual(
+            self.model_admin.get_queryset(self.request_no_invoice).order_by("-id"),
+            Invoice.objects.filter(order__in=orders).order_by("-id"),
         )
 
     def test_cashier_permission_denied_invoice_queryset(self):
