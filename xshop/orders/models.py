@@ -1,6 +1,8 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 from model_utils.models import TimeStampedModel
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 
 class Order(TimeStampedModel):
@@ -29,3 +31,18 @@ class OrderItem(TimeStampedModel):
     @property
     def total_price(self):
         return self.product.price * self.quantity
+
+    def clean(self, *args, **kwargs):
+        if self.quantity > self.product.stock:
+            raise ValidationError(
+                _(
+                    "Max quantity for {} is {}".format(
+                        self.product.name, self.product.stock
+                    )
+                )
+            )
+        super(OrderItem, self).clean(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(OrderItem, self).save(*args, **kwargs)
