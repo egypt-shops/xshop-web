@@ -41,6 +41,21 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ("user__name", "user__mobile", "shop__name", "shop__mobile")
     ordering = ("-id",)
 
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("order",),
+                "fields": ("user", "paid"),
+            },
+        ),
+    )
+
+    def get_fieldsets(self, request, obj=None):
+        if not obj:
+            return self.add_fieldsets
+        return super().get_fieldsets(request, obj)
+
     # save methods
     def save_model(self, request, obj, form, change):
         user: User = request.user
@@ -88,6 +103,7 @@ class OrderAdmin(admin.ModelAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
         user: User = request.user
+        form = super(OrderAdmin, self).get_form(request, obj, **kwargs)
         if user.type and user.type[0] in [
             UserGroup.CASHIER.title(),
             UserGroup.GENERAL_MANAGER.title(),
@@ -95,7 +111,6 @@ class OrderAdmin(admin.ModelAdmin):
         ]:
             self.exclude = ("shop",)
             form.base_fields["user"].initial = user
-        form = super(OrderAdmin, self).get_form(request, obj, **kwargs)
         return form
 
     # permissions

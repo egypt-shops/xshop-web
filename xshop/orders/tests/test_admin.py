@@ -4,7 +4,7 @@ from django.core.exceptions import PermissionDenied
 from model_bakery import baker
 
 from xshop.users.models import Manager, User, GeneralManager, Cashier
-from ...shops.models import Shop
+from xshop.shops.models import Shop
 from ..admin import OrderAdmin
 from ..models import Order
 from django.urls import reverse
