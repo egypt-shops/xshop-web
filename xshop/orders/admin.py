@@ -98,6 +98,7 @@ class OrderAdmin(admin.ModelAdmin):
             ]
             and db_field.name == "user"
         ):
+            kwargs["disabled"] = True
             kwargs["queryset"] = User.objects.filter(mobile=request.user.mobile)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
@@ -111,7 +112,6 @@ class OrderAdmin(admin.ModelAdmin):
         ]:
             self.exclude = ("shop",)
             form.base_fields["user"].initial = user
-            kwargs["disabled"] = True
         return form
 
     # permissions
