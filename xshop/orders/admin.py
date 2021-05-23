@@ -111,6 +111,7 @@ class OrderAdmin(admin.ModelAdmin):
         ]:
             self.exclude = ("shop",)
             form.base_fields["user"].initial = user
+            kwargs["disabled"] = True
         return form
 
     # permissions
