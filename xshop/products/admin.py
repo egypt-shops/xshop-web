@@ -3,11 +3,19 @@ from django.contrib import admin
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext_lazy as _
+from django.urls import path
+from django.shortcuts import render, redirect, reverse
+from django import forms
+import codecs
 
 from xshop.shops.models import Shop
 from .models import Product
 from xshop.core.utils import UserGroup
 from xshop.users.models import User
+
+
+class CsvImportForm(forms.Form):
+    csv_file = forms.FileField()
 
 
 @admin.register(Product)
@@ -118,6 +126,42 @@ class ProductAdmin(admin.ModelAdmin):
 
     actions = ["export_as_csv"]
     export_as_csv.short_description = "Export selected products"
+
+    change_list_template = "admin/product_change_list.html"
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path("admin/import-csv/", self.import_csv),
+        ]
+        return my_urls + urls
+
+    def import_csv(self, request):
+        if request.method == "POST":
+            imported_file = request.FILES["csv_file"]
+            csv_file = csv.DictReader(codecs.iterdecode(imported_file, "utf-8"))
+            # column_names = ['name', 'price', 'stock', 'barcode', 'country_id', 'manufacturer_id', 'number_id', 'added_by', 'shop']
+            for i in csv_file:
+                Product.objects.create(
+                    name=i["name"],
+                    price=i["price"],
+                    stock=i["stock"],
+                    barcode=i["barcode"],
+                    country_id=i["country_id"],
+                    manufacturer_id=i["manufacturer_id"],
+                    number_id=i["number_id"],
+                    added_by=request.user,
+                    shop=request.user.shop,
+                )
+            # file_cleaned = [x.split(',') for x in csv_file.decode('ascii').split('\r\n')]
+            breakpoint()
+            # Create Hero objects from passed in data
+            # ...
+            self.message_user(request, "Your csv file has been imported")
+            return redirect(reverse("admin:index"))
+        form = CsvImportForm()
+        payload = {"form": form}
+        return render(request, "admin/csv_form.html", payload)
 
 
 class ProductInline(admin.TabularInline):
