@@ -141,20 +141,19 @@ class ProductAdmin(admin.ModelAdmin):
             imported_file = request.FILES["csv_file"]
             csv_file = csv.DictReader(codecs.iterdecode(imported_file, "utf-8"))
             # column_names = ['name', 'price', 'stock', 'barcode', 'country_id', 'manufacturer_id', 'number_id', 'added_by', 'shop']
-            for i in csv_file:
+            for line in csv_file:
                 Product.objects.create(
-                    name=i["name"],
-                    price=i["price"],
-                    stock=i["stock"],
-                    barcode=i["barcode"],
-                    country_id=i["country_id"],
-                    manufacturer_id=i["manufacturer_id"],
-                    number_id=i["number_id"],
+                    name=line["name"],
+                    price=line["price"],
+                    stock=line["stock"],
+                    barcode=line["barcode"],
+                    country_id=line["country_id"],
+                    manufacturer_id=line["manufacturer_id"],
+                    number_id=line["number_id"],
                     added_by=request.user,
                     shop=request.user.shop,
                 )
             # file_cleaned = [x.split(',') for x in csv_file.decode('ascii').split('\r\n')]
-            breakpoint()
             # Create Hero objects from passed in data
             # ...
             self.message_user(request, "Your csv file has been imported")
