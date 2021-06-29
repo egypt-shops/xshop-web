@@ -150,8 +150,6 @@ class ProductAdmin(admin.ModelAdmin):
                 "country_id",
                 "manufacturer_id",
                 "number_id",
-                "added_by",
-                "shop",
             ]
             for name in column_names:
                 if name not in csv_file.fieldnames:
