@@ -6,6 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.urls import path
 from django.shortcuts import render, redirect, reverse
 from django import forms
+from django.contrib import messages
+
 import codecs
 
 from xshop.shops.models import Shop
@@ -140,8 +142,15 @@ class ProductAdmin(admin.ModelAdmin):
         if request.method == "POST":
             imported_file = request.FILES["csv_file"]
             csv_file = csv.DictReader(codecs.iterdecode(imported_file, "utf-8"))
-            # column_names = ['name', 'price', 'stock', 'barcode', 'country_id', 'manufacturer_id', 'number_id', 'added_by', 'shop']
+            column_names = ['name', 'price', 'stock', 'barcode', 'country_id', 'manufacturer_id', 'number_id', 'added_by', 'shop']
+            for name in column_names:
+                if name not in csv_file.fieldnames:
+                    messages.error(request, "Your csv file does not contain '{}' column".format(name))
+                    return redirect(reverse("admin:products_product_changelist"))
             for line in csv_file:
+                if not line['price'].isnumeric():
+                    messages.error(request, "the product '{}' has no numeric price".format(line['name']))
+                    return redirect(reverse("admin:products_product_changelist"))
                 Product.objects.create(
                     name=line["name"],
                     price=line["price"],
@@ -154,10 +163,8 @@ class ProductAdmin(admin.ModelAdmin):
                     shop=request.user.shop,
                 )
             # file_cleaned = [x.split(',') for x in csv_file.decode('ascii').split('\r\n')]
-            # Create Hero objects from passed in data
-            # ...
             self.message_user(request, "Your csv file has been imported")
-            return redirect(reverse("admin:index"))
+            return redirect(reverse("admin:products_product_changelist"))
         form = CsvImportForm()
         payload = {"form": form}
         return render(request, "admin/csv_form.html", payload)
