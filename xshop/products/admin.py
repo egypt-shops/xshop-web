@@ -142,14 +142,30 @@ class ProductAdmin(admin.ModelAdmin):
         if request.method == "POST":
             imported_file = request.FILES["csv_file"]
             csv_file = csv.DictReader(codecs.iterdecode(imported_file, "utf-8"))
-            column_names = ['name', 'price', 'stock', 'barcode', 'country_id', 'manufacturer_id', 'number_id', 'added_by', 'shop']
+            column_names = [
+                "name",
+                "price",
+                "stock",
+                "barcode",
+                "country_id",
+                "manufacturer_id",
+                "number_id",
+                "added_by",
+                "shop",
+            ]
             for name in column_names:
                 if name not in csv_file.fieldnames:
-                    messages.error(request, "Your csv file does not contain '{}' column".format(name))
+                    messages.error(
+                        request,
+                        "Your csv file does not contain '{}' column".format(name),
+                    )
                     return redirect(reverse("admin:products_product_changelist"))
             for line in csv_file:
-                if not line['price'].isnumeric():
-                    messages.error(request, "the product '{}' has no numeric price".format(line['name']))
+                if not line["price"].isnumeric():
+                    messages.error(
+                        request,
+                        "the product '{}' has no numeric price".format(line["name"]),
+                    )
                     return redirect(reverse("admin:products_product_changelist"))
                 Product.objects.create(
                     name=line["name"],
