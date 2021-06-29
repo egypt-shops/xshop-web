@@ -2,13 +2,13 @@ from django.contrib.admin.sites import AdminSite
 from django.test import RequestFactory, TestCase
 from django.core.exceptions import PermissionDenied
 from model_bakery import baker
+
+from xshop.users.models import Manager, User, GeneralManager, Cashier
+from xshop.shops.models import Shop
+from ..admin import OrderAdmin
+from ..models import Order
 from django.urls import reverse
 from django.test import Client
-
-from xshop.users.models import Cashier, User, GeneralManager
-from xshop.shops.models import Shop
-from xshop.orders.admin import OrderAdmin
-from xshop.orders.models import Order
 
 
 class MockRequest:
@@ -32,7 +32,6 @@ class OrderAdminTests(TestCase):
     def setUp(self) -> None:
         self.site = AdminSite()
         self.model_admin = OrderAdmin(Order, self.site)
-
         # shops
         self.shop_test = baker.make(Shop, mobile="01010092182")
         self.shop = baker.make(Shop, mobile="01010092183")
@@ -50,22 +49,34 @@ class OrderAdminTests(TestCase):
         self.cashier.set_password(self.password)
         self.cashier.save()
 
-        self.gm = baker.make(Cashier, mobile="01010092183", shop=self.shop)
+        self.manager = baker.make(Manager, mobile="01010092186", shop=self.shop)
+        self.password = "test123"
+        self.cashier.set_password(self.password)
+        self.cashier.save()
+
+        self.gm = baker.make(Cashier, mobile="01010092185", shop=self.shop)
         self.password_gm = "testpass1234"
         self.gm.set_password(self.password_gm)
         self.gm.save()
 
-        self.cashier1 = baker.make(Cashier, mobile="01010092184", shop=self.shop1)
+        self.cashier1 = baker.make(Cashier, mobile="01010092188", shop=self.shop1)
+        self.manager1 = baker.make(Manager, mobile="01010092189", shop=self.shop1)
 
-        self.test_user = baker.make(User, mobile="01010092185")
+        self.test_user = baker.make(User, mobile="01010092175")
         self.password_user = "testpass12345"
         self.test_user.set_password(self.password_gm)
         self.test_user.save()
 
         # requests
+
         self.request_super = MockRequest()
         self.request_super.user = self.superuser
 
+        self.request_manager = MockRequest()
+        self.request_manager.user = self.manager
+
+        self.request_no_order1 = MockRequest()
+        self.request_no_order1.user = self.manager1
         self.request_cashier = MockRequest()
         self.request_cashier.user = self.cashier
 
@@ -83,6 +94,24 @@ class OrderAdminTests(TestCase):
         self.url = reverse("admin:orders_order_add")
 
         # attr values
+
+    def test_superuser_order_queryset(self):
+        self.assertQuerysetEqual(
+            self.model_admin.get_queryset(self.request_super).order_by("-id"),
+            Order.objects.all().order_by("-id"),
+        )
+
+    def test_manager_order_queryset(self):
+        self.assertEqual(
+            list(self.model_admin.get_queryset(self.request_manager).order_by("-id")),
+            list(Order.objects.filter(shop=self.shop).order_by("-id")),
+        )
+
+    def test_manager_no_order_queryset(self):
+        self.assertEqual(
+            list(self.model_admin.get_queryset(self.request_no_order).order_by("-id")),
+            list(Order.objects.filter(shop=self.shop1).order_by("-id")),
+        )
 
     def test_get_add_order_page_not_authenticated(self):
         resp = self.client.get(self.url)
@@ -103,12 +132,6 @@ class OrderAdminTests(TestCase):
         self.client.login(mobile=self.test_user.mobile, password=self.password_user)
         resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 302)
-
-    def test_superuser_order_queryset(self):
-        self.assertQuerysetEqual(
-            self.model_admin.get_queryset(self.request_super).order_by("-id"),
-            Order.objects.all().order_by("-id"),
-        )
 
     def test_cashier_order_queryset(self):
         self.assertQuerysetEqual(
