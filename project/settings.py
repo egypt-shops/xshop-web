@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     "xshop.orders.apps.OrdersConfig",
     "xshop.invoices.apps.InvoicesConfig",
     "xshop.cart.apps.CartConfig",
+    "xshop.payments.apps.PaymentsConfig",
     # Third party
     "baton.autodiscover",
 ]
