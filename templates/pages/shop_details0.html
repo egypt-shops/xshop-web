@@ -6,7 +6,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 	<base href="/">
-	<title>HomePage</title>
+	<title>{{ shop }}</title>
 	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
 	<link rel="stylesheet" href="{% static 'fonts/font-awesome.min.css' %}">
@@ -37,16 +37,45 @@
 					</div>
 				</li>
 			</ul>
-			<div class="container-fluid"><a class="navbar-brand" href="#">X-Shop</a><button data-toggle="collapse"
-					class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
-						class="navbar-toggler-icon"></span></button>
+			<!-- <div class="row text-center" style="height: 75px;margin: 0px;padding: -7px;">
+				<div class="col-md-2 col-xl-2 offset-md-0" style="height: 75px;width: 112.5px;">
+					<img class="rounded-circle img-fluid border" src="assets/img/desk.jpg" style="width: 89.8px;border-top-left-radius: 0px;height: 74px;padding: 1px;box-shadow: 0px 0px 20px 8px rgb(201,211,221);filter: brightness(109%);margin: 1px;" alt="Shop1-logo">
+				</div>
+				<div class="col-md-4 col-lg-3 col-xl-5 offset-md-6 offset-lg-7 offset-xl-10" style="width: 308.5px;height: 75px;margin-top: -2px;margin-right: -136px;margin-bottom: 0px;margin-left: 495px;font-size: 27px;">
+					<label class="text-right float-right d-xl-flex justify-content-end" style="height: 30px;margin: 7px;width: 110.9px;padding: -7px;color: rgb(214,233,251);font-size: 16px;margin-top: 21px;margin-left: 2px;margin-right: -9px;">
+						welcome, name
+					</label>
+					<a href="#">
+						<i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end" data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart" style="color: #dbe8f5;font-size: 20px;margin: 10px;padding: 0px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -6px;margin-top: 22px;margin-bottom: 10px;">
+						</i>
+					</a>
+					<i class="fa fa-search" style="color: rgb(222,226,230);font-size: 20px;height: 21px;margin: 4px;padding: 3px;width: 20.8px;margin-right: -27px;border-style: none;border-color: rgb(242,243,244);">
+					</i>
+					<input class="form-control-sm search-field" type="search" id="search-field" placeholder="Search For Products.." style="font-size: 17.5px;color: var(--white);filter: blur(0px) brightness(185%) contrast(50%) grayscale(24%) hue-rotate(53deg) saturate(200%);background: rgba(0,0,0,0.1);opacity: 0.57;margin: 4px;padding: 3px;margin-left: 32px;margin-bottom: 4px;margin-right: -155px;border-width: 0px;margin-top: 18px;width: 194px;">
+				</div>
+			</div> -->
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">
+					X-Shop
+				</a>
+				<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+					<span class="sr-only">
+						Toggle navigation
+					</span>
+					<span class="navbar-toggler-icon">
+						
+					</span>
+				</button>
 				<div class="collapse navbar-collapse" id="navcol-1">
 					<ul class="navbar-nav"></ul>
 					<form class="form-inline ml-auto" target="_self">
-						<div class="form-group mb-0" style="width: 236.9px;"><label for="search-field"><i
-									class="fa fa-search"></i></label><input class="form-control search-field" type="search"
-								id="search-field" placeholder="Search For Shops.."
-								style="font-size: 19.49px;color: var(--white);filter: blur(0px) brightness(123%) contrast(109%) grayscale(24%) hue-rotate(53deg) saturate(200%);">
+						<div class="form-group mb-0" style="width: 236.9px;">
+							<label for="search-field">
+								<i class="fa fa-search">
+
+								</i>
+							</label>
+							<input class="form-control search-field" type="search" id="search-field" placeholder="Search For Shops.." style="font-size: 19.49px;color: var(--white);filter: blur(0px) brightness(123%) contrast(109%) grayscale(24%) hue-rotate(53deg) saturate(200%);">
 						</div>
 					</form>
 					{% else %}
@@ -59,7 +88,9 @@
 
 							</form>
 							<span class="navbar-text"> <a class="login" href="{% url 'users:login' %}">Log In</a></span><a
-								class="btn btn-light action-button" role="button" href="#">Sign Up</a>
+								class="btn btn-light action-button" role="button" href="#">
+								Sign Up
+							</a>
 						</div>
 						{% endif %}
 					</div>

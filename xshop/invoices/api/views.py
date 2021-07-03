@@ -4,7 +4,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from ..models import Invoice
+from xshop.orders.models import Order
 from .serializers import InvoiceSerializer
+from xshop.core.utils import UserGroup
 
 
 class InvoiceListCreateApi(APIView):
@@ -14,9 +16,37 @@ class InvoiceListCreateApi(APIView):
         description="List all invoices",
         responses={200: "Invoices list"},
     )
+    # GM & every other 3amel by shop and the customer by user
     def get(self, request):
-        invoices = Invoice.objects.all()
-        serializer = self.serializer_class(invoices, many=True)
+        user = request.user
+        if not user.id:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if user.is_superuser:
+            invoices = Invoice.objects.all()
+            serializer = self.serializer_class(invoices, many=True)
+            return Response(serializer.data)
+
+        elif bool(
+            user.type[0]
+            in [
+                UserGroup.GENERAL_MANAGER.title(),
+                UserGroup.CASHIER.title(),
+            ]
+        ):
+            invoices = Invoice.objects.filter(
+                order__in=Order.objects.filter(shop=user.shop)
+            ) | Invoice.objects.filter(user=user)
+            serializer = self.serializer_class(invoices, many=True)
+            return Response(serializer.data)
+        elif bool(
+            user.type[0]
+            in [
+                UserGroup.DATA_ENTRY_CLERK.title(),
+                UserGroup.CUSTOMER.title(),
+            ]
+        ):
+            invoices = Invoice.objects.filter(user=user)
+            serializer = self.serializer_class(invoices, many=True)
         return Response(serializer.data)
 
     @extend_schema(
@@ -39,10 +69,25 @@ class InvoiceDetailPatchApi(APIView):
     )
     def get(self, request, invoice_id):
         try:
+            if not request.user.id:
+                return Response(status=status.HTTP_404_NOT_FOUND)
             invoice = Invoice.objects.get(id=invoice_id)
-
-            serializer = self.serializer_class(invoice, many=False)
-            return Response(serializer.data)
+            if (
+                request.user == invoice.user
+                or request.user.is_superuser
+                or (
+                    request.user.shop == invoice.order.shop
+                    and bool(
+                        request.user.type[0]
+                        not in [
+                            UserGroup.DATA_ENTRY_CLERK.title(),
+                        ]
+                    )
+                )
+            ):
+                serializer = self.serializer_class(invoice, many=False)
+                return Response(serializer.data)
+            return Response(status=status.HTTP_404_NOT_FOUND)
         except Invoice.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
