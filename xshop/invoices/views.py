@@ -26,7 +26,7 @@ def admin_invoice_detail(request, invoice_id):
         )
     messages.error(
         request,
-        "you have no access to '{}' invoce".format(invoice.id),
+        "you do not have access to this invoice",
     )
     return redirect(reverse("admin:invoices_invoice_changelist"))
 
@@ -53,6 +53,6 @@ def admin_invoice_pdf(request, invoice_id):
         return response
     messages.error(
         request,
-        "you have no access to '{}' invoce".format(invoice.id),
+        "you do not have access to this invoice",
     )
     return redirect(reverse("admin:invoices_invoice_changelist"))
