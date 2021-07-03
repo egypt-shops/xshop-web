@@ -18,7 +18,6 @@ class InvoiceListCreateApi(APIView):
         description="List all invoices",
         responses={200: "Invoices list"},
     )
-    # GM & every other 3amel by shop and the customer by user
     def get(self, request):
         user = request.user
         if not user.id:
