@@ -17,6 +17,8 @@ class Product(TimeStampedModel):
     country_id = models.CharField(max_length=1, null=True, blank=True)
     manufacturer_id = models.CharField(max_length=6, null=True, blank=True)
     number_id = models.CharField(max_length=5, null=True, blank=True)
+    description = models.CharField(max_length=500, null=True, blank=True)
+    picture = models.ImageField(upload_to="images/products/", default="no_picture.png")
 
     # TODO add later
     # qr_code
