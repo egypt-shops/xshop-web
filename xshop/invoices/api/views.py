@@ -16,12 +16,12 @@ class InvoiceListCreateApi(APIView):
 
     @extend_schema(
         description="List all invoices",
-        responses={200: "Invoices list"},
+        responses={200: "Invoices list", 401: "Not Authenticated"},
     )
     def get(self, request):
         user = request.user
         if not user.id:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         if user.is_superuser:
             invoices = Invoice.objects.all()
             serializer = self.serializer_class(invoices, many=True)
@@ -49,7 +49,7 @@ class InvoiceListCreateApi(APIView):
             invoices = Invoice.objects.filter(user=user)
             serializer = self.serializer_class(invoices, many=True)
             return Response(serializer.data)
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     @extend_schema(
         description="Create new invoice",
@@ -68,12 +68,16 @@ class InvoiceDetailPatchApi(APIView):
 
     @extend_schema(
         description="Get invoice details",
-        responses={200: InvoiceSerializer, 404: "Invoice not found"},
+        responses={
+            200: InvoiceSerializer,
+            404: "Invoice not found",
+            401: "Not Authenticated",
+        },
     )
     def get(self, request, invoice_id):
         try:
             if not request.user.id:
-                return Response(status=status.HTTP_404_NOT_FOUND)
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
             invoice = Invoice.objects.get(id=invoice_id)
             if (
                 request.user == invoice.user
@@ -90,7 +94,7 @@ class InvoiceDetailPatchApi(APIView):
             ):
                 serializer = self.serializer_class(invoice, many=False)
                 return Response(serializer.data)
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         except Invoice.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
