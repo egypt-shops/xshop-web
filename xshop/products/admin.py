@@ -139,6 +139,8 @@ class ProductAdmin(admin.ModelAdmin):
         return my_urls + urls
 
     def import_csv(self, request):
+        if not (request.user.is_authenticated):
+            return redirect(reverse("users:login"))
         if request.method == "POST":
             imported_file = request.FILES["csv_file"]
             csv_file = csv.DictReader(codecs.iterdecode(imported_file, "utf-8"))
@@ -176,7 +178,6 @@ class ProductAdmin(admin.ModelAdmin):
                     added_by=request.user,
                     shop=request.user.shop,
                 )
-            # file_cleaned = [x.split(',') for x in csv_file.decode('ascii').split('\r\n')]
             self.message_user(request, "Your csv file has been imported")
             return redirect(reverse("admin:products_product_changelist"))
         form = CsvImportForm()
