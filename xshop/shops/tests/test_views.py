@@ -39,7 +39,7 @@ class ShopDetailViewTests(TestCase):
         self.client.login(mobile=self.user.mobile, password=self.password)
         resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, "pages/shop_details.html")
+        self.assertTemplateUsed(resp, "pages/shop_detail.html")
 
     def test_retreive_products(self):
         self.client.login(mobile=self.user.mobile, password=self.password)

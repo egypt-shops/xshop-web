@@ -2,6 +2,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 from ..models import Invoice
 from xshop.orders.models import Order
@@ -11,6 +12,7 @@ from xshop.core.utils import UserGroup
 
 class InvoiceListCreateApi(APIView):
     serializer_class = InvoiceSerializer
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(
         description="List all invoices",
@@ -26,7 +28,7 @@ class InvoiceListCreateApi(APIView):
             serializer = self.serializer_class(invoices, many=True)
             return Response(serializer.data)
 
-        elif bool(
+        elif user.type and bool(
             user.type[0]
             in [
                 UserGroup.GENERAL_MANAGER.title(),
@@ -38,7 +40,7 @@ class InvoiceListCreateApi(APIView):
             ) | Invoice.objects.filter(user=user)
             serializer = self.serializer_class(invoices, many=True)
             return Response(serializer.data)
-        elif bool(
+        elif user.type and bool(
             user.type[0]
             in [
                 UserGroup.DATA_ENTRY_CLERK.title(),
@@ -47,7 +49,8 @@ class InvoiceListCreateApi(APIView):
         ):
             invoices = Invoice.objects.filter(user=user)
             serializer = self.serializer_class(invoices, many=True)
-        return Response(serializer.data)
+            return Response(serializer.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     @extend_schema(
         description="Create new invoice",
@@ -62,6 +65,7 @@ class InvoiceListCreateApi(APIView):
 
 class InvoiceDetailPatchApi(APIView):
     serializer_class = InvoiceSerializer
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(
         description="Get invoice details",
