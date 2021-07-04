@@ -59,7 +59,7 @@
 
 							</form>
 							<span class="navbar-text"> <a class="login" href="{% url 'users:login' %}">Log In</a></span><a
-								class="btn btn-light action-button" role="button" href="#">Sign Up</a>
+								class="btn btn-light action-button" role="button" href="{% url 'users:register' %}">Sign Up</a>
 						</div>
 						{% endif %}
 					</div>
@@ -79,8 +79,8 @@
 				<div class="intro"></div>
 				<div class="row projects">
 					{% for shop in shops %}
-					<div class="col-sm-6 col-lg-4 item"><a class="img-fluid" href="{% url 'shop:shop_details' shop.id %}"><img class="img-fluid"
-							src="{% static 'img/desk.jpg' %}"></a>
+					<div class="col-sm-6 col-lg-4 item"><a class="img-fluid" href="{% url 'shop:shop_details' shop.id %}"><img
+								class="img-fluid" src="{% static 'img/desk.jpg' %}"></a>
 						<h3 class="name">{{ shop.name }}</h3>
 						<p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in
 							tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
