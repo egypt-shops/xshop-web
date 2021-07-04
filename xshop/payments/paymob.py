@@ -1,4 +1,5 @@
 import requests
+from dataclasses import dataclass
 from typing import List, Dict
 from django.conf import settings
 
@@ -44,8 +45,29 @@ def order(
     return resp.json().get("id")
 
 
+@dataclass
+class BillingData:
+    apartment: str
+    email: str
+    floor: str
+    first_name: str
+    street: str
+    building: str
+    phone_number: str
+    shipping_method: str
+    postal_code: str
+    city: str
+    country: str
+    last_name: str
+    state: str
+
+
 def key(
-    token: str, amount: int, order_id: int, billing_data: dict, integration_id: int
+    token: str,
+    amount: int,
+    order_id: int,
+    billing_data: BillingData,
+    integration_id: int,
 ):
     url = f"{base_url}/acceptance/payment_keys"
     payload = {
