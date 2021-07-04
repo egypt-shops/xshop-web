@@ -108,6 +108,47 @@
     </header>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- <script>
+        $(document).on('click', '#search-field', function(e){
+            e.preventDefault();
+            var remove_id = $(this).data('index')
+            $.ajax({
+                type: 'POST',
+                url: '{% url "cart:cart_ops" %}',
+                data: {
+                    productid: $(this).data('index'),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action:'remove'
+                },
+                success: function(json){
+                    location.reload();
+                },
+                error: function(xhr, errmsg, err) {}
+            })
+        })
+    </script> -->
+    <script>
+    $('#search-field').keypress(function(e) {
+        if(e.keyCode == 13) {
+            e.preventDefault();
+            $.ajax({
+                type: 'GET',
+                url: '{% url "pages:home" %}',
+                data: {
+                    search_by: document.getElementById("search-field").value,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action:'search'
+                },
+                success: function(json){
+                    
+                },
+                error: function(xhr, errmsg, err) {}
+            })
+        }
+    })
+    </script>
 </body>
 
 </html>
