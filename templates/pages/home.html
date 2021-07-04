@@ -30,57 +30,6 @@
                         </span>
                         <span class="navbar-toggler-icon">
 
-<<<<<<< HEAD
-							</form>
-							<span class="navbar-text"> <a class="login" href="{% url 'users:login' %}">Log In</a></span><a
-								class="btn btn-light action-button" role="button" href="{% url 'users:register' %}">Sign Up</a>
-						</div>
-						{% endif %}
-					</div>
-		</nav>
-
-		<!-- Show shop list -->
-		<section class="projects-clean">
-			<div class="container">
-				<div class="intro">
-					<h2 class="text-center">SHOPS</h2>
-					<form class="form-inline mr-auto" target="_self">
-						<div class="form-group mb-0"><label for="search-field"></label></div>
-					</form>
-				</div>
-			</div>
-			<div class="container">
-				<div class="intro"></div>
-				<div class="row projects">
-					{% for shop in shops %}
-					<div class="col-sm-6 col-lg-4 item"><a class="img-fluid" href="{% url 'shop:shop_details' shop.id %}"><img
-								class="img-fluid" src="{% static 'img/desk.jpg' %}"></a>
-						<h3 class="name">{{ shop.name }}</h3>
-						<p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in
-							tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-		</section> <!-- End sho shop list -->
-
-		<footer class="footer-basic">
-			<div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i
-						class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a
-					href="#"><i class="icon ion-social-facebook"></i></a></div>
-			<ul class="list-inline">
-				<li class="list-inline-item"><a href="#">Home</a></li>
-				<li class="list-inline-item"><a href="#">Services</a></li>
-				<li class="list-inline-item"><a href="#">About</a></li>
-				<li class="list-inline-item"><a href="#">Terms</a></li>
-				<li class="list-inline-item"><a href="#">Privacy Policy</a></li>
-			</ul>
-			<p class="copyright">Company Name © 2017</p>
-		</footer>
-	</header>
-	<script src="{% static 'js/jquery.min.js' %}"></script>
-	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-=======
                         </span>
                     </button>
                 <div class="collapse navbar-collapse" id="navcol-1">
@@ -100,17 +49,17 @@
                     <label class="text-left float-left d-xl-flex justify-content-end" style="height: 30px;margin: 10px;width: 110.9px;padding: 1px;color: rgb(214,233,251);font-size: 16px;margin-top: 15px;margin-left: 0px;margin-right: 10px;">
                         {{ user.mobile }}
                     </label>
-                    
+
                     <a class="btn btn-light action-button" role="button" href="{% url 'logout' %}" style="filter: brightness(100%);">
                         Log Out
                     </a>
                     {% else %}
-                    <span class="navbar-text" style="filter: brightness(165%);"> 
+                    <span class="navbar-text" style="filter: brightness(165%);">
                         <a class="login" href="{% url 'users:login' %}" style="filter: brightness(71%);">
                             Log In
                         </a>
                     </span>
-                    <a class="btn btn-light action-button" role="button" href="#" style="filter: brightness(100%);">
+                    <a class="btn btn-light action-button" role="button" href="{% url '{users:register}' %}" style="filter: brightness(100%);">
                         Sign Up
                     </a>
                     {% endif %}
@@ -159,7 +108,6 @@
     </header>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
->>>>>>> 6e58e7ad69b2796d3479f9e5586c65e5aaf265d4
 </body>
 
 </html>
