@@ -1,0 +1,115 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Registration Form.html</title>
+    <link rel="stylesheet" href="{% static '/bootstrap/register/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' %}">
+    <link rel="stylesheet" href="{% static '/fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static '/fonts/ionicons.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/register/Contact-Form-Clean.css' %}">
+    <link rel="stylesheet" href="{% static '/css/register/Footer-Basic.css' %}">
+    <link rel="stylesheet" href="{% static '/css/register/Footer-Dark.css' %}">
+    <link rel="stylesheet" href="{% static '/css/register/Header-Blue.css' %}">
+    <link rel="stylesheet" href="{% static '/css/register/Projects-Clean.css' %}">
+    <link rel="stylesheet" href="{% static '/css/register/Registration-Form-with-Photo.css' %}">
+    <link rel="stylesheet" href="{% static '/css/register/styles.css' %}">
+</head>
+
+<body>
+    <header class="header-blue" style="height: 1278.2px;">
+        <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search" style="height: 75;">
+            <div class="container-fluid"><img src="{% static '/img/x.jpg' %}"
+                    style="width: 110px;height: 58px;padding-left: 5px;"><button data-toggle="collapse"
+                    class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="navbar-nav"></ul>
+                </div>
+            </div>
+        </nav>
+        <section class="projects-clean">
+            <div class="container">
+                <div class="intro">
+                    <h2 class="text-center">Registration Form</h2>
+                    <form class="form-inline mr-auto" target="_self">
+                        <div class="form-group mb-0"><label for="search-field"></label></div>
+                    </form>
+                </div>
+            </div>
+            <div class="container">
+                <div class="intro"></div>
+                <div class="row projects">
+                    <div class="col">
+                        <section class="register-photo" style="background: rgb(255,255,255);">
+                            <div class="form-container">
+                                <!-- <div class="image-holder"> <img src="{% static '/img/meeting.jpg' %}" class="center"
+                                        style="width: 250px;height: 250px;"></div> -->
+                                {% block content %}
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                    <h2 class="align-text-top"><strong>Create</strong> an account.</h2>
+                                    <h2 class="align-text-top">Sign up</h2>
+                                    <label class="form-check-label">Phone Number</label>
+                                    <div class="form-group">{{form.mobile }}</div>
+                                    <label class="form-check-label">Name</label>
+                                    <div class="form-group">{{ form.name }}</div>
+                                    <label class="form-check-label">Password1</label>
+                                    <div class="form-group">{{ form.password1 }}</div>
+                                    <label class="form-check-label">Password2</label>
+                                    <div class="form-group">{{ form.password2 }}</div>
+                                    <div class="form-group">
+                                        <!-- <div class="form-check"><label class="form-check-label"><input
+                                                    class="form-check-input" type="checkbox">I agree to the license
+                                                terms.</label></div>
+                                    </div> -->
+
+                                        <div class="form-group"><button class="btn btn-primary btn-block" type="submit"
+                                                style="background: rgb(2,37,52); width: 100px;">Sign Up</button></div>
+                                        {{ form.errors }}
+                                        <a class="already" href="{% url 'login' %}">You already have an account? Login
+                                            here.</a>
+
+
+                                    </div>
+                                </form>
+                                {% endblock content %}
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <header class="footer-basic" style="background: rgb(2,37,52);height: 160px;">
+            <div class="social"><a href="#" style="filter: brightness(200%);opacity: 0.95;"><i
+                        class="icon ion-social-instagram" style="filter: brightness(120%);"></i></a><a href="#"
+                    style="opacity: 1;filter: brightness(200%);"><i class="icon ion-social-snapchat"
+                        style="filter: brightness(120%);"></i></a><a href="#"
+                    style="opacity: 1;filter: brightness(200%);"><i class="icon ion-social-twitter"
+                        style="filter: brightness(120%);"></i></a><a href="#"
+                    style="filter: brightness(200%);opacity: 1;"><i class="icon ion-social-facebook"
+                        style="filter: brightness(120%);"></i></a></div>
+            <ul class="list-inline">
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="#"
+                        style="filter: brightness(200%);">Home</a></li>
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="#"
+                        style="filter: brightness(200%);">Services</a></li>
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="#"
+                        style="filter: brightness(200%);opacity: 1;">About</a></li>
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="#"
+                        style="filter: brightness(200%);">Terms</a></li>
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="#"
+                        style="filter: brightness(200%);">Privacy Policy</a></li>
+            </ul>
+            <p class="copyright">Company Name © 2017</p>
+        </header>
+    </header>
+    <script src="{% static '/js/register/jquery.min.js' %}"></script>
+    <script src="{% static '/bootstrap/register/js/bootstrap.min.js' %}"></script>
+</body>
+
+</html>
+<!-- <input class="form-control" type="password" name="password-repeat" placeholder="Password (repeat)"> -->
