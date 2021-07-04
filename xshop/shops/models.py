@@ -10,6 +10,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 class Shop(TimeStampedModel):
     mobile = PhoneNumberField()
     name = models.CharField(max_length=255)
+    description = models.CharField(max_length=500, null=True, blank=True)
+    picture = models.ImageField(upload_to="images/shops/", default="no_picture.png")
     dashboard_modules = MultiSelectField(choices=settings.DASHBOARD_MODULES, blank=True)
 
     def __str__(self):

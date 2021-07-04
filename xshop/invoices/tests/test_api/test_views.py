@@ -6,7 +6,7 @@ from rest_framework.test import APIClient, APITestCase
 from xshop.invoices.models import Invoice
 from xshop.orders.models import Order
 from xshop.shops.models import Shop
-from xshop.users.models import User
+from xshop.users.models import Customer
 
 
 class InvoiceApiTests(APITestCase):
@@ -15,16 +15,18 @@ class InvoiceApiTests(APITestCase):
 
     def setUp(self) -> None:
         self.user = baker.make(
-            User,
+            Customer,
             mobile="01011698551",
             name="Ziad Mohamed Nabil",
         )
         self.user.set_password("test")
         self.user.save()
+        self.password = "testpass123"
         self.shop1 = baker.make(Shop, mobile=self.user.mobile, name="shop1")
         self.order1 = baker.make(Order, user=self.user, shop=self.shop1)
         self.invoice1 = baker.make(Invoice, id=7, user=self.user, order=self.order1)
         self.client = APIClient()
+        self.client.force_login(self.user)
         self.url = reverse("invoices_api:invoice_list_create")
 
     def test_api_can_create_invoice(self):
