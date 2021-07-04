@@ -58,6 +58,10 @@ class Logout(LoginRequiredMixin, APIView):
         "POST",
     ]
 )
+@extend_schema(
+    description="Create new user",
+    request=RegistrationSerializer,
+)
 def registration_view(request):
 
     if request.method == "POST":
