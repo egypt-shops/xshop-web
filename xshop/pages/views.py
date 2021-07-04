@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from xshop.shops.models import Shop
 
 

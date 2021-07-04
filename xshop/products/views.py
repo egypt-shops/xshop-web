@@ -1,5 +1,4 @@
 from django.views.generic import TemplateView
-from django.views.generic.base import TemplateView as TV
 from django.shortcuts import render
 from xshop.products.models import Product
 from django.contrib.auth.mixins import LoginRequiredMixin
