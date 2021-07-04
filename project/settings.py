@@ -248,6 +248,9 @@ SPECTACULAR_SETTINGS = {
     "SCHEMA_PATH_PREFIX": "api/",
 }
 
+# PayMob
+PAYMOB_API_KEY = env("PAYMOB_API_KEY")
+
 # Django admin customization with Baton
 BATON = {
     "SITE_HEADER": "Egypt Shops",
