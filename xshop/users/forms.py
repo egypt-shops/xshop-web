@@ -31,9 +31,3 @@ class SignUpForm(UserCreationForm):
             "name",
             "password1",
         )
-
-    # def save(self, request):
-    #     user = super(SignUpForm, self).save(request)
-    #     user.mobile = self.cleaned_data["mobile"]
-    #     user.save()
-    #     return user
