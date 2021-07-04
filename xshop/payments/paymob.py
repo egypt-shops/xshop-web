@@ -85,10 +85,16 @@ def key(
     return resp.json().get("token")
 
 
+def iframe_url(payment_key: str) -> str:
+    return f"https://accept.paymob.com/api/acceptance/iframes/{settings.PAYMOB_IFRAME_ID}?payment_token={payment_key}"
+
+
 def issue_payment() -> str:
     # auth
+    auth_token = token()
     # order
+    order_id = order(auth_token, ...)
     # key
-
+    payment_key = key(auth_token, ..., order_id, ...)
     # iframe
-    return
+    return iframe_url(payment_key)
