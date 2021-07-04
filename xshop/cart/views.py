@@ -9,21 +9,17 @@ from xshop.products.api.serializers import ProductSerializer
 
 
 class CartView(LoginRequiredMixin, ListView):
+    # TODO: check if all products belongs to the same shop
     def post(self, request):  # class based view def post, def get
         cart = Cart(request)
         form = CartPostProductForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            quantity = int(cd["quantity"])
             action = cd["actions"]
             product = cd["product"]
 
-            # if action == "add":
-            #     cart.add(product=product)
-
-            #     return redirect("cart:cart_ops")
-
             if action == "update":
+                quantity = int(cd["quantity"])
                 cart.update(
                     product=product,
                     quantity=quantity,

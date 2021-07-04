@@ -44,86 +44,72 @@
 						</div>
 					</form>
 					{% if user.is_authenticated %}
-					<i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end"
-						data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart"
-						style="color: #dbe8f5;font-size: 20px;margin: 10px;padding: 0px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -6px;margin-top: 22px;margin-bottom: 10px;">
-					</i>
-					<label class="text-left float-left d-xl-flex justify-content-end"
-						style="height: 30px;margin: 10px;width: 110.9px;padding: 1px;color: rgb(214,233,251);font-size: 16px;margin-top: 15px;margin-left: 0px;margin-right: 10px;">
-						{{ user.mobile }}
-					</label>
-
-					<a class="btn btn-light action-button" role="button" href="{% url 'logout' %}"
-						style="filter: brightness(100%);">
-						Log Out
-					</a>
-					{% else %}
-					<span class="navbar-text" style="filter: brightness(165%);">
-						<a class="login" href="{% url 'users:login' %}" style="filter: brightness(71%);">
-							Log In
-						</a>
-					</span>
-					<a class="btn btn-light action-button" role="button" href="{% url 'users:register' %}"
-						style="filter: brightness(100%);">
-						Sign Up
-					</a>
-					{% endif %}
-				</div>
-			</div>
-		</nav>
-		<section class="projects-clean">
-			<div class="container">
-				<div class="intro">
-					<h2 class="text-center">SHOPS</h2>
-					<form class="form-inline mr-auto" target="_self">
-						<div class="form-group mb-0"><label for="search-field"></label></div>
-					</form>
-				</div>
-			</div>
-			<div class="container">
-				<div class="intro"></div>
-				<div class="row projects">
-					{% for shop in shops %}
-					<div class="col-sm-6 col-lg-4 item">
-						<a class="img-fluid" href="{% url 'shop:shop_details' shop.id %}">
-							<img class="img-fluid" src="{% static 'img/desk.jpg' %}">
-						</a>
-						<h3 class="name">{{ shop.name }}</h3>
-						<p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in
-							tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-		</section>
-		<footer class="footer-basic" style="background: #022534;">
-			<div class="social">
-				<a href="https://github.com/egypt-shops/xshop-docs" style="filter: brightness(200%);opacity: 1;"><i
-						class="icon ion-social-instagram" style="filter: brightness(120%);"></i></a>
-				<a href="https://github.com/egypt-shops/xshop-docs" style="opacity: 1;filter: brightness(200%);"><i
-						class="icon ion-social-github" style="filter: brightness(120%);"></i></a>
-				<a href="https://github.com/egypt-shops/xshop-docs" style="filter: brightness(200%);opacity: 1;"><i
-						class="icon ion-social-twitter" style="filter: brightness(120%);"></i></a>
-				<a href="https://github.com/egypt-shops/xshop-docs" style="opacity: 1;filter: brightness(200%);"><i
-						class="icon ion-social-facebook" style="filter: brightness(120%);"></i></a>
-			</div>
-			<ul class="list-inline">
-				<!-- <li class="list-inline-item" style="filter: brightness(132%);"><a href="#" style="filter: brightness(200%);">Home</a></li> -->
-				<li class="list-inline-item" style="filter: brightness(132%);"><a
-						href="https://github.com/egypt-shops/xshop-docs" style="filter: brightness(200%);">Services</a></li>
-				<li class="list-inline-item" style="filter: brightness(132%);"><a href="https://egypt-shops.github.io/"
-						style="filter: brightness(200%);">About</a></li>
-				<li class="list-inline-item" style="filter: brightness(132%);"><a href="https://egypt-shops.github.io/"
-						style="filter: brightness(200%);">Terms</a></li>
-				<li class="list-inline-item" style="filter: brightness(132%);"><a href="https://egypt-shops.github.io/"
-						style="opacity: 1;filter: brightness(200%);">Privacy Policy</a></li>
-			</ul>
-			<p class="copyright">X-Shop © 2021</p>
-		</footer>
-	</header>
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    </script>
+						<i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end"
+							data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart"
+							style="color: #dbe8f5;font-size: 20px;margin: 10px;padding: 0px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -6px;margin-top: 22px;margin-bottom: 10px;">
+						</i>
+						<label class="text-left float-left d-xl-flex justify-content-end"
+							style="height: 30px;margin: 10px;width: 110.9px;padding: 1px;color: rgb(214,233,251);font-size: 16px;margin-top: 15px;margin-left: 0px;margin-right: 10px;">
+							{{ user.mobile }}
+						</label>
+							<a class="btn btn-light action-button" role="button" href="{% url 'logout' %}" style="filter: brightness(100%);">
+								Log Out
+							</a>
+          {% else %}
+            <span class="navbar-text" style="filter: brightness(165%);">
+              <a class="login" href="{% url 'users:login' %}" style="filter: brightness(71%);">
+                Log In
+              </a>
+            </span>
+            <a class="btn btn-light action-button" role="button" href="#" style="filter: brightness(100%);">
+              Sign Up
+            </a>
+          {% endif %}
+                </div>
+            </div>
+        </nav>
+        <section class="projects-clean">
+            <div class="container">
+                <div class="intro">
+                    <h2 class="text-center">SHOPS</h2>
+                    <form class="form-inline mr-auto" target="_self">
+                        <div class="form-group mb-0"><label for="search-field"></label></div>
+                    </form>
+                </div>
+            </div>
+            <div class="container">
+                <div class="intro"></div>
+                <div class="row projects">
+                    {% for shop in shops %}
+                    <div class="col-sm-6 col-lg-4 item">
+                        <a class="img-fluid" href="{% url 'shop:shop_details' shop.id %}">
+                            <img class="img-fluid" src="{% static 'img/desk.jpg' %}">
+                        </a>
+                        <h3 class="name">{{ shop.name }}</h3>
+                        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <footer class="footer-basic" style="background: #022534;">
+            <div class="social">
+                <a href="https://github.com/egypt-shops/xshop-docs" style="filter: brightness(200%);opacity: 1;"><i class="icon ion-social-instagram" style="filter: brightness(120%);"></i></a>
+                <a href="https://github.com/egypt-shops/xshop-docs" style="opacity: 1;filter: brightness(200%);"><i class="icon ion-social-github" style="filter: brightness(120%);"></i></a>
+                <a href="https://github.com/egypt-shops/xshop-docs" style="filter: brightness(200%);opacity: 1;"><i class="icon ion-social-twitter" style="filter: brightness(120%);"></i></a>
+                <a href="https://github.com/egypt-shops/xshop-docs" style="opacity: 1;filter: brightness(200%);"><i class="icon ion-social-facebook" style="filter: brightness(120%);"></i></a></div>
+            <ul class="list-inline">
+                <!-- <li class="list-inline-item" style="filter: brightness(132%);"><a href="#" style="filter: brightness(200%);">Home</a></li> -->
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="https://github.com/egypt-shops/xshop-docs" style="filter: brightness(200%);">Services</a></li>
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="https://egypt-shops.github.io/" style="filter: brightness(200%);">About</a></li>
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="https://egypt-shops.github.io/" style="filter: brightness(200%);">Terms</a></li>
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="https://egypt-shops.github.io/" style="opacity: 1;filter: brightness(200%);">Privacy Policy</a></li>
+            </ul>
+            <p class="copyright">X-Shop © 2021</p>
+        </footer>
+    </header>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>
