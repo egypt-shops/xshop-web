@@ -1,4 +1,5 @@
-from django.views.generic.base import TemplateView
+from django.views.generic import TemplateView
+from django.views.generic.base import TemplateView as TV
 from django.shortcuts import render
 from xshop.products.models import Product
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -19,10 +20,6 @@ class ProductDetailView(LoginRequiredMixin, TemplateView):
 class ProductsSearchView(TemplateView):
     def get(self, request, *args, **kwargs):
         search_by = request.GET.get("search_by")
-        shops = Product.objects.filter(name__icontains=search_by)
-        context = {
-            "shops": shops,
-        }
-        return render(request, "pages/search_results.html", context)
-
-    template_name = "pages/search_results.html"
+        products = Product.objects.filter(name__icontains=search_by)
+        context = {"products": products, "products_len": len(products)}
+        return render(request, "pages/products_search_results.html", context)

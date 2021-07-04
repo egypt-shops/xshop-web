@@ -21,48 +21,50 @@
 <body class="text-center">
     <header class="header-blue" style="height: 1393px;">
         <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search" style="height: 75;">
-            <div class="container-fluid">
-                <a href="{% url 'pages:home' %}">
-                    <img src="{% static 'home_assets/img/x.jpg' %}" style="width: 110px;height: 58px;padding-left: 5px;">
-                </a>
-                    <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
-                        <span class="sr-only">
-                            Toggle navigation
-                        </span>
-                        <span class="navbar-toggler-icon">
-
-                        </span>
-                    </button>
-                <div class="collapse navbar-collapse" id="navcol-1">
-                    <ul class="navbar-nav"></ul>
-                    <form class="form-inline ml-auto" target="_self">
-                        <div class="form-group mb-0" style="width: 236.9px;">
-                            <label for="search-field">
-                                <i class="fa fa-search" style="filter: brightness(106%);">
-                                </i>
-                            </label>
-                            <input class="form-control search-field" type="search" id="search-field" placeholder="Search Products" style="font-size: 19.49px;color: var(--white);filter: blur(0px) brightness(123%) contrast(109%) grayscale(24%) hue-rotate(53deg) saturate(200%);">
-                        </div>
-                    </form>
-                    {% if user.is_authenticated %}
-                    <i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end" data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart" style="color: #dbe8f5;font-size: 20px;margin: 10px;padding: 0px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -6px;margin-top: 12px;margin-bottom: 10px;">
-                    </i>
-                    <label class="text-left float-left d-xl-flex justify-content-end" style="height: 30px;margin: 10px;width: 110.9px;padding: 1px;color: rgb(214,233,251);font-size: 16px;margin-top: 15px;margin-left: 0px;margin-right: 10px;">
-                        {{ user.mobile }}
-                    </label>
-
-                    <a class="btn btn-light action-button" role="button" href="{% url 'logout' %}" style="filter: brightness(100%);">
-                        Log Out
-                    </a>
+			<div class="container-fluid">
+				<a href="{% url 'pages:home' %}">
+					<img src="{% static 'home_assets/img/x.jpg' %}" style="width: 110px;height: 58px;padding-left: 5px;">
+				</a>
+				<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+					<span class="sr-only">
+						Toggle navigation
+					</span>
+					<span class="navbar-toggler-icon">
+					</span>
+				</button>
+				<div class="collapse navbar-collapse" id="navcol-1">
+					<ul class="navbar-nav"></ul>
+					<form class="form-inline ml-auto" action="{% url 'product:product_search' %}" method="get">
+						<div class="form-group mb-0" style="width: 236.9px;">
+							<label for="search-field">
+								<i class="fa fa-search" style="filter: brightness(106%);">
+								</i>
+							</label>
+							<input class="form-control search-field" type="search" id="search-field" name="search_by" placeholder="Products Search"
+								style="font-size: 19.49px;color: var(--white);filter: blur(0px) brightness(123%) contrast(109%) grayscale(24%) hue-rotate(53deg) saturate(200%);">
+						</div>
+					</form>
+					{% if user.is_authenticated %}
+						<i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end"
+							data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart"
+							style="color: #dbe8f5;font-size: 20px;margin: 10px;padding: 0px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -6px;margin-top: 22px;margin-bottom: 10px;">
+						</i>
+						<label class="text-left float-left d-xl-flex justify-content-end"
+							style="height: 30px;margin: 10px;width: 110.9px;padding: 1px;color: rgb(214,233,251);font-size: 16px;margin-top: 15px;margin-left: 0px;margin-right: 10px;">
+							{{ user.mobile }}
+						</label>
+							<a class="btn btn-light action-button" role="button" href="{% url 'logout' %}" style="filter: brightness(100%);">
+								Log Out
+							</a>
                     {% else %}
-                    <span class="navbar-text" style="filter: brightness(165%);">
+                        <span class="navbar-text" style="filter: brightness(165%);">
                         <a class="login" href="{% url 'users:login' %}" style="filter: brightness(71%);">
                             Log In
                         </a>
-                    </span>
-                    <a class="btn btn-light action-button" role="button" href="#" style="filter: brightness(100%);">
+                        </span>
+                        <a class="btn btn-light action-button" role="button" href="{% url 'users:register' %}" style="filter: brightness(100%);">
                         Sign Up
-                    </a>
+                        </a>
                     {% endif %}
                 </div>
             </div>

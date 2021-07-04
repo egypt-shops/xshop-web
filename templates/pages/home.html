@@ -39,7 +39,7 @@
 								<i class="fa fa-search" style="filter: brightness(106%);">
 								</i>
 							</label>
-							<input class="form-control search-field" type="search" id="search-field" name="search_by" placeholder="Search For Shops.."
+							<input class="form-control search-field" type="search" id="search-field" name="search_by" placeholder="Shops Search"
 								style="font-size: 19.49px;color: var(--white);filter: blur(0px) brightness(123%) contrast(109%) grayscale(24%) hue-rotate(53deg) saturate(200%);">
 						</div>
 					</form>
@@ -61,7 +61,7 @@
                 Log In
               </a>
             </span>
-            <a class="btn btn-light action-button" role="button" href="#" style="filter: brightness(100%);">
+            <a class="btn btn-light action-button" role="button" href="{% url 'users:register' %}" style="filter: brightness(100%);">
               Sign Up
             </a>
           {% endif %}
@@ -86,7 +86,7 @@
                             <img class="img-fluid" src="{% static 'img/desk.jpg' %}">
                         </a>
                         <h3 class="name">{{ shop.name }}</h3>
-                        <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
+                        <p class="description">{{ shop.description }}</p>
                     </div>
                     {% endfor %}
                 </div>
