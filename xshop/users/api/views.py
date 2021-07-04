@@ -4,8 +4,13 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout as auth_logout
+from rest_framework.decorators import api_view
 
-from .serializers import TokenApiSerializer, TokenResponseSerializer
+from .serializers import (
+    TokenApiSerializer,
+    TokenResponseSerializer,
+    RegistrationSerializer,
+)
 
 
 class TokenApi(APIView):
@@ -46,3 +51,27 @@ class Logout(LoginRequiredMixin, APIView):
         request.user.auth_token.delete()
         auth_logout(request)
         return Response(status=status.HTTP_200_OK)
+
+
+@api_view(
+    [
+        "POST",
+    ]
+)
+@extend_schema(
+    description="Create new user",
+    request=RegistrationSerializer,
+)
+def registration_view(request):
+
+    if request.method == "POST":
+        serializer = RegistrationSerializer(data=request.data)
+        data = {}
+        if serializer.is_valid():
+            user = serializer.save()
+            data["response"] = "successfully registered a new user"
+            data["name"] = user.name
+            data["mobile"] = str(user.mobile)
+        else:
+            data = serializer.errors
+        return Response(data)
