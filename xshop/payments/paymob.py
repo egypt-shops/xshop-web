@@ -8,7 +8,7 @@ base_url = "https://accept.paymob.com/api"
 
 def token() -> str:
     url = f"{base_url}/auth/tokens"
-    payload = {"api_key": settings.PAYMOB_API_KEY}
+    payload = {"api_key": getattr(settings, "PAYMOB_API_KEY")}
     resp = requests.post(url, json=payload)
     return resp.json().get("token")
 
@@ -67,9 +67,9 @@ def key(
     amount: int,
     order_id: int,
     billing_data: BillingData,
-    integration_id: int,
 ):
     url = f"{base_url}/acceptance/payment_keys"
+    integration_id = getattr(settings, "PAYMOB_CARD_INTEGRATION_ID")
     payload = {
         "auth_token": token,
         "amount_cents": str(amount),
@@ -86,7 +86,8 @@ def key(
 
 
 def iframe_url(payment_key: str) -> str:
-    return f"https://accept.paymob.com/api/acceptance/iframes/{settings.PAYMOB_IFRAME_ID}?payment_token={payment_key}"
+    iframe_id = getattr(settings, "PAYMOB_IFRAME_ID")
+    return f"https://accept.paymob.com/api/acceptance/iframes/{iframe_id}?payment_token={payment_key}"
 
 
 def issue_payment() -> str:
