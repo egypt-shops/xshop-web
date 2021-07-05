@@ -1,3 +1,5 @@
+from django.http.response import HttpResponseBadRequest
+from xshop.payments import paymob
 from django.shortcuts import render
 from pprint import pprint
 
@@ -23,20 +25,19 @@ def redirect(request):
     breakpoint()
 
     # get useful data from parameters
-
-    trx = data.get("obj")
+    transaction_id = data.get("obj").get("id")
 
     # handle transaction objects only
-    if not data or not trx or data.get("type") != "TRANSACTION":
-        return
+    if not data or not transaction_id or data.get("type") != "TRANSACTION":
+        return HttpResponseBadRequest()
 
-    # extract useful data from the transaction
-    paymob_trx_id = trx.get("id")
-    trx_status = get_transaction_status(trx)
-    order = trx.get("order")
-    paymob_order_id = order.get("id")
-    common_reference = order.get("merchant_order_id")
-    # make sure of transaction status
+    # make sure of transaction status from paymob
+    transaction = paymob.retrieve_transaction(transaction_id)
+
+    status = get_transaction_status(transaction)
+
+    ## TODO
+    # common_reference = order.get("merchant_order_id")
 
     # save status locally
 

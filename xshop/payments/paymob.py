@@ -107,3 +107,13 @@ def issue_payment() -> str:
     payment_key = key(auth_token, ..., order_id, ...)
     # iframe
     return iframe_url(payment_key)
+
+
+def retrieve_transaction(transaction_id: str):
+    auth_token = token()
+
+    url = f"{base_url}/acceptance/transactions/{transaction_id}​"
+    resp = requests.get(url, headers={"Authorization": f"Bearer {auth_token}"})
+
+    # Transaction object
+    return resp.json().get("obj")
