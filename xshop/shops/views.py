@@ -14,14 +14,14 @@ class ShopDetailView(LoginRequiredMixin, ListView):
 
         products = Product.objects.filter(shop=shop)
         context = {
-            "shop": shop.name,
+            "shop": shop,
             "products": products,
         }
         return render(request, "pages/shop_detail.html", context)
 
 
 class ShopsSearchView(TemplateView):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, shop_id, *args, **kwargs):
         search_by = request.GET.get("search_by")
         shops = Shop.objects.filter(name__icontains=search_by)
         context = {
