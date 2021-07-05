@@ -1,6 +1,6 @@
 import requests
 from dataclasses import dataclass
-from typing import List, Dict
+from typing import List
 from django.conf import settings
 
 base_url = "https://accept.paymob.com/api"
@@ -13,8 +13,16 @@ def token() -> str:
     return resp.json().get("token")
 
 
+@dataclass
+class OrderItem:
+    name: str
+    amount_cents: str
+    description: str
+    quantity: str
+
+
 def order(
-    token: str, amount: int, merchant_order_id: str, items: List[Dict[str, str]]
+    token: str, amount: int, merchant_order_id: str, items: List[OrderItem]
 ) -> int:
     url = f"{base_url}/ecommerce/orders"
     payload = {
