@@ -29,7 +29,7 @@ class ProductDetailViewTests(TestCase):
 
         self.assertRedirects(
             resp,
-            "/users/login/?next=/product/{}".format(self.product.id),
+            "/users/login/?next=/product/{}/".format(self.product.id),
             status_code=302,
             target_status_code=200,
             fetch_redirect_response=True,
@@ -43,7 +43,7 @@ class ProductDetailViewTests(TestCase):
 
     def test_retreive_product_details(self):
         self.client.login(mobile=self.user.mobile, password=self.password)
-        resp = self.client.get("/product/{}".format(self.product.id))
+        resp = self.client.get("/product/{}/".format(self.product.id))
         self.assertEqual(resp.context["price"], str(self.product.price)[4:])
         self.assertEqual(resp.context["product"], self.product)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)

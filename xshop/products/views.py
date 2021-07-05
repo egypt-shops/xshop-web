@@ -14,3 +14,11 @@ class ProductDetailView(LoginRequiredMixin, TemplateView):
             "price": price,
         }
         return render(request, "pages/product_detail.html", context)
+
+
+class ProductsSearchView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        search_by = request.GET.get("search_by")
+        products = Product.objects.filter(name__icontains=search_by)
+        context = {"products": products, "products_len": len(products)}
+        return render(request, "pages/products_search_results.html", context)
