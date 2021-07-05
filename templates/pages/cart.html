@@ -60,14 +60,11 @@
             </div>
         </div>
     </nav>
-    <p>
-        {% if errors %}
-            {% for key, error_list in errors.items %} 
-                {{error_list}}
-            {% endfor %} 
-        {% endif %}
-    </p>
+    
     <h1 class="text-center" style="color: #08546c;background: #ffffff;margin: 5px;padding-bottom: 5px;"><strong>Shoping Cart</strong></h1>
+    <div id='err' style="color: rgb(240, 0, 0);margin-left: 10px;">
+
+    </div>
     <div class="table-responsive" style="padding: 5px;">
         <table class="table">
             <thead>
@@ -169,7 +166,9 @@
                 success: function(json){
                     location.reload();
                 },
-                error: function(xhr, errmsg, err) {}
+                error: function(xhr, errmsg, err) {
+                    document.getElementById("err").innerHTML = "quantity exceeded!";
+                }
             })
         })
     </script>

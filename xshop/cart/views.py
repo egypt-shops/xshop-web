@@ -104,7 +104,7 @@ class CartView(LoginRequiredMixin, ListView):
             "cart": cart,
             "full_price": full_price,
             "user": request.user,
-            "quantity_range": range(16),
+            "quantity_range": range(1, 10),
             "ui": range(12),
         }
         return render(request, "pages/cart.html", context)
