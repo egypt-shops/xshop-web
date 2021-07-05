@@ -21,7 +21,7 @@ class ShopDetailView(LoginRequiredMixin, ListView):
 
 
 class ShopsSearchView(TemplateView):
-    def get(self, request, shop_id, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         search_by = request.GET.get("search_by")
         shops = Shop.objects.filter(name__icontains=search_by)
         context = {
