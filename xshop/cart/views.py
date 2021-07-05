@@ -1,9 +1,7 @@
-import re
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django import forms
-from django.contrib import messages
 
 from xshop.cart.cart import Cart
 from xshop.cart.forms import CartPostProductForm
@@ -29,23 +27,20 @@ class CartView(LoginRequiredMixin, ListView):
                 )
 
                 return redirect("cart:cart_ops")
-        if request.POST.get('action') == 'update':
+        if request.POST.get("action") == "update":
             product_id = int(request.POST.get("productid"))
             try:
                 product = Product.objects.get(id=product_id)
                 product_json = ProductSerializer(product).data
-                quantity = int(request.POST.get('quantity'))
+                quantity = int(request.POST.get("quantity"))
                 if product.stock < quantity:
-                    messages.error(request, 'Oops, something bad happened')
-                    return redirect("cart:cart_ops")
-                    # raise forms.ValidationError(
-                    #     {"quantity": f"Invalid. available stock {product.stock}"}
-                    # )
+                    raise forms.ValidationError(
+                        {"quantity": f"Invalid. available stock {product.stock}"}
+                    )
                 cart.update(
                     product=product_json,
                     quantity=quantity,
                 )
-                
 
                 return redirect("cart:cart_ops")
 
@@ -109,6 +104,7 @@ class CartView(LoginRequiredMixin, ListView):
             "cart": cart,
             "full_price": full_price,
             "user": request.user,
-            "quantity_range": range(16)
+            "quantity_range": range(16),
+            "ui": range(12),
         }
         return render(request, "pages/index.html", context)

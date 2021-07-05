@@ -10,12 +10,17 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aclonica">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="{% static 'cart_assets/css/styles.css' %}">
+    
 </head>
 
 <body style="background: #ffffff;">
     {% block content %}
     <nav class="navbar navbar-dark navbar-expand-md" id="nav_height" style="background: #022534;border-color: var(--red);color: var(--blue);/*height: 75;*/padding: 0;">
         <div class="container-fluid">
+            <i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end"
+							data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart"
+							style="color: #dbe8f5;font-size: 10px;margin: 0px;padding: -10px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -20px;margin-top: 22px;margin-bottom: 10px;">
+						</i>
             <a class="navbar-brand" href="{% url 'pages:home' %}" style="/*background: rgb(1,56,115);*//*font-size: 30;*/font-family: 'Open Sans', sans-serif;color: rgb(0,0,0);padding: 0;">
                 <img src="{% static 'cart_assets/img/logo%20resized.jpg' %}">
             </a>
@@ -27,23 +32,31 @@
                 </span>
             </button>
             <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" style="color: rgb(255, 255, 255);">
-                            Cataloge
+                {% if user.is_authenticated %}
+                        {% for i in ui %}
+						<i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end"
+							data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart"
+							style="color: #dbe8f5;font-size: 20px;margin: 10px;padding: 0px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -6px;margin-top: 22px;margin-bottom: 10px;">
+						</i>
+                        {% endfor %}
+						<label class="text-left float-left d-xl-flex justify-content-end"
+							style="height: 30px;margin: 10px;width: 110.9px;padding: 1px;color: rgb(214,233,251);font-size: 16px;margin-top: 15px;margin-left: 0px;margin-right: 10px;">
+							{{ user.mobile }}
+						</label>
+							<a class="btn btn-light action-button" role="button" href="{% url 'logout' %}" style="filter: brightness(100%);">
+								Log Out
+							</a>
+                    {% else %}
+                        <span class="navbar-text" style="filter: brightness(165%);">
+                        <a class="login" href="{% url 'users:login' %}" style="filter: brightness(71%);">
+                            Log In
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" style="color: rgb(255,255,255);">
-                            Sign up
+                        </span>
+                        <a class="btn btn-light action-button" role="button" href="{% url 'users:register' %}" style="filter: brightness(100%);">
+                        Sign Up
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" style="color: rgb(255,255,255);/*border-radius: .5;*//*border-color: rgb(255,255,255);*/">
-                            Log in
-                        </a>
-                    </li>
-                </ul>
+                    {% endif %}
+                
             </div>
         </div>
     </nav>
