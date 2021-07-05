@@ -29,6 +29,10 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: github_actions
           POSTGRES_HOST: localhost
+          PAYMOB_API_KEY: ${{ secrets.PAYMOB_API_KEY }}
+          PAYMOB_IFRAME_ID: ${{ secrets.PAYMOB_IFRAME_ID }}
+          PAYMOB_CARD_INTEGRATION_ID: ${{ secrets.PAYMOB_CARD_INTEGRATION_ID }}
+
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
