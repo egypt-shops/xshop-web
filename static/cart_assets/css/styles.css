@@ -1,0 +1,43 @@
+#quantity_input {
+  width: 60%;
+  /*margin-top: 5px;*/
+}
+
+#table_cart {
+  margin: 5px;
+}
+
+#nav_height {
+  height: 75px;
+}
+
+@media (min-width: 768px) {
+  #rowtopmargin {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    margin-left: 15px;
+  }
+}
+
+.btn.btn-primary.btn_update {
+  width: 70px;
+  /*text-align: center;*/
+  /*padding: 0;*/
+}
+
+.col-10.col-sm-8.col-md-10.col_quantity_input {
+  margin-top: 5px;
+}
+
+td {
+  vertical-align: middle;
+}
+
+#td_middle {
+  vertical-align: middle;
+}
+
