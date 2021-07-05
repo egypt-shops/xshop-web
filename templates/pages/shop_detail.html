@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>{{ shop }}</title>
+    <title>{{ shop.name }}</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
     <link rel="stylesheet" href="{% static 'product_assets/bootstrap/css/bootstrap.min.css' %}">
@@ -34,7 +34,7 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navcol-1">
 					<ul class="navbar-nav"></ul>
-					<form class="form-inline ml-auto" action="{% url 'product:product_search' %}" method="get">
+					<form class="form-inline ml-auto" action="{% url 'product:product_search' shop_id=shop.id %}" method="get">
 						<div class="form-group mb-0" style="width: 236.9px;">
 							<label for="search-field">
 								<i class="fa fa-search" style="filter: brightness(106%);">

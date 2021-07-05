@@ -14,7 +14,7 @@ class ShopDetailView(LoginRequiredMixin, ListView):
 
         products = Product.objects.filter(shop=shop)
         context = {
-            "shop": shop.name,
+            "shop": shop,
             "products": products,
         }
         return render(request, "pages/shop_detail.html", context)
