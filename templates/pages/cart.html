@@ -98,7 +98,7 @@
                                 {% endfor %}
                             </optgroup>
                             </select>
-                            <button class="btn btn-primary text-center align-middle update-button" data-index='{{ product.id }}' type="button" style="width: 50%;background: #5189b0;min-width: 80px;max-width: 100px;">
+                            <button class="btn btn-primary text-center align-middle update-button" id="btn-{{ product.id }}" data-index='{{ product.id }}' type="button" style="width: 50%;background: #5189b0;min-width: 80px;max-width: 100px;">
                                 Update
                             </button></td>
                         <td class="text-center align-middle">
@@ -153,15 +153,15 @@
 
         $(document).on('click', '.update-button', function(f){
             f.preventDefault();
-            // var remove_id = $(this).data('index')
-            let current = document.querySelector('.update-button');
+            product_id = $(this).data('index')
+            let current = document.querySelector('#btn-'+product_id);
             
             $.ajax({
                 type: 'POST',
                 url: '{% url "cart:cart_ops" %}',
                 data: {
                     quantity: current.previousElementSibling.value,
-                    productid: $(this).data('index'),
+                    productid: product_id,
                     csrfmiddlewaretoken: '{{ csrf_token }}',
                     action:'update'
                 },
