@@ -41,12 +41,11 @@ class PaymentAttempt(TimeStampedModel):
     def after(self, request_data: dict):
         # make sure of transaction status from paymob
         transaction_id = request_data.get("id")
-        transaction = paymob.retrieve_transaction(transaction_id).get("obj")
+        transaction = paymob.retrieve_transaction(transaction_id)
 
         # make sure same transaction
         assert (
-            transaction.get("obj").get("order").get("merchant_order_id")
-            == self.mutual_reference
+            transaction.get("order").get("merchant_order_id") == self.mutual_reference
         )
 
         # update payment attempt
