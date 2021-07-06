@@ -140,8 +140,8 @@ cython_debug/
 # staticfiles
 staticfiles/
 
-# media files
-media/
+# Media Images
+media/images/
 
 # vscode
 .vscode/

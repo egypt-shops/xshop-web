@@ -4,7 +4,7 @@ from xshop.shops.models import Shop
 
 
 class Home(TemplateView):
-    def get(self, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         context = {
             "shops": Shop.objects.all(),
         }
