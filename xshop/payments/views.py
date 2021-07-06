@@ -1,21 +1,8 @@
 from django.http.response import HttpResponseBadRequest
-from xshop.payments import paymob
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from pprint import pprint
 
-
-def get_transaction_status(transaction: dict) -> str:
-    pending = transaction.get("pending")
-    success = transaction.get("success")
-
-    if pending is False and success is True:
-        return "Successful"
-    elif pending is False and success is False:
-        return "Failed"
-    elif pending is True and success is False:
-        return "Pending"
-    else:
-        return "Unknown"
+from xshop.payments.models import PaymentAttempt
 
 
 def redirect(request):
@@ -24,23 +11,18 @@ def redirect(request):
     pprint(data)
     breakpoint()
 
-    # get useful data from parameters
-    transaction_id = data.get("obj").get("id")
-
-    # handle transaction objects only
-    if not data or not transaction_id or data.get("type") != "TRANSACTION":
+    # make sure we handle transaction objects only
+    if not data or not data.get("obj").get("id") or data.get("type") != "TRANSACTION":
         return HttpResponseBadRequest()
 
-    # make sure of transaction status from paymob
-    transaction = paymob.retrieve_transaction(transaction_id)
+    mutual_reference = data.get("order").get("merchant_order_id")
+    payment_attempt = get_object_or_404(
+        PaymentAttempt, mutual_reference=mutual_reference
+    )
+    payment_attempt.after(data)
 
-    status = get_transaction_status(transaction)
-
-    ## TODO
-    # common_reference = order.get("merchant_order_id")
-
-    # save status locally
-
-    # present result to the user
-
-    return render(request, "Return Redirect")
+    return render(
+        request,
+        "payments/result.dt.html",
+        {"status": payment_attempt.status, "mutual_reference": mutual_reference},
+    )
