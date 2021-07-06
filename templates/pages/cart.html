@@ -62,6 +62,8 @@
     </nav>
     
     <h1 class="text-center" style="color: #08546c;background: #ffffff;margin: 5px;padding-bottom: 5px;"><strong>Shoping Cart</strong></h1>
+
+    <!-- err msg -->
     <div id='err' style="color: rgb(240, 0, 0);margin-left: 10px;">
 
     </div>
@@ -86,7 +88,7 @@
                         <td class="text-center align-middle">{{ product.name }}</td>
                         <td class="align-middle" style="text-align: center;">
                             <select class="align-middle" style="width: 30%;margin-right: 5px;min-width: 40px;margin-bottom: 5px;max-width: 60px;">
-                            <optgroup label="Quantity">
+                            <optgroup label="Quantity" >
                                 {% for i in quantity_range %}
                                     {% if i == item.quantity %}
                                     <option value='{{i}}' selected=''>{{i}}</option>
@@ -96,7 +98,7 @@
                                 {% endfor %}
                             </optgroup>
                             </select>
-                            <button class="btn btn-primary text-center align-middle update-button" data-index='{{ product.id }}' type="button" style="width: 50%;background: #5189b0;min-width: 80px;max-width: 100px;">
+                            <button class="btn btn-primary text-center align-middle update-button" id="btn-{{ product.id }}" data-index='{{ product.id }}' data-quantity='{{ item.quantity }}' type="button" style="width: 50%;background: #5189b0;min-width: 80px;max-width: 100px;">
                                 Update
                             </button></td>
                         <td class="text-center align-middle">
@@ -104,8 +106,8 @@
                                 <strong>Remove</strong>
                             </button>
                         </td>
-                        <td class="text-center align-middle">{{ product.price }}</td>
-                        <td class="text-center align-middle">{{ item.total_price }}</td>
+                        <td class="text-center align-middle" id='price-{{ product.id }}'>{{ product.price }}</td>
+                        <td class="text-center align-middle" id='tot_price-{{ product.id }}'>{{ item.total_price }}</td>
                     </tr>
                     {% endwith %}
                 {% endfor %}
@@ -151,22 +153,26 @@
 
         $(document).on('click', '.update-button', function(f){
             f.preventDefault();
-            // var remove_id = $(this).data('index')
-            let current = document.querySelector('.update-button');
-            
+            product_id = $(this).data('index')
+            let current = document.querySelector('#btn-'+product_id);
+            pre_quantity = $(this).attr('data-quantity')
+
             $.ajax({
                 type: 'POST',
                 url: '{% url "cart:cart_ops" %}',
                 data: {
                     quantity: current.previousElementSibling.value,
-                    productid: $(this).data('index'),
+                    productid: product_id,
                     csrfmiddlewaretoken: '{{ csrf_token }}',
                     action:'update'
                 },
+
                 success: function(json){
                     location.reload();
                 },
+                
                 error: function(xhr, errmsg, err) {
+                    current.previousElementSibling.value = pre_quantity;
                     document.getElementById("err").innerHTML = "quantity exceeded!";
                 }
             })
