@@ -13,6 +13,9 @@ env:
   POSTGRES_HOST: localhost
   POSTGRES_PORT: 5432
   DEPLOY: TESTING
+  PAYMOB_API_KEY: ${{ secrets.PAYMOB_API_KEY }}
+  PAYMOB_IFRAME_ID: ${{ secrets.PAYMOB_IFRAME_ID }}
+  PAYMOB_CARD_INTEGRATION_ID: ${{ secrets.PAYMOB_CARD_INTEGRATION_ID }}
 
 jobs:
   build:
@@ -29,9 +32,6 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: github_actions
           POSTGRES_HOST: localhost
-          PAYMOB_API_KEY: ${{ secrets.PAYMOB_API_KEY }}
-          PAYMOB_IFRAME_ID: ${{ secrets.PAYMOB_IFRAME_ID }}
-          PAYMOB_CARD_INTEGRATION_ID: ${{ secrets.PAYMOB_CARD_INTEGRATION_ID }}
 
         ports:
           - 5432:5432
