@@ -2,6 +2,8 @@ from django.db import models
 from model_utils.models import TimeStampedModel
 
 
+# TODO flatten all properties of order/orderItem/user/payment here
+# NOTE the data here must not be editable once created
 class Invoice(TimeStampedModel):
     user = models.ForeignKey(
         "users.User",
