@@ -29,7 +29,7 @@ class ShopDetailViewTests(TestCase):
 
         self.assertRedirects(
             resp,
-            "/users/login/?next=/shop/{}".format(self.shop.id),
+            "/users/login/?next=/shop/{}/".format(self.shop.id),
             status_code=302,
             target_status_code=200,
             fetch_redirect_response=True,
@@ -43,6 +43,6 @@ class ShopDetailViewTests(TestCase):
 
     def test_retreive_products(self):
         self.client.login(mobile=self.user.mobile, password=self.password)
-        resp = self.client.get("/shop/{}".format(self.shop.id))
+        resp = self.client.get("/shop/{}/".format(self.shop.id))
         self.assertEqual(len(resp.context["products"]), 1)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)

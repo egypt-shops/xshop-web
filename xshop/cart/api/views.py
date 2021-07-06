@@ -10,6 +10,7 @@ from ..cart import Cart
 
 
 class CartApi(APIView):
+    # TODO: check if all products belongs to the same shop
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
 
