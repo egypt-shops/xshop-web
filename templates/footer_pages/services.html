@@ -1,0 +1,126 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'about_static/footer.css' %}">
+    <title>Services</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="footer">
+        <p class="about">Services</p>
+        <a href="{% url 'pages:home' %}" style="text-decoration: none;">
+            <p class="shop-name">Egypt Shops</p>
+        </a> 
+
+
+    </div>
+    <h1>Egypt Shops Services</h1>
+
+    <div class="flex-p1">
+
+        <div class="flex-c1">
+            <span>Professional E-Store
+            </span>
+            <h2>
+                Launch your eCommerce store without any IT background with your own identity and domain.</h2> <br>
+
+        </div>
+
+        <div class="flex-c1">
+            <span>Track your Inventory and Manage it easily</span>
+            <h2>
+                Add your products with all their options and track their quantities. Get control of your stock!</h2>
+            <br>
+        </div>
+
+        <div class="flex-c1">
+            <span>A tool to manage customer requests
+            </span>
+            <h2>It makes it easier to follow up on the orders which are presented in your E-store practically and
+                smoothly,<br>
+                where you can update their cases whether the request is( new, ongoing, ready, etc.)</h2>
+
+        </div>
+
+    </div>
+
+    <div class="flex-p1">
+
+        <div class="flex-c1">
+            <span>Invoices</span>
+            <h2>You do not need to write your customers’ invoices manually anymore,<br> since they are automatically
+                generated
+                with
+                all the information you need.
+
+            </h2>
+
+        </div>
+        <div class="flex-c1">
+            <span>Discount Coupons
+            </span>
+            <h2>Create special offers and discounts with specifying their details <br> such as( type, date, products
+                included,
+                etc.)
+
+            </h2>
+
+        </div>
+
+        <div class="flex-c1">
+            <span>Payment Confirmation
+            </span>
+
+            <h2>You could make sure that the customer’s paid for their order simply <br> through receiving the transfer
+                picture
+                <br> from the customer within the E-store control panel.
+
+            </h2>
+        </div>
+    </div>
+
+    <a href="{% url 'pages:home' %}">
+        <button class="btn1" name="home">
+            Back to HomePage
+        </button>
+    </a>
+
+    <footer class="fooo">
+
+
+        <div class="faa">
+            <a href="#" class="fa fa-instagram"></a>
+            <a href="#" class="fa fa-github"></a>
+            <a href="#" class="fa fa-twitter"></a>
+            <a href="#" class="fa fa-facebook"></a>
+        </div>
+
+
+        <div class="links">
+
+            <a class="link1" href="#">Home</a>
+            <a class="link1" href="#">Services</a>
+            <a class="link1" href="#">About</a>
+            <a class="link1" href="#">Terms</a>
+            <a class="link1" href="#">Privacy Policy</a>
+
+
+        </div>
+
+        <p class="e-name">© 2021 Egypt Shops </p>
+
+
+    </footer>
+
+
+</body>
+
+</html>
