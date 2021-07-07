@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
+from django import forms
 
 from xshop.cart.cart import Cart
 from xshop.cart.forms import CartPostProductForm
@@ -25,6 +26,25 @@ class CartView(LoginRequiredMixin, ListView):
                 )
 
                 return redirect("cart:cart_ops")
+        if request.POST.get("action") == "update":
+            product_id = int(request.POST.get("productid"))
+            try:
+                product = Product.objects.get(id=product_id)
+                product_json = ProductSerializer(product).data
+                quantity = int(request.POST.get("quantity"))
+                if product.stock < quantity:
+                    raise forms.ValidationError(
+                        {"quantity": f"Invalid. available stock {product.stock}"}
+                    )
+                cart.update(
+                    product=product_json,
+                    quantity=quantity,
+                )
+
+                return redirect("cart:cart_ops")
+
+            except Product.DoesNotExist:
+                form.errors["product_id"] = "Not found"
 
         if request.POST.get("actions") == "add":
             product_id = int(request.POST.get("product_id"))
@@ -81,5 +101,7 @@ class CartView(LoginRequiredMixin, ListView):
             "cart": cart,
             "full_price": full_price,
             "user": request.user,
+            "quantity_range": range(1, 10),
+            "ui": range(12),
         }
         return render(request, "pages/cart.html", context)

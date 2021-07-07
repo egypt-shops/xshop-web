@@ -44,10 +44,12 @@
 							</div>
 						</form>
 					{% if user.is_authenticated %}
+					<a href="{% url 'cart:cart_ops' %}">
 					<i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end"
 						data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart"
 						style="color: #dbe8f5;font-size: 20px;margin: 10px;padding: 0px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -6px;margin-top: 22px;margin-bottom: 10px;">
 					</i>
+					</a>
 					<label class="text-left float-left d-xl-flex justify-content-end"
 						style="height: 30px;margin: 10px;width: 110.9px;padding: 1px;color: rgb(214,233,251);font-size: 16px;margin-top: 15px;margin-left: 0px;margin-right: 10px;">
 						{{ user.mobile }}
@@ -108,14 +110,10 @@
 			</div>
 			<ul class="list-inline">
 				<!-- <li class="list-inline-item" style="filter: brightness(132%);"><a href="#" style="filter: brightness(200%);">Home</a></li> -->
-				<li class="list-inline-item" style="filter: brightness(132%);"><a
-						href="https://github.com/egypt-shops/xshop-docs" style="filter: brightness(200%);">Services</a></li>
-				<li class="list-inline-item" style="filter: brightness(132%);"><a href="https://egypt-shops.github.io/"
-						style="filter: brightness(200%);">About</a></li>
-				<li class="list-inline-item" style="filter: brightness(132%);"><a href="https://egypt-shops.github.io/"
-						style="filter: brightness(200%);">Terms</a></li>
-				<li class="list-inline-item" style="filter: brightness(132%);"><a href="https://egypt-shops.github.io/"
-						style="opacity: 1;filter: brightness(200%);">Privacy Policy</a></li>
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="{% url 'pages:services' %}" style="filter: brightness(200%);">Services</a></li>
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="{% url 'pages:about' %}" style="filter: brightness(200%);">About</a></li>
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="{% url 'pages:terms' %}" style="filter: brightness(200%);">Terms</a></li>
+                <li class="list-inline-item" style="filter: brightness(132%);"><a href="{% url 'pages:privacy_policy' %}" style="opacity: 1;filter: brightness(200%);">Privacy Policy</a></li>
 			</ul>
 			<p class="copyright">X-Shop © 2021</p>
 		</footer>

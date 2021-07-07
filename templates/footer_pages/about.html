@@ -1,0 +1,185 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'about_static/footer.css' %}">
+    <title>About</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+    <div class="footer">
+        <p class="about">About</p>
+        <a href="{% url 'pages:home' %}" style="text-decoration: none;">
+            <p class="shop-name">Egypt Shops</p>
+        </a> 
+    </div>
+    <h1>Welcome to Egypt Shops</h1>
+
+
+    <div class="slideshow-container">
+
+        <div class="mySlides fade">
+            <div class="numbertext">1 / 4</div>
+            <img src="{% static 'about_static/p1.jpg' %}" style="width:100%">
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext">2 / 4</div>
+            <img src="{% static 'about_static/p2.jpg' %}" style="width:100%">
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext">3 / 4</div>
+            <img src="{% static 'about_static/p3.jpg' %}" style="width:100%">
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext">4 / 4</div>
+            <img src="{% static 'about_static/p4.jpg' %}" style="width:100%">
+        </div>
+
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+    </div>
+    <br>
+
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <span class="dot" onclick="currentSlide(4)"></span>
+
+    </div>
+
+
+
+
+
+
+    <div class="flex-p1">
+
+        <div class="flex-c1">
+
+            <h2>A SaaS platform that aims to provide the most suitable solution for small shops,<br> supermarkets
+                and
+                hypermarkets
+                across the country.</h2><br>
+        </div>
+
+        <div class="flex-c1">
+            <h2>Professional with your brand identity and name. Connected to all the services you need to start
+                e-commerce,<br>
+                you
+                can easily manage it wherever you are via the mobile and without the need for technical expertise.</h2>
+            <br>
+        </div>
+
+        <div class="flex-c1">
+
+            <h2>You can reach many service providers and partners in different fields and apply to their services at
+                special
+                rates for traders,<br> from one place in the merchant's control panel.</h2> <br>
+        </div>
+
+    </div>
+
+    <div class="flex-p1">
+
+        <div class="flex-c1">
+
+            <h2>Enabling you to optimize and improve your performance in all related fields to e-commerce, such as
+                marketing and financial management..</h2><br>
+        </div>
+
+        <div class="flex-c1">
+            <h2>The merchant advisor will help you and guide you to develop your business and optimize the operations
+                through estimating your e-store and following up on reports..</h2>
+            <br>
+        </div>
+
+        <div class="flex-c1">
+
+            <h2>With exclusive online courses for Egypt Shops merchants covering many topics.</h2> <br>
+        </div>
+
+    </div>
+    
+    <a href="{% url 'pages:home' %}">
+        <button class="btn1" name="home">
+            Back to HomePage
+        </button>
+    </a>
+
+    </div>
+
+
+    <script>
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+        }
+    </script>
+
+    <footer class="fooo">
+
+
+        <div class="faa">
+            <a href="#" class="fa fa-instagram"></a>
+            <a href="#" class="fa fa-github"></a>
+            <a href="#" class="fa fa-twitter"></a>
+            <a href="#" class="fa fa-facebook"></a>
+        </div>
+
+
+        <div class="links">
+
+            <a class="link1" href="#">Home</a>
+            <a class="link1" href="#">Services</a>
+            <a class="link1" href="#">About</a>
+            <a class="link1" href="#">Terms</a>
+            <a class="link1" href="#">Privacy Policy</a>
+
+
+        </div>
+
+        <p class="e-name">© 2021 Egypt Shops </p>
+
+
+    </footer>
+
+</body>
+
+</html>
