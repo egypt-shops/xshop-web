@@ -2,7 +2,6 @@ from django.core.exceptions import ValidationError
 from rest_framework import serializers
 
 from xshop.products.models import Product
-from xshop.products.api.serializers import ProductSerializer
 
 choices = (
     ("add", "Add product to cart"),
@@ -10,6 +9,12 @@ choices = (
     ("remove", "Remove product from cart"),
     ("clear", "Delete all products in cart"),
 )
+
+
+class ProdcutCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ("id", "shop", "price", "name", "stock")
 
 
 class CartSerializer(serializers.Serializer):
@@ -36,5 +41,5 @@ class CartSerializer(serializers.Serializer):
                 {"quantity": f"Invalid. available stock {product.stock}"}
             )
 
-        attrs["product"] = ProductSerializer(product).data
+        attrs["product"] = ProdcutCartSerializer(product).data
         return attrs

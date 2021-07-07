@@ -9,8 +9,7 @@ from xshop.products.api.serializers import ProductSerializer
 
 
 class CartView(LoginRequiredMixin, ListView):
-    # TODO: check if all products belongs to the same shop
-    def post(self, request):  # class based view def post, def get
+    def post(self, request):
         cart = Cart(request)
         form = CartPostProductForm(request.POST)
         if form.is_valid():
@@ -31,9 +30,7 @@ class CartView(LoginRequiredMixin, ListView):
             product_id = int(request.POST.get("product_id"))
             try:
                 product = Product.objects.get(id=product_id)
-
                 product_json = ProductSerializer(product).data
-
                 cart.add(product=product_json)
 
                 return redirect("cart:cart_ops")
