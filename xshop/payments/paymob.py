@@ -32,21 +32,6 @@ def order(
         "currency": "EGP",
         "merchant_order_id": merchant_order_id,
         "items": items,
-        # Example items for now
-        #  [
-        #     {
-        #         "name": "ASC1515",
-        #         "amount_cents": "500000",
-        #         "description": "Smart Watch",
-        #         "quantity": "1",
-        #     },
-        #     {
-        #         "name": "ERT6565",
-        #         "amount_cents": "200000",
-        #         "description": "Power Bank",
-        #         "quantity": "1",
-        #     },
-        # ],
     }
 
     resp = requests.post(url, json=payload)
@@ -98,13 +83,18 @@ def iframe_url(payment_key: str) -> str:
     return f"https://accept.paymob.com/api/acceptance/iframes/{iframe_id}?payment_token={payment_key}"
 
 
-def issue_payment() -> str:
+def issue_payment(
+    amount: int,
+    merchant_order_id: str,
+    items: List[OrderItem],
+    billing_data: BillingData,
+) -> str:
     # auth
     auth_token = token()
     # order
-    order_id = order(auth_token, ...)
+    order_id = order(auth_token, amount, merchant_order_id, items)
     # key
-    payment_key = key(auth_token, ..., order_id, ...)
+    payment_key = key(auth_token, amount, order_id, billing_data)
     # iframe
     return iframe_url(payment_key)
 
