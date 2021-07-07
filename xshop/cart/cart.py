@@ -27,8 +27,8 @@ class Cart(object):
         shop = str(product["shop"])
         if shop not in self.cart:
             self.cart[shop] = {}
-        if product_id not in self.cart["shop"].keys():
-            self.cart[shop] = {product_id: {"quantity": 1, "price": product["price"]}}
+        if product_id not in self.cart[shop].keys():
+            self.cart[shop][product_id] = {"quantity": 1, "price": product["price"]}
         self.save()
 
     def update(self, product, quantity):
@@ -64,19 +64,20 @@ class Cart(object):
         Iterate over the items in the cart and get the products from the database.
         """
         # get last element added only
-        shop_id = list(self.cart.keys())[-1]
-        product_ids = self.cart[shop_id].keys()
-        # get the product objects and add them to the cart
-        products = Product.objects.filter(id__in=product_ids)
+        if list(self.cart.keys()):
+            shop_id = list(self.cart.keys())[-1]
+            product_ids = self.cart[shop_id].keys()
+            # get the product objects and add them to the cart
+            products = Product.objects.filter(id__in=product_ids)
 
-        cart = self.cart.copy()
-        for product in products:
-            serialized_product = ProdcutCartSerializer(product)
-            cart[shop_id][str(product.id)]["product"] = serialized_product.data
+            cart = self.cart.copy()
+            for product in products:
+                serialized_product = ProdcutCartSerializer(product)
+                cart[shop_id][str(product.id)]["product"] = serialized_product.data
 
-        for item in cart[shop_id].values():
-            item["total_price"] = float(item["price"]) * item["quantity"]
-            yield item
+            for item in cart[shop_id].values():
+                item["total_price"] = float(item["price"]) * item["quantity"]
+                yield item
 
     def __len__(self) -> int:
         """
