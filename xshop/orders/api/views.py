@@ -70,7 +70,7 @@ class CheckoutApi(APIView):
 
     @extend_schema(
         description="Post checkout from Cart session",
-        responses={200: "checkout details"},
+        responses={200: "checkout details", 400: "error raised"},
     )
     def post(self, request):
         cart = request.session.get("cart")
@@ -79,10 +79,20 @@ class CheckoutApi(APIView):
         quantities = []
         product_ids = []
         full_price = 0
-        for key in cart.keys():
-            product_ids.append(cart[key]["product"]["id"])
-            quantities.append(cart[key]["quantity"])
-            full_price += cart[key]["total_price"]
+        try:
+            for key in cart.keys():
+                product_ids.append(cart[key]["product"]["id"])
+                quantities.append(cart[key]["quantity"])
+                full_price += cart[key]["total_price"]
+        except Exception as e:
+            return Response(
+                {
+                    "message": "failure",
+                    "error": str(e),
+                    "hint": "make sure that you created cart first (cart exists for the user)",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         products = Product.objects.filter(id__in=product_ids)
 
@@ -97,11 +107,10 @@ class CheckoutApi(APIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        data = {}
-        data["order_data"] = order.get_data
+        data = {"order_data": order.get_data}
         data["order_data"]["item_count"] = len(cart)
 
         data["order_data"]["full_price"] = str(full_price)
         data["address"] = serializer.validated_data.get("address")
 
-        return Response(data)
+        return Response(data, status=status.HTTP_200_OK)

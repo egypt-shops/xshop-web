@@ -4,7 +4,6 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout as auth_logout
-from rest_framework.decorators import api_view
 
 from .serializers import (
     TokenApiSerializer,
@@ -53,25 +52,25 @@ class Logout(LoginRequiredMixin, APIView):
         return Response(status=status.HTTP_200_OK)
 
 
-@api_view(
-    [
-        "POST",
-    ]
-)
-@extend_schema(
-    description="Create new user",
-    request=RegistrationSerializer,
-)
-def registration_view(request):
-
-    if request.method == "POST":
+class Registration(APIView):
+    @extend_schema(
+        description="Generate new user",
+        request=RegistrationSerializer,
+        responses={
+            200: '{"name": "user name", "mobile": "user mobile"}',
+            400: "Invalid mobile number/password or both",
+        },
+    )
+    def post(self, request):
         serializer = RegistrationSerializer(data=request.data)
         data = {}
-        if serializer.is_valid():
-            user = serializer.save()
-            data["response"] = "successfully registered a new user"
-            data["name"] = user.name
-            data["mobile"] = str(user.mobile)
-        else:
-            data = serializer.errors
-        return Response(data)
+        if not serializer.is_valid():
+            return Response(
+                {"message": "failure", "error": serializer.errors},
+                status.HTTP_400_BAD_REQUEST,
+            )
+        user = serializer.save()
+        data["response"] = "successfully registered a new user"
+        data["name"] = user.name
+        data["mobile"] = str(user.mobile)
+        return Response(data, status=status.HTTP_200_OK)
