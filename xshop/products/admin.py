@@ -42,14 +42,17 @@ class ProductAdmin(admin.ModelAdmin):
 
     def has_module_permission(self, request):
         user: User = request.user
-        return bool(
-            request.user.is_superuser
-            or user.type[0]
-            in [
-                UserGroup.GENERAL_MANAGER.title(),
-                UserGroup.DATA_ENTRY_CLERK.title(),
-            ]
-        )
+        try:
+            return bool(
+                request.user.is_superuser
+                or user.type[0]
+                in [
+                    UserGroup.GENERAL_MANAGER.title(),
+                    UserGroup.DATA_ENTRY_CLERK.title(),
+                ]
+            )
+        except AttributeError:
+            return False
 
     def has_add_permission(self, request, obj=None):
         user: User = request.user
