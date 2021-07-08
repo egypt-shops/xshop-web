@@ -10,7 +10,6 @@ from ..cart import Cart
 
 
 class CartApi(APIView):
-    # TODO: check if all products belongs to the same shop
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
 
@@ -43,8 +42,8 @@ class CartApi(APIView):
             return Response(cart)
 
         elif action == "remove":
-            product_id = serializer.validated_data.get("product_id")
-            cart.remove(product_id)
+            product = serializer.validated_data.get("product")
+            cart.remove(product)
             return Response(cart, status=status.HTTP_200_OK)
 
         elif action == "clear":
