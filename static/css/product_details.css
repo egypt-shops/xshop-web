@@ -2,7 +2,7 @@
     box-sizing: border-box;
     margin: 0;
   }
-  
+
 
 .logo{
     height: 58px;
@@ -19,7 +19,7 @@ header{
 }
 
 .glyphicon{
-    font-size: 28px; 
+    font-size: 28px;
     margin-left: 1000px;
     margin-top: 12px;
     color:#A0BACC;
@@ -73,7 +73,7 @@ p{
     margin-top: 20px;
     margin-left: 100px;
     position: absolute;
-    
+
 }
 
 
@@ -108,11 +108,11 @@ p{
     .price{
         margin-top: 20px;
         margin-left: 50px;
-    
+
     }
     .add{
         margin-left: 50px;
-    
+
     }
 }
 
@@ -128,11 +128,11 @@ p{
     .price{
         margin-top: 20px;
         margin-left: 50px;
-    
+
     }
     .add{
         margin-left: 50px;
-    
+
     }
 }
 
@@ -150,7 +150,7 @@ p{
     .price{
         margin-top: 20px;
         margin-left: 15px;
-    
+
     }
     .add{
         margin-left: 135px;

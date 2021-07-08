@@ -23,75 +23,92 @@
     <!-- integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous"> -->
 </head>
 
-<body>
 
-    <header>
-        <a href="{% url 'pages:home' %}">
-        <img class="logo" src="{% static 'css/logo.jpg' %}" alt="">
-        </a>
-        <a href="{% url 'cart:cart_ops' %}" aria-label="Go to Cart" target="_blank">
-            <span class="glyphicon glyphicon-shopping-cart">
-            </span>
-        </a>
 
-    </header>
+<header>
+    <a href="{% url 'pages:home' %}">
+        <img style="padding-left: 20px;" class="logo" src="{% static 'css/logo.jpg' %}" alt="">
+    </a>
+    <a style="padding-left: 600px;" href="{% url 'cart:cart_ops' %}" aria-label="Go to Cart" target="_blank">
+        <span class="glyphicon glyphicon-shopping-cart">
+        </span>
+    </a>
 
-    <h1 class="pname">{{ product.name }}</h1>
+</header>
 
-    <div>
-        <img class="pimage" src="{% static 'css/watch.jpg' %}" alt="">
-        <span class="price">{{ price }} <span style="color:#08304d"> EGP</span> </span>
-        <button class="add add-button" style="font-size:24px" name="add to cart" data-index='{{ product.id }}'> Add to Cart <i
-                class="fa fa-shopping-cart"></i></button>
+<h1 class="pname">{{ product.name }}</h1>
 
+<div>
+    <img class="pimage" src="{% static 'css/watch.jpg' %}" alt="">
+    <span class="price">{{ price }} <span style="color:#08304d"> EGP</span> </span>
+    <button class="add add-button" style="font-size:24px" name="add to cart" data-index='{{ product.id }}'> Add to
+        Cart <i class="fa fa-shopping-cart"></i></button>
+
+</div>
+
+<div style="padding-left: 100px; padding-top: 25px; padding-bottom: 25px;">
+    <h2>Rating</h2>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+</div>
+<h2 class="description">DESCRIPTION</h2>
+<p style="padding-bottom: 55px;">Rolex’s story began when founder Hans Wilsdorf created the first waterproof
+    wristwatch – the Oyster – and
+    developed into a range of timepieces that have become icons of watchmaking.<br> Discover Rolex watches on the
+    wrists
+    of pioneers, artists, athletes and visionaries and journey to the very highest summits and the deepest part of
+    the oceans. Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet voluptas dolorem quia, reiciendis
+    ducimus debitis unde. Necessitatibus hic assumenda doloribus doloremque, illum deleniti sunt voluptas pariatur
+    fuga accusamus cumque voluptate!</p>
+<footer class="footer-basic" style="background: #022534;">
+    <div class="social">
+        <a href="https://github.com/egypt-shops/xshop-docs" style="filter: brightness(200%);opacity: 1;"><i
+                class="icon ion-social-instagram" style="filter: brightness(120%);"></i></a>
+        <a href="https://github.com/egypt-shops/xshop-docs" style="opacity: 1;filter: brightness(200%);"><i
+                class="icon ion-social-github" style="filter: brightness(120%);"></i></a>
+        <a href="https://github.com/egypt-shops/xshop-docs" style="filter: brightness(200%);opacity: 1;"><i
+                class="icon ion-social-twitter" style="filter: brightness(120%);"></i></a>
+        <a href="https://github.com/egypt-shops/xshop-docs" style="opacity: 1;filter: brightness(200%);"><i
+                class="icon ion-social-facebook" style="filter: brightness(120%);"></i></a>
     </div>
+    <ul class="list-inline">
+        <!-- <li class="list-inline-item" style="filter: brightness(132%);"><a href="#" style="filter: brightness(200%);">Home</a></li> -->
+        <li class="list-inline-item" style="filter: brightness(132%);"><a href="{% url 'pages:services' %}"
+                style="filter: brightness(200%);">Services</a></li>
+        <li class="list-inline-item" style="filter: brightness(132%);"><a href="{% url 'pages:about' %}"
+                style="filter: brightness(200%);">About</a></li>
+        <li class="list-inline-item" style="filter: brightness(132%);"><a href="{% url 'pages:terms' %}"
+                style="filter: brightness(200%);">Terms</a></li>
+        <li class="list-inline-item" style="filter: brightness(132%);"><a href="{% url 'pages:privacy_policy' %}"
+                style="opacity: 1;filter: brightness(200%);">Privacy Policy</a></li>
+    </ul>
+    <p class="copyright">X-Shop © 2021</p>
+</footer>
 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    <h2 class="description">DESCRIPTION</h2>
-    <p>Rolex’s story began when founder Hans Wilsdorf created the first waterproof wristwatch – the Oyster – and
-        developed into a range of timepieces that have become icons of watchmaking.<br> Discover Rolex watches on the
-        wrists
-        of pioneers, artists, athletes and visionaries and journey to the very highest summits and the deepest part of
-        the oceans. Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet voluptas dolorem quia, reiciendis
-        ducimus debitis unde. Necessitatibus hic assumenda doloribus doloremque, illum deleniti sunt voluptas pariatur
-        fuga accusamus cumque voluptate!</p>
-        <footer class="footer-basic" style="background: #022534;">
-            <div class="social">
-                <a href="https://github.com/egypt-shops/xshop-docs" style="filter: brightness(200%);opacity: 1;"><i class="icon ion-social-instagram" style="filter: brightness(120%);"></i></a>
-                <a href="https://github.com/egypt-shops/xshop-docs" style="opacity: 1;filter: brightness(200%);"><i class="icon ion-social-github" style="filter: brightness(120%);"></i></a>
-                <a href="https://github.com/egypt-shops/xshop-docs" style="filter: brightness(200%);opacity: 1;"><i class="icon ion-social-twitter" style="filter: brightness(120%);"></i></a>
-                <a href="https://github.com/egypt-shops/xshop-docs" style="opacity: 1;filter: brightness(200%);"><i class="icon ion-social-facebook" style="filter: brightness(120%);"></i></a></div>
-            <ul class="list-inline">
-                <!-- <li class="list-inline-item" style="filter: brightness(132%);"><a href="#" style="filter: brightness(200%);">Home</a></li> -->
-                <li class="list-inline-item" style="filter: brightness(132%);"><a href="{% url 'pages:services' %}" style="filter: brightness(200%);">Services</a></li>
-                <li class="list-inline-item" style="filter: brightness(132%);"><a href="{% url 'pages:about' %}" style="filter: brightness(200%);">About</a></li>
-                <li class="list-inline-item" style="filter: brightness(132%);"><a href="{% url 'pages:terms' %}" style="filter: brightness(200%);">Terms</a></li>
-                <li class="list-inline-item" style="filter: brightness(132%);"><a href="{% url 'pages:privacy_policy' %}" style="opacity: 1;filter: brightness(200%);">Privacy Policy</a></li>
-            </ul>
-            <p class="copyright">X-Shop © 2021</p>
-        </footer>
-
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-        <script>
-            $(document).on('click', '.add-button', function(e){
-                e.preventDefault();
-                var remove_id = $(this).data('index')
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url "cart:cart_ops" %}',
-                    data: {
-                        product_id: $(this).data('index'),
-                        csrfmiddlewaretoken: '{{ csrf_token }}',
-                        actions:'add'
-                    },
-                    success: function(json){
-                        location.reload();
-                    },
-                    error: function(xhr, errmsg, err) {}
-                });
-            });
-        </script>
+<script>
+    $(document).on('click', '.add-button', function (e) {
+        e.preventDefault();
+        var remove_id = $(this).data('index')
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart:cart_ops" %}',
+            data: {
+                product_id: $(this).data('index'),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                actions: 'add'
+            },
+            success: function (json) {
+                location.reload();
+            },
+            error: function (xhr, errmsg, err) { }
+        });
+    });
+</script>
 </body>
 
 </html>
