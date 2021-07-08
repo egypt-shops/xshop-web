@@ -10,58 +10,64 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aclonica">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="{% static 'cart_assets/css/styles.css' %}">
-    
+
 </head>
 
 <body style="background: #ffffff;">
     {% block content %}
-    <nav class="navbar navbar-dark navbar-expand-md" id="nav_height" style="background: #022534;border-color: var(--red);color: var(--blue);/*height: 75;*/padding: 0;">
+    <nav class="navbar navbar-dark navbar-expand-md" id="nav_height"
+        style="background: #022534;border-color: var(--red);color: var(--blue);/*height: 75;*/padding: 0;">
         <div class="container-fluid">
             <i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end"
-							data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart"
-							style="color: #dbe8f5;font-size: 10px;margin: 0px;padding: -10px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -20px;margin-top: 22px;margin-bottom: 10px;">
-						</i>
-            <a class="navbar-brand" href="{% url 'pages:home' %}" style="/*background: rgb(1,56,115);*//*font-size: 30;*/font-family: 'Open Sans', sans-serif;color: rgb(0,0,0);padding: 0;">
+                data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart"
+                style="color: #dbe8f5;font-size: 10px;margin: 0px;padding: -10px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -20px;margin-top: 22px;margin-bottom: 10px;">
+            </i>
+            <a class="navbar-brand" href="{% url 'pages:home' %}"
+                style="/*background: rgb(1,56,115);*//*font-size: 30;*/font-family: 'Open Sans', sans-serif;color: rgb(0,0,0);padding: 0;">
                 <img src="{% static 'cart_assets/img/logo%20resized.jpg' %}">
             </a>
-            <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1" style="color: rgba(255,255,255,0);">
+            <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"
+                style="color: rgba(255,255,255,0);">
                 <span class="sr-only">
                     Toggle navigation
                 </span>
                 <span class="navbar-toggler-icon" style="color: var(--light);">
                 </span>
             </button>
-            <div class="collapse navbar-collapse" id="navcol-1">
+            <div style="padding-left: 550px;" class="collapse navbar-collapse" id="navcol-1">
                 {% if user.is_authenticated %}
-                        {% for i in ui %}
-						<i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end"
-							data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart"
-							style="color: #dbe8f5;font-size: 20px;margin: 10px;padding: 0px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -6px;margin-top: 22px;margin-bottom: 10px;">
-						</i>
-                        {% endfor %}
-						<label class="text-left float-left d-xl-flex justify-content-end"
-							style="height: 30px;margin: 10px;width: 110.9px;padding: 1px;color: rgb(214,233,251);font-size: 16px;margin-top: 15px;margin-left: 0px;margin-right: 10px;">
-							{{ user.mobile }}
-						</label>
-							<a class="btn btn-light action-button" role="button" href="{% url 'logout' %}" style="filter: brightness(100%);">
-								Log Out
-							</a>
-                    {% else %}
-                        <span class="navbar-text" style="filter: brightness(165%);">
-                        <a class="login" href="{% url 'users:login' %}" style="filter: brightness(71%);">
-                            Log In
-                        </a>
-                        </span>
-                        <a class="btn btn-light action-button" role="button" href="{% url 'users:register' %}" style="filter: brightness(100%);">
-                        Sign Up
-                        </a>
-                    {% endif %}
-                
+                {% for i in ui %}
+                <i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end"
+                    data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart"
+                    style="color: #dbe8f5;font-size: 20px;margin: 10px;padding: 0px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -6px;margin-top: 22px;margin-bottom: 10px;">
+                </i>
+                {% endfor %}
+                <label class="text-left float-left d-xl-flex justify-content-end"
+                    style="height: 30px;margin: 10px;width: 110.9px;padding: 1px;color: rgb(214,233,251);font-size: 16px;margin-top: 15px;margin-left: 0px;margin-right: 10px;">
+                    {{ user.mobile }}
+                </label>
+                <a class="btn btn-light action-button" role="button" href="{% url 'logout' %}"
+                    style="filter: brightness(100%);">
+                    Log Out
+                </a>
+                {% else %}
+                <span class="navbar-text" style="filter: brightness(165%);">
+                    <a class="login" href="{% url 'users:login' %}" style="filter: brightness(71%);">
+                        Log In
+                    </a>
+                </span>
+                <a class="btn btn-light action-button" role="button" href="{% url 'users:register' %}"
+                    style="filter: brightness(100%);">
+                    Sign Up
+                </a>
+                {% endif %}
+
             </div>
         </div>
     </nav>
-    
-    <h1 class="text-center" style="color: #08546c;background: #ffffff;margin: 5px;padding-bottom: 5px;"><strong>Shoping Cart</strong></h1>
+
+    <h1 class="text-center" style="color: #08546c;background: #ffffff;margin: 5px;padding-bottom: 5px;"><strong>Shoping
+            Cart</strong></h1>
 
     <!-- err msg -->
     <div id='err' style="color: rgb(240, 0, 0);margin-left: 10px;">
@@ -82,34 +88,40 @@
             <tbody>
                 <!-- cart item -->
                 {% for item in cart %}
-                    {% with product=item.product %}
-                    <tr style="background: rgba(160,186,204,0.26);">
-                        <td class="text-center align-middle"><a href="#"><img style="max-width: 100px;max-height: 80px;" src="{% static 'cart_assets/img/southsinai18.jpg' %}"></a></td>
-                        <td class="text-center align-middle">{{ product.name }}</td>
-                        <td class="align-middle" style="text-align: center;">
-                            <select class="align-middle" style="width: 30%;margin-right: 5px;min-width: 40px;margin-bottom: 5px;max-width: 60px;">
-                            <optgroup label="Quantity" >
+                {% with product=item.product %}
+                <tr style="background: rgba(160,186,204,0.26);">
+                    <td class="text-center align-middle"><a href="#"><img style="max-width: 100px;max-height: 80px;"
+                                src="{% static 'cart_assets/img/southsinai18.jpg' %}"></a></td>
+                    <td class="text-center align-middle">{{ product.name }}</td>
+                    <td class="align-middle" style="text-align: center;">
+                        <select class="align-middle"
+                            style="width: 30%;margin-right: 5px;min-width: 40px;margin-bottom: 5px;max-width: 60px;">
+                            <optgroup label="Quantity">
                                 {% for i in quantity_range %}
-                                    {% if i == item.quantity %}
-                                    <option value='{{i}}' selected=''>{{i}}</option>
-                                    {% else %}
-                                    <option value='{{i}}'>{{i}}</option>
-                                    {% endif %}
+                                {% if i == item.quantity %}
+                                <option value='{{i}}' selected=''>{{i}}</option>
+                                {% else %}
+                                <option value='{{i}}'>{{i}}</option>
+                                {% endif %}
                                 {% endfor %}
                             </optgroup>
-                            </select>
-                            <button class="btn btn-primary text-center align-middle update-button" id="btn-{{ product.id }}" data-index='{{ product.id }}' data-quantity='{{ item.quantity }}' type="button" style="width: 50%;background: #5189b0;min-width: 80px;max-width: 100px;">
-                                Update
-                            </button></td>
-                        <td class="text-center align-middle">
-                            <button class="btn btn-primary delete-button" data-index='{{ product.id }}' id='delete-button' value="{{product.id}}" type="button" style="background: rgb(173,12,3);">
-                                <strong>Remove</strong>
-                            </button>
-                        </td>
-                        <td class="text-center align-middle" id='price-{{ product.id }}'>{{ product.price }}</td>
-                        <td class="text-center align-middle" id='tot_price-{{ product.id }}'>{{ item.total_price }}</td>
-                    </tr>
-                    {% endwith %}
+                        </select>
+                        <button class="btn btn-primary text-center align-middle update-button" id="btn-{{ product.id }}"
+                            data-index='{{ product.id }}' data-quantity='{{ item.quantity }}' type="button"
+                            style="width: 50%;background: #5189b0;min-width: 80px;max-width: 100px;">
+                            Update
+                        </button>
+                    </td>
+                    <td class="text-center align-middle">
+                        <button class="btn btn-primary delete-button" data-index='{{ product.id }}' id='delete-button'
+                            value="{{product.id}}" type="button" style="background: rgb(173,12,3);">
+                            <strong>Remove</strong>
+                        </button>
+                    </td>
+                    <td class="text-center align-middle" id='price-{{ product.id }}'>{{ product.price }}</td>
+                    <td class="text-center align-middle" id='tot_price-{{ product.id }}'>{{ item.total_price }}</td>
+                </tr>
+                {% endwith %}
                 {% endfor %}
                 <tr style="background: #08546c;">
                     <td class="text-center" colspan="1" style="color: rgb(255,255,255);"><strong>Total</strong></td>
@@ -119,11 +131,11 @@
             </tbody>
         </table>
     </div>
-    <p class="text-right">
+    <p style="padding-right: 5px;" class="text-right">
         <a href="{% url 'pages:home' %}">
-        <button class="btn btn-primary" type="button" style="background: rgba(160,186,204,0.26);color: rgb(0,0,0);">
-            <strong>Continue Shopping</strong>
-        </button>
+            <button class="btn btn-primary" type="button" style="background: rgba(160,186,204,0.26);color: rgb(0,0,0);">
+                <strong>Continue Shopping</strong>
+            </button>
         </a>
         <button class="btn btn-primary" type="button" style="background: #08546c;margin-left: 6px;">
             <strong>Checkout</strong>
@@ -134,7 +146,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <script>
-        $(document).on('click', '.delete-button', function(e){
+        $(document).on('click', '.delete-button', function (e) {
             e.preventDefault();
             $.ajax({
                 type: 'POST',
@@ -142,19 +154,19 @@
                 data: {
                     productid: $(this).data('index'),
                     csrfmiddlewaretoken: '{{ csrf_token }}',
-                    action:'remove'
+                    action: 'remove'
                 },
-                success: function(json){
+                success: function (json) {
                     location.reload();
                 },
-                error: function(xhr, errmsg, err) {}
+                error: function (xhr, errmsg, err) { }
             })
         })
 
-        $(document).on('click', '.update-button', function(f){
+        $(document).on('click', '.update-button', function (f) {
             f.preventDefault();
             product_id = $(this).data('index')
-            let current = document.querySelector('#btn-'+product_id);
+            let current = document.querySelector('#btn-' + product_id);
             pre_quantity = $(this).attr('data-quantity')
 
             $.ajax({
@@ -164,14 +176,14 @@
                     quantity: current.previousElementSibling.value,
                     productid: product_id,
                     csrfmiddlewaretoken: '{{ csrf_token }}',
-                    action:'update'
+                    action: 'update'
                 },
 
-                success: function(json){
+                success: function (json) {
                     location.reload();
                 },
-                
-                error: function(xhr, errmsg, err) {
+
+                error: function (xhr, errmsg, err) {
                     current.previousElementSibling.value = pre_quantity;
                     document.getElementById("err").innerHTML = "quantity exceeded!";
                 }

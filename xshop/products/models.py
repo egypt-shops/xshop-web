@@ -1,12 +1,14 @@
 from io import BytesIO
 
 import barcode
+from django.core.validators import MinValueValidator, MaxValueValidator
 from barcode.writer import ImageWriter
 from django.core.files import File
 from django.db import models
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 from model_utils.models import TimeStampedModel
+from xshop.users.models import User
 
 
 class Product(TimeStampedModel):
@@ -42,3 +44,11 @@ class Product(TimeStampedModel):
         ean.write(buffer)
         self.barcode.save("barcode.png", File(buffer), save=False)
         return super().save(*args, **kwargs)
+
+
+class Rating(models.Model):
+    product = models.ForeignKey(Product, default=None, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, default=None, on_delete=models.PROTECT)
+    rating = models.FloatField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)], default=1
+    )
