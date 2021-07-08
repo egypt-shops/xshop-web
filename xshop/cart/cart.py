@@ -78,23 +78,31 @@ class Cart(object):
             for item in cart[shop_id].values():
                 item["total_price"] = float(item["price"]) * item["quantity"]
                 yield item
+        else:
+            return {}
 
     def __len__(self) -> int:
         """
         Count all items in the cart.
         """
-        shop_id = list(self.cart.keys())[-1]
-        return sum(item["quantity"] for item in self.cart[shop_id].values())
+        if list(self.cart.keys()):
+            shop_id = list(self.cart.keys())[-1]
+            return sum(item["quantity"] for item in self.cart[shop_id].values())
+        else:
+            return 0
 
     def get_total_price(self) -> float:
         """
         Return total price for all products in cart.
         """
-        shop_id = list(self.cart.keys())[-1]
-        return sum(
-            float(item["price"]) * item["quantity"]
-            for item in self.cart[shop_id].values()
-        )
+        if list(self.cart.keys()):
+            shop_id = list(self.cart.keys())[-1]
+            return sum(
+                float(item["price"]) * item["quantity"]
+                for item in self.cart[shop_id].values()
+            )
+        else:
+            return 0
 
     def clear(self):
         # remove cart from session
