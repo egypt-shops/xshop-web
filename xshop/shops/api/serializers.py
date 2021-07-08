@@ -8,7 +8,7 @@ from ..models import Shop
 class ShopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
-        fields = ("id", "name", "mobile", "dashboard_modules")
+        fields = ("id", "name", "mobile", "dashboard_modules", "subdomain")
 
 
 class ProductSerializer(serializers.ModelSerializer):

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
@@ -9,9 +9,8 @@ from xshop.products.models import Product
 
 class ShopDetailView(LoginRequiredMixin, ListView):
     def get(self, request, *args, **kwargs):
-        shop_id = kwargs["shop_id"]
-        shop = Shop.objects.get(id=shop_id)
-
+        shop_subdomain = kwargs["shop_subdomain"]
+        shop = get_object_or_404(Shop, subdomain=shop_subdomain)
         products = Product.objects.filter(shop=shop)
         context = {
             "shop": shop,

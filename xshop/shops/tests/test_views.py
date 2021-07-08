@@ -19,17 +19,19 @@ class ShopDetailViewTests(TestCase):
         self.password = "testpass123"
         self.user.set_password(self.password)
         self.user.save()
-        self.shop = baker.make(Shop, mobile="01222222222")
+        self.shop = baker.make(Shop, mobile="01222222222", subdomain="test")
         self.product = baker.make(Product, shop=self.shop)
         self.client = Client()
-        self.url = reverse("shop:shop_details", kwargs={"shop_id": self.shop.id})
+        self.url = reverse(
+            "shop:shop_details", kwargs={"shop_subdomain": self.shop.subdomain}
+        )
 
     def test_get_shop_details_not_authenticated(self):
         resp = self.client.get(self.url)
 
         self.assertRedirects(
             resp,
-            "/users/login/?next=/shop/{}/".format(self.shop.id),
+            "/users/login/?next=/shop/{}/".format(self.shop.subdomain),
             status_code=302,
             target_status_code=200,
             fetch_redirect_response=True,
@@ -43,6 +45,6 @@ class ShopDetailViewTests(TestCase):
 
     def test_retreive_products(self):
         self.client.login(mobile=self.user.mobile, password=self.password)
-        resp = self.client.get("/shop/{}/".format(self.shop.id))
+        resp = self.client.get("/shop/{}/".format(self.shop.subdomain))
         self.assertEqual(len(resp.context["products"]), 1)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)

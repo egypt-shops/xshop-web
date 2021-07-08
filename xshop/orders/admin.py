@@ -117,15 +117,18 @@ class OrderAdmin(admin.ModelAdmin):
     # permissions
     def has_module_permission(self, request):
         user: User = request.user
-        return bool(
-            user.is_superuser
-            or user.type[0]
-            in [
-                UserGroup.CASHIER.title(),
-                UserGroup.GENERAL_MANAGER.title(),
-                UserGroup.MANAGER.title(),
-            ]
-        )
+        try:
+            return bool(
+                user.is_superuser
+                or user.type[0]
+                in [
+                    UserGroup.CASHIER.title(),
+                    UserGroup.GENERAL_MANAGER.title(),
+                    UserGroup.MANAGER.title(),
+                ]
+            )
+        except AttributeError:
+            return False
 
     def has_add_permission(self, request, obj=None):
         user: User = request.user

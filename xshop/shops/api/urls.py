@@ -6,5 +6,5 @@ app_name = "shops_api"
 
 urlpatterns = [
     path("", views.ShopListApi.as_view(), name="shop_list"),
-    path("<int:shop_id>/", views.ShopDetailApi.as_view(), name="shop_detail"),
+    path("<slug:shop_subdomain>/", views.ShopDetailApi.as_view(), name="shop_detail"),
 ]
