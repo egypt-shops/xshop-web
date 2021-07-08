@@ -2,6 +2,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
 from ..models import Shop
 from .serializers import ShopSerializer
@@ -16,9 +17,8 @@ class ShopListApi(APIView):
     )
     def get(self, request):
         shops = Shop.objects.all()
-
         serializer = self.serializer_class(shops, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ShopDetailApi(APIView):
@@ -28,11 +28,7 @@ class ShopDetailApi(APIView):
         description="Get specific shop's data",
         responses={200: ShopSerializer, 404: "Shop not found"},
     )
-    def get(self, request, shop_id):
-        try:
-            shop = Shop.objects.get(id=shop_id)
-
-            serializer = self.serializer_class(shop, many=False)
-            return Response(serializer.data)
-        except Shop.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+    def get(self, request, shop_subdomain):
+        shop = get_object_or_404(Shop, subdomain=shop_subdomain)
+        serializer = self.serializer_class(shop, many=False)
+        return Response(serializer.data, status=status.HTTP_200_OK)

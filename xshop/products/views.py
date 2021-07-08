@@ -22,10 +22,10 @@ class ProductDetailView(LoginRequiredMixin, TemplateView):
 
 
 class ProductsSearchView(TemplateView):
-    def get(self, request, shop_id, *args, **kwargs):
+    def get(self, request, shop_subdomain, *args, **kwargs):
         search_by = request.GET.get("search_by")
-        products = Product.objects.filter(name__icontains=search_by, shop_id=shop_id)
-        shop = Shop.objects.get(id=shop_id)
+        shop = Shop.objects.get(subdomain=shop_subdomain)
+        products = Product.objects.filter(name__icontains=search_by, shop=shop)
         context = {
             "products": products,
             "products_len": len(products),

@@ -87,8 +87,8 @@
 				<div class="row projects">
 						{% for shop in shops %}
 							<div class="col-sm-6 col-lg-4 item">
-								<a class="img-fluid" href="{% url 'shop:shop_details' shop.id %}">
-									<img class="img-fluid" src="{% static 'img/desk.jpg' %}">
+								<a class="img-fluid" href="{% url 'shop:shop_details' shop.subdomain %}">
+									<img class="img-fluid" src="{{ shop.picture.url }}">
 								</a>
 								<h3 class="name">{{ shop.name }}</h3>
 								<p class="description">{{ shop.description }}</p>
