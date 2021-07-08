@@ -25,9 +25,12 @@ class ShopAdmin(admin.ModelAdmin):
 
     def has_module_permission(self, request):
         user: User = request.user
-        return bool(
-            user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
-        )
+        try:
+            return bool(
+                user.is_superuser or user.type[0] == UserGroup.GENERAL_MANAGER.title()
+            )
+        except AttributeError:
+            return False
 
     def has_view_permission(self, request, obj=None):
         user: User = request.user

@@ -72,15 +72,18 @@ class InvoiceAdmin(admin.ModelAdmin):
 
     def has_module_permission(self, request):
         user: User = request.user
-        return bool(
-            user.is_superuser
-            or user.type[0]
-            in [
-                UserGroup.CASHIER.title(),
-                UserGroup.GENERAL_MANAGER.title(),
-                UserGroup.MANAGER.title(),
-            ]
-        )
+        try:
+            return bool(
+                user.is_superuser
+                or user.type[0]
+                in [
+                    UserGroup.CASHIER.title(),
+                    UserGroup.GENERAL_MANAGER.title(),
+                    UserGroup.MANAGER.title(),
+                ]
+            )
+        except AttributeError:
+            return False
 
     # def formfield_for_foreignkey(self, db_field, request, **kwargs):
     #     user: User = request.user
