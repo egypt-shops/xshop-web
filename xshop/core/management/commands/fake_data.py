@@ -1,6 +1,5 @@
 import random
 from django.core.management.base import BaseCommand
-from djmoney.money import Money
 
 import factory
 from factory import fuzzy
