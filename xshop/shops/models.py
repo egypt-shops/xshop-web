@@ -13,6 +13,7 @@ class Shop(TimeStampedModel):
     description = models.CharField(max_length=500, null=True, blank=True)
     picture = models.ImageField(upload_to="images/shops/", default="no_picture.png")
     dashboard_modules = MultiSelectField(choices=settings.DASHBOARD_MODULES, blank=True)
+    subdomain = models.CharField(max_length=20, unique=True)
 
     def __str__(self):
         return self.name
