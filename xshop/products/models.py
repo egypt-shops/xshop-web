@@ -1,6 +1,7 @@
 from io import BytesIO
 
 import barcode
+from django.core.validators import MinValueValidator, MaxValueValidator
 from barcode.writer import ImageWriter
 from django.core.files import File
 from django.db import models
@@ -48,4 +49,6 @@ class Product(TimeStampedModel):
 class Rating(models.Model):
     product = models.ForeignKey(Product, default=None, on_delete=models.PROTECT)
     user = models.ForeignKey(User, default=None, on_delete=models.PROTECT)
-    rating = models.FloatField()
+    rating = models.FloatField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)], default=1
+    )
