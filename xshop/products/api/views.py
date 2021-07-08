@@ -2,6 +2,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import filters, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
 from ..models import Product
 from .serializers import ProductSerializer
@@ -42,13 +43,9 @@ class ProductDetailPatchApi(APIView):
         responses={200: ProductSerializer, 404: "Product not found"},
     )
     def get(self, request, product_id):
-        try:
-            product = Product.objects.get(id=product_id)
-
-            serializer = self.serializer_class(product, many=False)
-            return Response(serializer.data)
-        except Product.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        product = get_object_or_404(Product, id=product_id)
+        serializer = self.serializer_class(product, many=False)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @extend_schema(
         description="Patch existing product in specific shop",
@@ -56,14 +53,11 @@ class ProductDetailPatchApi(APIView):
         responses={404: "Product not found"},
     )
     def patch(self, request, product_id):
-        try:
-            product = Product.objects.get(id=product_id)
-            serializer = self.serializer_class(product, data=request.data, partial=True)
-            serializer.is_valid(raise_exception=True)
-            updated_product = serializer.save()
-            return Response(self.serializer_class(updated_product).data)
-        except Product.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        product = get_object_or_404(Product, id=product_id)
+        serializer = self.serializer_class(product, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        updated_product = serializer.save()
+        return Response(self.serializer_class(updated_product).data)
 
 
 class ListProductsPerShop(APIView):
@@ -73,12 +67,8 @@ class ListProductsPerShop(APIView):
         description="List products per shop",
         responses={200: ProductSerializer, 404: "Shop not found"},
     )
-    def get(self, request, shop_id):
-        try:
-            Shop.objects.get(id=shop_id)
-            products = Product.objects.filter(shop_id=shop_id)
-
-            serializer = self.serializer_class(products, many=True)
-            return Response(serializer.data)
-        except Shop.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+    def get(self, request, shop_subdomain):
+        shop = get_object_or_404(Shop, subdomain=shop_subdomain)
+        products = Product.objects.filter(shop=shop)
+        serializer = self.serializer_class(products, many=True)
+        return Response(serializer.data)
