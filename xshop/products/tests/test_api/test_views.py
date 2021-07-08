@@ -20,9 +20,7 @@ class ProductApiTests(APITestCase):
 
     def setUp(self) -> None:
         self.user = baker.make(
-            User,
-            mobile="01010092181",
-            name="Ahmed Loay Shahwan",
+            User, mobile="01010092181", name="Ahmed Loay Shahwan", is_superuser=True
         )
         self.shop1 = baker.make(
             Shop, mobile=self.user.mobile, name="shop1", subdomain="asfjhj"
@@ -49,6 +47,7 @@ class ProductApiTests(APITestCase):
             shop=self.shop1,
         )
         self.client = APIClient()
+        self.client.force_login(self.user)
         self.list_create_url = reverse("products_api:product_list_create")
 
     def test_get_all_products(self):
@@ -124,7 +123,6 @@ class ProductApiTests(APITestCase):
         product = {"name": "test", "stock": 15}
         resp = self.client.post(self.list_create_url, product)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        self.assertEqual(resp.data["added_by"], None)
 
     def test_retrieve_existing_product(self):
         resp = self.client.get(self.detail_patch_url(self.product1.id))

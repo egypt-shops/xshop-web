@@ -16,13 +16,12 @@ class OrderApiTests(APITestCase):
 
     def setUp(self) -> None:
         self.user = baker.make(
-            User,
-            mobile="01010092181",
-            name="Ahmed Loay Shahwan",
+            User, mobile="01010092181", name="Ahmed Loay Shahwan", is_superuser=True
         )
         self.shop1 = baker.make(Shop, mobile=self.user.mobile, name="shop1")
         self.order1 = baker.make(Order, user=self.user, shop=self.shop1)
         self.client = APIClient()
+        self.client.force_login(self.user)
         self.url = reverse("orders_api:order_list_create")
 
     def test_api_can_create_order(self):
@@ -52,7 +51,6 @@ class OrderApiTests(APITestCase):
         resp = self.client.post(self.url, order_data)
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
-    @skip("orders endpoint updated")
     def test_retrieve_existing_order(self):
         resp = self.client.get(self.detail_patch_url(self.order1.id))
         self.assertEqual(resp.status_code, status.HTTP_200_OK)

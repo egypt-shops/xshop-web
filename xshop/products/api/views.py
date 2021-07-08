@@ -31,8 +31,11 @@ class ProductListCreateApi(generics.ListAPIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        new_product = serializer.save()
-        return Response(self.serializer_class(new_product).data)
+        data = serializer.validated_data
+        product = Product.objects.create(
+            **data, added_by=request.user, shop=request.user.shop
+        )
+        return Response(self.serializer_class(product).data)
 
 
 class ProductDetailPatchApi(APIView):
@@ -54,6 +57,11 @@ class ProductDetailPatchApi(APIView):
     )
     def patch(self, request, product_id):
         product = get_object_or_404(Product, id=product_id)
+        user = request.user
+        if not user.is_superuser and (
+            product.added_by != user or product.shop != user.shop
+        ):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         serializer = self.serializer_class(product, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         updated_product = serializer.save()
