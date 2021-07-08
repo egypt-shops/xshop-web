@@ -64,7 +64,7 @@ class OrderDetailPatchApi(APIView):
     def get(self, request, order_id):
         user = request.user
         order = get_object_or_404(Order, id=order_id)
-        if order.user != user or order.shop != user.shop or not user.is_superuser:
+        if not user.is_superuser and (order.user != user or order.shop != user.shop):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         serializer = self.serializer_class(order, many=False)
         return Response(serializer.data)

@@ -34,7 +34,7 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navcol-1">
 					<ul class="navbar-nav"></ul>
-					<form class="form-inline ml-auto" action="{% url 'product:product_search' shop_id=shop.id %}" method="get">
+					<form class="form-inline ml-auto" action="{% url 'product:product_search' shop_subdomain=shop.subdomain %}" method="get">
 						<div class="form-group mb-0" style="width: 236.9px;">
 							<label for="search-field">
 								<i class="fa fa-search" style="filter: brightness(106%);">
@@ -80,7 +80,7 @@
                 <div class="row people">
                     {% for product in products %}
                     <div class="col-md-6 col-lg-4 item">
-                        <div class="box"><a href="{% url 'product:product_details' product.id %}"><img class="" src="{% static 'img/desk.jpg' %}"></a>
+                        <div class="box"><a href="{% url 'product:product_details' product.id %}"><img class="" src="{{ product.picture.url }}"></a>
                             <h3 class="name">{{ product.name }}</h3>
                             <div class="row">
                                 <div class="col" style="border-right-width: 22px;border-right-color: var(--blue);opacity: 0.84;">

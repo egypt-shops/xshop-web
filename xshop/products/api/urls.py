@@ -16,7 +16,7 @@ urlpatterns = [
         name="product_list_create",
     ),
     path(
-        "shop/<int:shop_id>/",
+        "shop/<slug:shop_subdomain>/",
         views.ListProductsPerShop.as_view(),
         name="list_products_per_shop",
     ),

@@ -36,38 +36,35 @@
             </button>
             <div style="padding-left: 550px;" class="collapse navbar-collapse" id="navcol-1">
                 {% if user.is_authenticated %}
-                {% for i in ui %}
-                <i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end"
-                    data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart"
-                    style="color: #dbe8f5;font-size: 20px;margin: 10px;padding: 0px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -6px;margin-top: 22px;margin-bottom: 10px;">
-                </i>
-                {% endfor %}
-                <label class="text-left float-left d-xl-flex justify-content-end"
-                    style="height: 30px;margin: 10px;width: 110.9px;padding: 1px;color: rgb(214,233,251);font-size: 16px;margin-top: 15px;margin-left: 0px;margin-right: 10px;">
-                    {{ user.mobile }}
-                </label>
-                <a class="btn btn-light action-button" role="button" href="{% url 'logout' %}"
-                    style="filter: brightness(100%);">
-                    Log Out
-                </a>
-                {% else %}
-                <span class="navbar-text" style="filter: brightness(165%);">
-                    <a class="login" href="{% url 'users:login' %}" style="filter: brightness(71%);">
-                        Log In
-                    </a>
-                </span>
-                <a class="btn btn-light action-button" role="button" href="{% url 'users:register' %}"
-                    style="filter: brightness(100%);">
-                    Sign Up
-                </a>
-                {% endif %}
+                        {% for i in ui %}
+						<i class="fa fa-shopping-cart border-primary shadow-lg float-right d-xl-flex justify-content-center align-items-center justify-content-xl-end align-items-xl-end"
+							data-toggle="tooltip" data-bss-tooltip="" data-placement="left" title="cart"
+							style="color: #dbe8f5;font-size: 20px;margin: 10px;padding: 0px;width: 53.2px;height: 20px;text-align: right;border-style: none;border-color: var(--red);border-radius: -6px;margin-top: 22px;margin-bottom: 10px;">
+						</i>
+                        {% endfor %}
+						<label class="text-left float-left d-xl-flex justify-content-end"
+							style="height: 30px;margin: 10px;width: 110.9px;padding: 1px;color: rgb(214,233,251);font-size: 16px;margin-top: 15px;margin-left: 0px;margin-right: 10px;">
+							{{ user.mobile }}
+						</label>
+							<a class="btn btn-light action-button" role="button" href="{% url 'logout' %}" style="filter: brightness(100%);">
+								Log Out
+							</a>
+                    {% else %}
+                        <span class="navbar-text" style="filter: brightness(165%);">
+                        <a class="login" href="{% url 'users:login' %}" style="filter: brightness(71%);">
+                            Log In
+                        </a>
+                        </span>
+                        <a class="btn btn-light action-button" role="button" href="{% url 'users:register' %}" style="filter: brightness(100%);">
+                        Sign Up
+                        </a>
+                    {% endif %}
 
             </div>
         </div>
     </nav>
 
-    <h1 class="text-center" style="color: #08546c;background: #ffffff;margin: 5px;padding-bottom: 5px;"><strong>Shoping
-            Cart</strong></h1>
+    <h1 class="text-center" style="color: #08546c;background: #ffffff;margin: 5px;padding-bottom: 5px;"><strong>Shoping Cart</strong></h1>
 
     <!-- err msg -->
     <div id='err' style="color: rgb(240, 0, 0);margin-left: 10px;">
@@ -88,15 +85,13 @@
             <tbody>
                 <!-- cart item -->
                 {% for item in cart %}
-                {% with product=item.product %}
-                <tr style="background: rgba(160,186,204,0.26);">
-                    <td class="text-center align-middle"><a href="#"><img style="max-width: 100px;max-height: 80px;"
-                                src="{% static 'cart_assets/img/southsinai18.jpg' %}"></a></td>
-                    <td class="text-center align-middle">{{ product.name }}</td>
-                    <td class="align-middle" style="text-align: center;">
-                        <select class="align-middle"
-                            style="width: 30%;margin-right: 5px;min-width: 40px;margin-bottom: 5px;max-width: 60px;">
-                            <optgroup label="Quantity">
+                    {% with product=item.product %}
+                    <tr style="background: rgba(160,186,204,0.26);">
+                        <td class="text-center align-middle"><a href="#"><img style="max-width: 100px;max-height: 80px;" src="{{ product.picture.url }}"></a></td>
+                        <td class="text-center align-middle">{{ product.name }}</td>
+                        <td class="align-middle" style="text-align: center;">
+                            <select class="align-middle" style="width: 30%;margin-right: 5px;min-width: 40px;margin-bottom: 5px;max-width: 60px;">
+                            <optgroup label="Quantity" >
                                 {% for i in quantity_range %}
                                 {% if i == item.quantity %}
                                 <option value='{{i}}' selected=''>{{i}}</option>
@@ -183,7 +178,11 @@
                     location.reload();
                 },
 
+<<<<<<< HEAD
                 error: function (xhr, errmsg, err) {
+=======
+                error: function(xhr, errmsg, err) {
+>>>>>>> 23ad9a0 (use shop subdomain in templates and views)
                     current.previousElementSibling.value = pre_quantity;
                     document.getElementById("err").innerHTML = "quantity exceeded!";
                 }
