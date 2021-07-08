@@ -1,3 +1,4 @@
+# from inspect import currentframe
 from django.conf import settings
 from django.core.exceptions import ValidationError
 
@@ -14,8 +15,11 @@ class Cart(object):
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             # Save an empty cart in the session
+            # Save a None current_shop fieald in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
+            self.session["current_shop"] = None
         self.cart = cart
+        # self.session["current_shop"] = None
 
     def add(self, product):
         """Add a product to the cart or update its quantity.
@@ -25,6 +29,7 @@ class Cart(object):
         """
         product_id = str(product["id"])
         shop = str(product["shop"])
+        self.session["current_shop"] = shop
         if shop not in self.cart:
             self.cart[shop] = {}
         if product_id not in self.cart[shop].keys():
@@ -39,6 +44,7 @@ class Cart(object):
         shop = str(product["shop"])
         if shop in self.cart and str(product_id) in self.cart[shop]:
             self.cart[shop][product_id]["quantity"] = quantity
+            self.session["current_shop"] = shop
         else:
             raise ValidationError({"error": "shop or product not found"})
         self.save()
@@ -55,8 +61,13 @@ class Cart(object):
         shop = str(product["shop"])
         if shop in self.cart and product_id in self.cart[shop]:
             del self.cart[shop][product_id]
+            self.session["current_shop"] = shop
             if not self.cart[shop]:
                 del self.cart[shop]
+                if self.cart:
+                    self.session["current_shop"] = list(self.cart.keys())[-1]
+                else:
+                    self.session["current_shop"] = None
             self.save()
 
     def __iter__(self):
@@ -65,7 +76,7 @@ class Cart(object):
         """
         # get last element added only
         if list(self.cart.keys()):
-            shop_id = list(self.cart.keys())[-1]
+            shop_id = self.session["current_shop"]
             product_ids = self.cart[shop_id].keys()
             # get the product objects and add them to the cart
             products = Product.objects.filter(id__in=product_ids)
@@ -86,7 +97,7 @@ class Cart(object):
         Count all items in the cart.
         """
         if list(self.cart.keys()):
-            shop_id = list(self.cart.keys())[-1]
+            shop_id = self.session["current_shop"]
             return sum(item["quantity"] for item in self.cart[shop_id].values())
         else:
             return 0
@@ -96,7 +107,7 @@ class Cart(object):
         Return total price for all products in cart.
         """
         if list(self.cart.keys()):
-            shop_id = list(self.cart.keys())[-1]
+            shop_id = self.session["current_shop"]
             return sum(
                 float(item["price"]) * item["quantity"]
                 for item in self.cart[shop_id].values()

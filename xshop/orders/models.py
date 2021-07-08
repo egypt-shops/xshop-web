@@ -1,5 +1,7 @@
 from django.core.validators import MinValueValidator
 from django.db import models
+
+# from model_utils.models import TimeStampedModel, add_timeframed_query_manager
 from model_utils.models import TimeStampedModel
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
@@ -13,6 +15,8 @@ class Order(TimeStampedModel):
         "shops.Shop", on_delete=models.SET_NULL, null=True, blank=True
     )
     paid = models.BooleanField(default=False)
+    address = models.CharField(max_length=255, null=True, blank=False)
+    paying_method = models.CharField(max_length=255, null=True)
 
     @property
     def get_data(self):

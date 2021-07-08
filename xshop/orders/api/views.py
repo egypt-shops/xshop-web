@@ -3,12 +3,10 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.shortcuts import get_object_or_404
 
 from ..models import Order, OrderItem
 from .serializers import OrderSerializer, CheckoutSerializer
 from xshop.products.models import Product
-from xshop.core.utils import UserGroup
 
 
 class OrderListCreateApi(APIView):
@@ -19,27 +17,7 @@ class OrderListCreateApi(APIView):
         responses={200: "orders list"},
     )
     def get(self, request):
-        user = request.user
-        if user.is_superuser:
-            orders = Order.objects.all()
-        elif user.type and bool(
-            user.type[0]
-            in [
-                UserGroup.GENERAL_MANAGER.title(),
-                UserGroup.CASHIER.title(),
-            ]
-        ):
-            orders = Order.objects.filter(shop=user.shop)
-        elif user.type and bool(
-            user.type[0]
-            in [
-                UserGroup.DATA_ENTRY_CLERK.title(),
-                UserGroup.CUSTOMER.title(),
-            ]
-        ):
-            orders = Order.objects.filter(user=user)
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        orders = Order.objects.all()
         serializer = self.serializer_class(orders, many=True)
         return Response(serializer.data)
 
@@ -62,12 +40,13 @@ class OrderDetailPatchApi(APIView):
         responses={200: OrderSerializer, 404: "Order not found"},
     )
     def get(self, request, order_id):
-        user = request.user
-        order = get_object_or_404(Order, id=order_id)
-        if not user.is_superuser and (order.user != user or order.shop != user.shop):
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-        serializer = self.serializer_class(order, many=False)
-        return Response(serializer.data)
+        try:
+            orders = Order.objects.get(id=order_id)
+
+            serializer = self.serializer_class(orders, many=False)
+            return Response(serializer.data)
+        except Order.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     @extend_schema(
         description="Patch existing Order",
@@ -75,14 +54,14 @@ class OrderDetailPatchApi(APIView):
         responses={404: "Order does not exist"},
     )
     def patch(self, request, order_id):
-        user = request.user
-        order = get_object_or_404(Order, id=order_id)
-        if order.user != user or order.shop != user.shop or not user.is_superuser:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-        serializer = self.serializer_class(order, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        updated_order = serializer.save()
-        return Response(self.serializer_class(updated_order).data)
+        try:
+            orders = Order.objects.get(id=order_id)
+            serializer = self.serializer_class(orders, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            updated_order = serializer.save()
+            return Response(self.serializer_class(updated_order).data)
+        except Order.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class CheckoutApi(APIView):
@@ -95,16 +74,21 @@ class CheckoutApi(APIView):
     )
     def post(self, request):
         cart = request.session.get("cart")
+        current_shop = request.session.get("current_shop")
 
         # getting the cart details to make an order
         quantities = []
-        product_ids = []
+        product_ids = list(cart[current_shop].keys())
         full_price = 0
         try:
-            for key in cart.keys():
-                product_ids.append(cart[key]["product"]["id"])
-                quantities.append(cart[key]["quantity"])
-                full_price += cart[key]["total_price"]
+            for key in cart[current_shop].keys():
+
+                # product_ids.append(list(cart[current_shop].keys()))
+                quantities.append(cart[current_shop][key]["quantity"])
+                full_price += (
+                    float(cart[current_shop][key]["price"])
+                    * cart[current_shop][key]["quantity"]
+                )
         except Exception as e:
             return Response(
                 {
