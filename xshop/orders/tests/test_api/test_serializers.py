@@ -10,7 +10,7 @@ from xshop.orders.api.serializers import CheckoutSerializer, OrderSerializer
 @tag("checkoutserializer")
 class CheckoutSerializerTest(TestCase):
     def setUp(self) -> None:
-        self.payload = {"address": "zagazig"}
+        self.payload = {"address": "zagazig", "paying_method": "CASH_ON_DELIVERY"}
 
     def test_correct_data(self):
         serializer = CheckoutSerializer(data=self.payload)

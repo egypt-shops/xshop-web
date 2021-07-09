@@ -3,6 +3,11 @@ from django.core.exceptions import ValidationError
 
 from ..models import Order
 
+PAYING_METHODS_CHOICES = [
+    ("CASH_ON_DELIVERY", "Cash on Delivery"),
+    ("CREDIT_CARD", "Credit Card"),
+]
+
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,4 +25,5 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class CheckoutSerializer(serializers.Serializer):
     address = serializers.CharField(max_length=255)
+    paying_method = serializers.ChoiceField(choices=PAYING_METHODS_CHOICES)
     order = OrderSerializer
