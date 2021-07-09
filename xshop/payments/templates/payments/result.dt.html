@@ -10,12 +10,19 @@
 
 <body>
   <h1>Thank you</h1>
+  {% if paying_method == "CASH_ON_DELIVERY" %}
+  <p>Your order placed successfully!</p>
+  <p>ID # {{ order_id }}</p>
+  {% else %}
+
   {% if status == 'Successful' %}
   <p>Your order placed successfully!</p>
   {% else %}
   <p>We failed to process your payment! Please try again.</p>
   {% endif %}
   <p>Reference: {{ mutual_reference }}</p>
+
+  {% endif %}
 </body>
 
 </html>

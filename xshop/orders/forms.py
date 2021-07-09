@@ -1,8 +1,8 @@
 from django import forms
 
 PAYING_METHODS_CHOICES = [
-    ("cash on delivery", "cash on delivery"),
-    ("credit card", "credit card"),
+    ("CASH_ON_DELIVERY", "Cash on Delivery"),
+    ("CREDIT_CARD", "Credit Card"),
 ]
 
 

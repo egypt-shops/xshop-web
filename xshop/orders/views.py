@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
@@ -72,7 +73,10 @@ class CheckOutView(LoginRequiredMixin, TemplateView):
             # data["order_data"]["full_price"] = str(full_price)
             # data["address"] = serializer.validated_data.get("address")
 
-            return redirect("cart:cart_ops")
+            # TODO redirect to payments/result page
+            return redirect(
+                f"{reverse('payments:result')}?paying_method={paying_method}&order_id={order.id}"
+            )
 
     def get(self, request):
         form = CheckOutForm
