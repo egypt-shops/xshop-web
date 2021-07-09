@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 
+from xshop.cart.cart import Cart
 from xshop.payments.models import PaymentAttempt
 
 
@@ -7,9 +8,13 @@ def result(request):
     """Post Payment (Redirect Response from PayMob)"""
     data = request.GET
 
-    # # Cash On Delivery
-
+    # ========== Cash On Delivery
     if data.get("paying_method") == "CASH_ON_DELIVERY":
+
+        # clear cart after payment
+        cart = Cart(request)
+        cart.clear()
+
         return render(
             request,
             "payments/result.dt.html",
@@ -19,13 +24,12 @@ def result(request):
             },
         )
 
-    # # Credit Card
-
+    # ========== Credit Card
     mutual_reference = data.get("merchant_order_id")
     payment_attempt = get_object_or_404(
         PaymentAttempt, mutual_reference=mutual_reference
     )
-    payment_attempt.after(data)
+    payment_attempt.after(request)
 
     return render(
         request,

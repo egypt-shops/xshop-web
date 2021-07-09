@@ -2,6 +2,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from model_utils.models import TimeStampedModel
 
+from xshop.cart.cart import Cart
+
 # from xshop.payments import paymob
 
 
@@ -24,13 +26,15 @@ class PaymentAttempt(TimeStampedModel):
         self.full_clean()
         super().save(*args, **kwargs)
 
-    def after(self, request_data: dict):
+    def after(self, request):
         # NOTE Keep it dummy no need for too much validations, it's a GP anyway :3
         # make sure of transaction status from paymob
         # transaction_id = request_data.get("id")
         # transaction = paymob.retrieve_transaction(transaction_id)
         # # make sure same transaction
         # assert transaction.get("merchant_order_id") == self.mutual_reference
+
+        request_data = request.GET
 
         # update payment attempt
         pending = request_data.get("pending")
@@ -50,3 +54,7 @@ class PaymentAttempt(TimeStampedModel):
         if self.status == "Successful":
             self.order.paid = True
             self.order.save()
+
+        # clear cart after success
+        cart = Cart(request)
+        cart.clear()
