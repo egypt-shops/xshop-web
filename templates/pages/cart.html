@@ -179,12 +179,7 @@
                 success: function (json) {
                     location.reload();
                 },
-
-<<<<<<< HEAD
                 error: function (xhr, errmsg, err) {
-=======
-                error: function(xhr, errmsg, err) {
->>>>>>> 23ad9a0 (use shop subdomain in templates and views)
                     current.previousElementSibling.value = pre_quantity;
                     document.getElementById("err").innerHTML = "quantity exceeded!";
                 }
