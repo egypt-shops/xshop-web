@@ -7,7 +7,7 @@ def result(request):
     """Post Payment (Redirect Response from PayMob)"""
     data = request.GET
 
-    ## Cash On Delivery
+    # # Cash On Delivery
 
     if data.get("paying_method") == "CASH_ON_DELIVERY":
         return render(
@@ -19,7 +19,7 @@ def result(request):
             },
         )
 
-    ## Credit Card
+    # # Credit Card
 
     mutual_reference = data.get("merchant_order_id")
     payment_attempt = get_object_or_404(
