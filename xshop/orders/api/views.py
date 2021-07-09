@@ -95,16 +95,21 @@ class CheckoutApi(APIView):
     )
     def post(self, request):
         cart = request.session.get("cart")
+        current_shop = request.session.get("current_shop")
 
         # getting the cart details to make an order
         quantities = []
-        product_ids = []
+        product_ids = list(cart[current_shop].keys())
         full_price = 0
         try:
-            for key in cart.keys():
-                product_ids.append(cart[key]["product"]["id"])
-                quantities.append(cart[key]["quantity"])
-                full_price += cart[key]["total_price"]
+            for key in cart[current_shop].keys():
+
+                # product_ids.append(list(cart[current_shop].keys()))
+                quantities.append(cart[current_shop][key]["quantity"])
+                full_price += (
+                    float(cart[current_shop][key]["price"])
+                    * cart[current_shop][key]["quantity"]
+                )
         except Exception as e:
             return Response(
                 {
