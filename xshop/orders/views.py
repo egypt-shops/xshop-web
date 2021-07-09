@@ -72,7 +72,7 @@ class CheckOutView(LoginRequiredMixin, TemplateView):
             # data["order_data"]["full_price"] = str(full_price)
             # data["address"] = serializer.validated_data.get("address")
 
-            return redirect("cart:cart_ops")
+            return redirect("pages:thankyou")
 
     def get(self, request):
         form = CheckOutForm

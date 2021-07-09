@@ -13,6 +13,11 @@ urlpatterns = [
         name="about",
     ),
     path(
+        "thankyou/",
+        TemplateView.as_view(template_name="pages/thankyou.html"),
+        name="thankyou",
+    ),
+    path(
         "terms/",
         TemplateView.as_view(template_name="footer_pages/terms.html"),
         name="terms",
