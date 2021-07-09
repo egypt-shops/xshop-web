@@ -12,14 +12,18 @@ class Cart(object):
         Initialize the cart
         """
         self.session = request.session
+
+        # Cart
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             # Save an empty cart in the session
             # Save a None current_shop fieald in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
-            self.session["current_shop"] = None
         self.cart = cart
-        # self.session["current_shop"] = None
+
+        # Shop
+        if not self.session.get(settings.CURRENT_SHOP_SESSION_ID):
+            self.session[settings.CURRENT_SHOP_SESSION_ID] = None
 
     def add(self, product):
         """Add a product to the cart or update its quantity.
@@ -75,22 +79,21 @@ class Cart(object):
         Iterate over the items in the cart and get the products from the database.
         """
         # get last element added only
-        if list(self.cart.keys()):
-            shop_id = self.session["current_shop"]
-            product_ids = self.cart[shop_id].keys()
-            # get the product objects and add them to the cart
-            products = Product.objects.filter(id__in=product_ids)
-
-            cart = self.cart.copy()
-            for product in products:
-                serialized_product = ProdcutCartSerializer(product)
-                cart[shop_id][str(product.id)]["product"] = serialized_product.data
-
-            for item in cart[shop_id].values():
-                item["total_price"] = float(item["price"]) * item["quantity"]
-                yield item
-        else:
+        if not list(self.cart.keys()):
             return {}
+        shop_id = self.session["current_shop"]
+        product_ids = self.cart[shop_id].keys()
+        # get the product objects and add them to the cart
+        products = Product.objects.filter(id__in=product_ids)
+
+        cart = self.cart.copy()
+        for product in products:
+            serialized_product = ProdcutCartSerializer(product)
+            cart[shop_id][str(product.id)]["product"] = serialized_product.data
+
+        for item in cart[shop_id].values():
+            item["total_price"] = float(item["price"]) * item["quantity"]
+            yield item
 
     def __len__(self) -> int:
         """

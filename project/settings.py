@@ -209,6 +209,7 @@ LOGOUT_REDIRECT_URL = "pages:home"
 
 # Cart Session ID
 CART_SESSION_ID = "cart"
+CURRENT_SHOP_SESSION_ID = "current_shop"
 
 # sentry
 if DEPLOY and DEPLOY not in ("LOCAL", "TESTING"):
