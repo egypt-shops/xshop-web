@@ -1,6 +1,8 @@
 from django.urls import path
 from xshop.payments import views
 
+app_name = "payments"
+
 urlpatterns = [
-    path("redirect", views.redirect, name="redirect"),
+    path("result", views.result, name="result"),
 ]

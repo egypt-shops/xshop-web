@@ -5,7 +5,8 @@ from pprint import pprint
 from xshop.payments.models import PaymentAttempt
 
 
-def redirect(request):
+def result(request):
+    """Post Payment (Redirect Response from PayMob)"""
     data = request.GET
 
     pprint(data)
