@@ -68,15 +68,6 @@ class CheckOutView(LoginRequiredMixin, TemplateView):
                     order=order, product=products[i], quantity=quantities[i]
                 )
 
-            # serializer = self.serializer_class(data=request.data)
-            # serializer.is_valid(raise_exception=True)
-
-            # data = {"order_data": order.get_data}
-            # data["order_data"]["item_count"] = len(cart)
-
-            # data["order_data"]["full_price"] = str(full_price)
-            # data["address"] = serializer.validated_data.get("address")
-
             if paying_method == "CASH_ON_DELIVERY":
                 return redirect(
                     f"{reverse('payments:result')}?paying_method={paying_method}&order_id={order.id}"

@@ -1,6 +1,9 @@
+import uuid
+
+
 from rest_framework.permissions import IsAuthenticated
 from drf_spectacular.utils import extend_schema
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
@@ -8,6 +11,8 @@ from django.shortcuts import get_object_or_404
 from ..models import Order, OrderItem
 from .serializers import OrderSerializer, CheckoutSerializer
 from xshop.products.models import Product
+from xshop.payments import paymob
+from xshop.payments.models import PaymentAttempt
 from xshop.core.utils import UserGroup
 
 
@@ -138,5 +143,34 @@ class CheckoutApi(APIView):
 
         data["order_data"]["full_price"] = str(full_price)
         data["address"] = serializer.validated_data.get("address")
+        data["paying_method"] = serializer.validated_data.get("paying_method")
+
+        if data["paying_method"] == "CASH_ON_DELIVERY":
+            return Response(data, status=status.HTTP_200_OK)
+
+        payment_attempt = PaymentAttempt.objects.create(
+            mutual_reference=str(uuid.uuid4()), order=order
+        )
+        iframe_url = paymob.issue_payment(
+            int(order.total_price.amount * 100),  # total price in cents
+            payment_attempt.mutual_reference,
+            items=[],
+            billing_data={
+                "apartment": "NA",
+                "email": "NA",
+                "floor": "NA",
+                "first_name": "NA",
+                "street": "NA",
+                "building": "NA",
+                "phone_number": "NA",
+                "shipping_method": "NA",
+                "postal_code": "NA",
+                "city": "NA",
+                "country": "NA",
+                "last_name": "NA",
+                "state": "NA",
+            },
+        )
+        data["payment_url"] = iframe_url
 
         return Response(data, status=status.HTTP_200_OK)
