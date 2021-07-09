@@ -43,7 +43,9 @@ SECRET_KEY = env("DJANGO_SECRET_KEY", str)
 DEBUG = env("DEBUG", bool, False)
 
 ALLOWED_HOSTS = env(
-    "ALLOWED_HOSTS", tuple, ("localhost", "127.0.0.1", ".shahwan.me", ".herokuapp.com")
+    "ALLOWED_HOSTS",
+    tuple,
+    ("localhost", "127.0.0.1", ".shahwan.me", ".herokuapp.com", ".ngrok.io"),
 )
 
 
@@ -79,6 +81,7 @@ INSTALLED_APPS = [
     "xshop.orders.apps.OrdersConfig",
     "xshop.invoices.apps.InvoicesConfig",
     "xshop.cart.apps.CartConfig",
+    "xshop.payments.apps.PaymentsConfig",
     # Third party
     "baton.autodiscover",
 ]
@@ -246,6 +249,12 @@ SPECTACULAR_SETTINGS = {
     # a SCHEMA_PATH_PREFIX regex '/api/v[0-9]' would yield the tag 'albums'.
     "SCHEMA_PATH_PREFIX": "api/",
 }
+
+# PayMob
+PAYMOB_API_KEY = env("PAYMOB_API_KEY")
+PAYMOB_IFRAME_ID = env("PAYMOB_IFRAME_ID")
+PAYMOB_CARD_INTEGRATION_ID = env("PAYMOB_CARD_INTEGRATION_ID")
+
 
 # Django admin customization with Baton
 BATON = {

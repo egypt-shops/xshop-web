@@ -44,6 +44,7 @@ urlpatterns = [
     path("shop/", include("xshop.shops.urls", namespace="shop")),
     path("product/", include("xshop.products.urls", namespace="product")),
     path("orders/", include("xshop.orders.urls", namespace="order")),
+    path("payments/", include("xshop.payments.urls", namespace="payments")),
     path("api/", include(api_urlpatterns)),  # API urls from above
     path("", include("xshop.pages.urls", namespace="pages")),
     # for testing error alerts

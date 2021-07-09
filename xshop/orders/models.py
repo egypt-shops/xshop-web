@@ -22,6 +22,10 @@ class Order(TimeStampedModel):
     def get_data(self):
         return dict(zip(["shop_pk", "user_pk"], [self.shop.pk, self.user.pk]))
 
+    @property
+    def total_price(self):
+        return sum(item.total_price for item in self.orderitem_set.iterator())
+
 
 class OrderItem(TimeStampedModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -37,6 +41,9 @@ class OrderItem(TimeStampedModel):
         return self.product.price * self.quantity
 
     def clean(self, *args, **kwargs):
+        if self.order.paid:
+            raise ValidationError(_("You can not add order items to paid orders"))
+
         if self.quantity > self.product.stock:
             raise ValidationError(
                 _(
