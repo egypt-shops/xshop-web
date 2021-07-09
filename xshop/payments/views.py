@@ -1,6 +1,4 @@
-from django.http.response import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
-from pprint import pprint
 
 from xshop.payments.models import PaymentAttempt
 
@@ -8,6 +6,8 @@ from xshop.payments.models import PaymentAttempt
 def result(request):
     """Post Payment (Redirect Response from PayMob)"""
     data = request.GET
+
+    ## Cash On Delivery
 
     if data.get("paying_method") == "CASH_ON_DELIVERY":
         return render(
@@ -19,14 +19,9 @@ def result(request):
             },
         )
 
-    pprint(data)
-    breakpoint()
+    ## Credit Card
 
-    # make sure we handle transaction objects only
-    if not data or not data.get("obj").get("id") or data.get("type") != "TRANSACTION":
-        return HttpResponseBadRequest()
-
-    mutual_reference = data.get("order").get("merchant_order_id")
+    mutual_reference = data.get("merchant_order_id")
     payment_attempt = get_object_or_404(
         PaymentAttempt, mutual_reference=mutual_reference
     )

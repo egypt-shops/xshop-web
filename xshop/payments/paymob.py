@@ -105,5 +105,7 @@ def retrieve_transaction(transaction_id: str):
     url = f"{base_url}/acceptance/transactions/{transaction_id}​"
     resp = requests.get(url, headers={"Authorization": f"Bearer {auth_token}"})
 
+    breakpoint()
+
     # Transaction object
     return resp.json().get("obj")

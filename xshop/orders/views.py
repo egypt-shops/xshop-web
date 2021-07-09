@@ -1,3 +1,5 @@
+import uuid
+
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,8 +13,10 @@ from .models import Order, OrderItem
 
 # from .serializers import OrderSerializer, CheckoutSerializer
 from xshop.products.models import Product
-from .forms import CheckOutForm
 from xshop.cart.cart import Cart
+from xshop.payments import paymob
+from xshop.payments.models import PaymentAttempt
+from xshop.orders.forms import CheckOutForm
 
 
 class CheckOutView(LoginRequiredMixin, TemplateView):
@@ -73,10 +77,36 @@ class CheckOutView(LoginRequiredMixin, TemplateView):
             # data["order_data"]["full_price"] = str(full_price)
             # data["address"] = serializer.validated_data.get("address")
 
-            # TODO redirect to payments/result page
-            return redirect(
-                f"{reverse('payments:result')}?paying_method={paying_method}&order_id={order.id}"
+            if paying_method == "CASH_ON_DELIVERY":
+                return redirect(
+                    f"{reverse('payments:result')}?paying_method={paying_method}&order_id={order.id}"
+                )
+
+            # Handle card payment
+            payment_attempt = PaymentAttempt.objects.create(
+                mutual_reference=str(uuid.uuid4()), order=order
             )
+            iframe_url = paymob.issue_payment(
+                int(order.total_price.amount * 100),  # total price in cents
+                payment_attempt.mutual_reference,
+                items=[],
+                billing_data={
+                    "apartment": "NA",
+                    "email": "NA",
+                    "floor": "NA",
+                    "first_name": "NA",
+                    "street": "NA",
+                    "building": "NA",
+                    "phone_number": "NA",
+                    "shipping_method": "NA",
+                    "postal_code": "NA",
+                    "city": "NA",
+                    "country": "NA",
+                    "last_name": "NA",
+                    "state": "NA",
+                },
+            )
+            return redirect(iframe_url)
 
     def get(self, request):
         form = CheckOutForm

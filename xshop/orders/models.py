@@ -24,7 +24,7 @@ class Order(TimeStampedModel):
 
     @property
     def total_price(self):
-        return sum(item.total_price for item in self.order_item_set.iterator())
+        return sum(item.total_price for item in self.orderitem_set.iterator())
 
 
 class OrderItem(TimeStampedModel):

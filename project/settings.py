@@ -43,7 +43,9 @@ SECRET_KEY = env("DJANGO_SECRET_KEY", str)
 DEBUG = env("DEBUG", bool, False)
 
 ALLOWED_HOSTS = env(
-    "ALLOWED_HOSTS", tuple, ("localhost", "127.0.0.1", ".shahwan.me", ".herokuapp.com")
+    "ALLOWED_HOSTS",
+    tuple,
+    ("localhost", "127.0.0.1", ".shahwan.me", ".herokuapp.com", ".ngrok.io"),
 )
 
 
