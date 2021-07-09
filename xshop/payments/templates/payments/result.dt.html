@@ -1,28 +1,82 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment Result</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'payments_statics/Thank.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Thank You</title>
 </head>
 
 <body>
-  <h1>Thank you</h1>
-  {% if paying_method == "CASH_ON_DELIVERY" %}
-  <p>Your order placed successfully!</p>
-  <p>ID # {{ order_id }}</p>
-  {% else %}
 
-  {% if status == 'Successful' %}
-  <p>Your order placed successfully!</p>
-  {% else %}
-  <p>We failed to process your payment! Please try again.</p>
-  {% endif %}
-  <p>Reference: {{ mutual_reference }}</p>
+    <header>
 
-  {% endif %}
+        <div class="cont2">
+
+            <label for="search1" class="fa fa-search icon"></label>
+            <input type="search" id="search1" class="search" placeholder="Products Search..">
+
+
+            <label class="welcome"> <a class="fa fa-shopping-cart icon" href="{% url 'cart:cart_ops' %}"></a> welcome, name</label>
+
+        </div>
+        <a href="{% url 'pages:home' %}">
+        <img class="logo" src="{% static 'payments_statics/logo.jpg' %}" alt="">
+        </a>
+    </header>
+
+    <h1>Thank You!</h1>
+
+    <span id="mark" class="fa fa-check-circle"></span>
+
+    <!-- <h2>your order was completed successfully </h2> -->
+    {% if paying_method == "CASH_ON_DELIVERY" %}
+    <h2>Your order placed successfully!</h2>
+    <h2>ID # {{ order_id }}</h2>
+    <!-- <h2></h2> -->
+    {% else %}
+    {% if status == 'Successful' %}
+    <h2>Your order placed successfully!</h2>
+    {% else %}
+    <h2>We failed to process your payment! Please try again.</h2>
+    {% endif %}
+    <h2>Reference: {{ mutual_reference }}</h2>
+    {% endif %}
+
+
+
+    <hr class="or">
+
+    <h2>return to  <a class="home" href="{% url 'pages:home' %}"> home page </a> <br>
+    </h2>
+
+
+    <footer class="fooo">
+
+        <div class="faa">
+            <a href="https://github.com/egypt-shops/xshop-docs" class="fa fa-instagram"></a>
+            <a href="https://github.com/egypt-shops/xshop-docs" class="fa fa-github"></a>
+            <a href="https://github.com/egypt-shops/xshop-docs" class="fa fa-twitter"></a>
+            <a href="https://github.com/egypt-shops/xshop-docs" class="fa fa-facebook"></a>
+        </div>
+
+        <div class="links">
+            <a class="link1" href="{% url 'pages:services' %}">Services</a>
+            <a class="link1" href="{% url 'pages:about' %}">About</a>
+            <a class="link1" href="{% url 'pages:terms' %}">Terms</a>
+            <a class="link1" href="{% url 'pages:privacy_policy' %}">Privacy Policy</a>
+        </div>
+
+        <p class="e-name">© 2021 Egypt Shops </p>
+
+    </footer>
+
 </body>
 
 </html>
